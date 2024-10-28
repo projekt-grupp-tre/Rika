@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+$primary-color: black;
+$secondary-color: white;
+$accent-color: grey;
+$sahdow-full: rgba(149, 157, 165, 0.4) 0px 8px 24px;
+$shadow-bottom: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+
+.primary {
+    background-color: $primary-color;
+    color: $secondary-color;
+}
+
+.secondary {
+    background-color: $secondary-color;
+    color: $primary-color;
+}
+
+.accent {
+    background-color: $accent-color;
+}
+
+$font-stack: 'Outfit', sans-serif;

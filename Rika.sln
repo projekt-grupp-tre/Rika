@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RikaWebApp", "RikaWebApp\RikaWebApp.csproj", "{793C4D3A-644A-48BD-9A68-B04BB9BA9948}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{70B91688-1A60-4D42-BC67-1FF31B867AEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Tests", "WebApp.Tests\WebApp.Tests.csproj", "{D1296815-DD9C-4E58-9D08-261651BC9047}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{793C4D3A-644A-48BD-9A68-B04BB9BA9948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{793C4D3A-644A-48BD-9A68-B04BB9BA9948}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{793C4D3A-644A-48BD-9A68-B04BB9BA9948}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{793C4D3A-644A-48BD-9A68-B04BB9BA9948}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B91688-1A60-4D42-BC67-1FF31B867AEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B91688-1A60-4D42-BC67-1FF31B867AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B91688-1A60-4D42-BC67-1FF31B867AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B91688-1A60-4D42-BC67-1FF31B867AEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1296815-DD9C-4E58-9D08-261651BC9047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1296815-DD9C-4E58-9D08-261651BC9047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1296815-DD9C-4E58-9D08-261651BC9047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1296815-DD9C-4E58-9D08-261651BC9047}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6E870C5-748A-40ED-A2E5-C4853025BF91}
+	EndGlobalSection
+EndGlobal
