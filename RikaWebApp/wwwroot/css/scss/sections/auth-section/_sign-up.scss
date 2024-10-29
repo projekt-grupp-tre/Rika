@@ -1,0 +1,76 @@
+#register {
+    padding-top: 8rem;
+
+    .register-container {
+        padding: 1.5rem;
+    }
+
+    .title {
+        justify-self: center;
+        padding-bottom: 3rem;
+    }
+
+    .sign-up-title {
+        margin-bottom: 4rem;
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        p {
+            color: $accent-color;
+            margin-top: 0;
+        }
+    }
+
+    .form {
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 1rem;
+
+            .input-and-eye {
+                display: flex;
+
+                input {
+                    width: 100%;
+                }
+
+                .eye {
+                    border-bottom: 1px solid $accent-color;
+                }
+            }
+        }
+
+        .error-message {
+            color: rgb(245, 79, 79);
+        }
+    }
+
+    .checkbox-and-text {
+        display: flex;
+        gap: 1rem;
+
+        input {
+            align-self: baseline;
+            margin-top: 5px;
+        }
+
+        p {
+            color: $accent-color;
+        }
+    }
+
+    .btn-sign-up {
+        background-color: black;
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+        font-family: $font-stack;
+        width: 100%;
+        margin-top: 2rem;
+    }
+}
