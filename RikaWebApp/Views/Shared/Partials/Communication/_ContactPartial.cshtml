@@ -1,0 +1,63 @@
+@using RikaWebApp.Models.Communication
+@model ContactViewModel
+<section id="contact-us-section">        
+    <h1>Contact Us</h1>
+
+    <div class="content">
+        <h2>FAQ</h2>
+        <div class="faq-group">
+            <h4>How can I track my order?</h4>
+            <p>- You can track your orders by clicking on <a href="#">this link</a></p>
+        </div>
+        <div class="faq-group">
+            <h4>How can I return my order?</h4>
+            <p>- You can request a return by clicking on <a href="#">this link</a></p>
+        </div>
+        <div class="faq-group">
+            <h4>How do I reset my password?</h4>
+            <p>- You can reset your password by clicking on <a href="#">this link</a></p>
+        </div>
+    </div>
+    <div class="content">
+        <h2>Contact details</h2>
+        <p>Please contact us if you have any questions.</p>
+        <p>Phone: <a href="tel:+11234567890">(123) 456-7890</a></p>
+    </div>
+    
+    <form asp-controller="Contact" asp-action="ContactSubmit" method="post" novalidate>
+        <h2>Send us an email</h2>
+        <div class="input-group">
+            <label asp-for="ContactForm.FullName"></label>
+            <input asp-for="ContactForm.FullName">
+            <span asp-validation-for="ContactForm.FullName"></span>
+        </div>
+        <div class="input-group">
+            <label asp-for="ContactForm.Email"></label>
+            <input asp-for="ContactForm.Email">
+            <span asp-validation-for="ContactForm.Email"></span>
+        </div>
+        <div class="input-group service-group">
+            <label asp-for="ContactForm.ContactService"></label>
+            <select asp-for="ContactForm.ContactService" class="dropbtn">
+                <option disabled="" selected="">Desired service</option>
+                @foreach (ContactServiceModel service in Model.Services)
+                {
+                    <option value="@service.Title">@service.Title</option>
+                }
+                
+            </select>
+            <label asp-for="ContactForm.ContactService">
+                <i class="fa-solid fa-caret-down"></i>
+            </label>
+        </div>
+        
+        <div class="input-group message-group">
+            <label asp-for="@Model.ContactForm.Message"></label>
+            <textarea id="contactMessage" asp-for="@Model.ContactForm.Message"></textarea>
+            <span asp-validation-for="@Model.ContactForm.Message"></span>
+        </div>
+        <button type="submit" id="contactSubmitBtn" disabled class="btn-round btn-disabled">Send Contact Request</button>
+    </form>
+    
+</section>
+@await Html.PartialAsync("_ContactValidationPartial.cshtml")
