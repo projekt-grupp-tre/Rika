@@ -23,4 +23,9 @@
     <None Include="compilerconfig.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Business\Business.csproj" />
+    <ProjectReference Include="..\WebApp.Tests\WebApp.Tests.csproj" />
+  </ItemGroup>
+
 </Project>
