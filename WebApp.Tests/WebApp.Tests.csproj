@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="Communication\" />
-    <Folder Include="Auth\" />
     <Folder Include="Order\" />
     <Folder Include="Product\" />
   </ItemGroup>
