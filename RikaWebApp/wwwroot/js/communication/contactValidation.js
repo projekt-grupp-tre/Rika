@@ -34,6 +34,7 @@ let formFields = {
   fullName: false,
   email: false,
   message: false,
+  checkbox: true
 };
 
 
@@ -69,18 +70,13 @@ function validateForm() {
       fieldValues.push(fieldValue);   
   }
 
-  console.log(fieldValues)
-
   if (fieldValues.includes(false)) {
       submitBtn.disabled = true
       submitBtn.classList.add('btn-disabled')
-      submitBtn.classList.remove('btn-theme-s')
-
       return false
   } else {
       submitBtn.disabled = false
       submitBtn.classList.remove('btn-disabled')
-      submitBtn.classList.add('btn-theme-s')
       return true
   }
 
@@ -93,9 +89,11 @@ inputs.forEach(input => {
 
   if (input.dataset.val === 'true') {
 
-      input.addEventListener('keyup', (e) => {
+      input.addEventListener('input', (e) => {
           if (e.target.type == "email") {
               formEmailValidator(e)
+          } else if (e.target.type == "checkbox") {
+              formErrorHandler(e, e.target.checked)
           }
           else {
               formTextValidator(e)
@@ -104,7 +102,7 @@ inputs.forEach(input => {
   }
 })
 
-document.getElementById("contactMessage").addEventListener('keyup', (e) => {
+document.getElementById("contactMessage").addEventListener('input', (e) => {
   formTextAreaValidator(e)
 })
 

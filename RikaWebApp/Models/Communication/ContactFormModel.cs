@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using RikaWebApp.Helpers;
 
 namespace RikaWebApp.Models.Communication;
 
@@ -12,7 +13,7 @@ public class ContactFormModel
     public string FullName { get; set; } = null!;
 
     [DataType(DataType.EmailAddress)]
-    [Required(ErrorMessage = "Email required")]
+    [Required(ErrorMessage = "Valid email required")]
     [Display(Name = "Email", Prompt = "Enter your email address")]
     [RegularExpression("^[\\w!#$%&'*+\\-/=?\\^_`{|}~]+(\\.[\\w!#$%&'*+\\-/=?\\^_`{|}~]+)*@((([\\-\\w]+\\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\\.){3}[0-9]{1,3}))\\z", ErrorMessage = "Invalid email")]
     public string Email { get; set; } = null!;
@@ -28,4 +29,7 @@ public class ContactFormModel
     [MaxLength(300, ErrorMessage = "Message too long")]
     public string Message { get; set; } = null!;
 
+		[CheckBoxRequired(ErrorMessage = "Checkbox is required")]
+		[Display(Name = "I Accept the Terms and Conditions")]
+    public bool TermsAndConditions { get; set; } = false;
 }
