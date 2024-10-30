@@ -21,6 +21,7 @@
     <Folder Include="Views\Shared\Partials\Auth\" />
     <Folder Include="Views\Shared\Partials\Product\" />
     <Folder Include="Views\Shared\Partials\Order\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
