@@ -1,4 +1,4 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 .container {
   width: 100%;
   margin-right: auto;
@@ -168,13 +168,13 @@ a.btn:hover {
   outline: none;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: "Outfit", sans-serif;
+}
+
 html, body {
   height: 100%;
   font-size: 1rem;
-}
-
-body {
-  font-family: "Outfit", sans-serif;
-  box-sizing: border-box;
-  margin: 0;
 }
