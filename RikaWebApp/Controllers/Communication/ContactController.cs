@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using System.Text;
+using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RikaWebApp.Models.Communication;
@@ -24,33 +26,39 @@ namespace RikaWebApp.Controllers
 				{
 						if (TryValidateModel(contactForm))
 						{
-								var model = new ContactSubmissionModel()
+								var emailRequest = new ContactEmailRequest() 
 								{
-										Name = contactForm.FullName,
-										Email = contactForm.Email,
-										Message = contactForm.Message,
-										ServiceCategory = contactForm.ContactService!,
+									To = contactForm.Email,
+									Subject = $"Thank you {contactForm.FullName} for contacting us regarding {contactForm.ContactService}",
+									HtmlBody = "",
+									PlainText = $"We will get back to you in 24hrs regarding your question {contactForm.Message}"
 								};
 
 								using var httpClient = new HttpClient();
-								var jsonContent = JsonConvert.SerializeObject(model);
-								using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+								var jsonContent = JsonConvert.SerializeObject(emailRequest);
+
 								// --> Spara ner mejl-adressen till databas
-								// ........................
-
-								// --> Skicka bekräftelsemejl via EmailProvider?
-								var response = await httpClient.PostAsync($"https://localhost:1234/api/contact?key={_configuration["ApiKey"]}", content);
-
-								if (response.IsSuccessStatusCode)
+								// using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+								// var response = await httpClient.PostAsync($"https://localhost:1234/api/contact?key={_configuration["ApiKey"]}", content);
+								
+								try
 								{
-										TempData["Success"] = "Email sent";
+										await using var sbClient = new ServiceBusClient(_configuration.GetConnectionString("ServiceBusConnection"));
+										ServiceBusSender sender = sbClient.CreateSender("email_request");
+										await sender.SendMessageAsync(new ServiceBusMessage(jsonContent));
 								}
-								else
-								{
-										TempData["Failed"] = "Error";
-								}
+								catch (Exception ex) { Debug.WriteLine(ex.Message); }
+
+								// if (result.IsSuccessStatusCode)
+								// {
+								// 		TempData["Success"] = "Email sent";
+								// }
+								// else
+								// {
+								// 		TempData["Failed"] = "Error";
+								// }
 						}
-						return RedirectToAction("Contact", "Contact");
+						return RedirectToAction("Index", "Contact");
 				}
     }
 }

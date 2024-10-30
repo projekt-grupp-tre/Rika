@@ -33,4 +33,8 @@
     <ProjectReference Include="..\WebApp.Tests\WebApp.Tests.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
+  </ItemGroup>
+
 </Project>
