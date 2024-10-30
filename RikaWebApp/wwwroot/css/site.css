@@ -171,13 +171,10 @@ a.btn:hover {
 * {
   box-sizing: border-box;
   margin: 0;
+  font-family: "Outfit", sans-serif;
 }
 
 html, body {
   height: 100%;
   font-size: 1rem;
-}
-
-body {
-  font-family: "Outfit", sans-serif;
 }
