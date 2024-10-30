@@ -10,6 +10,7 @@
     <Folder Include="Dto\" />
     <Folder Include="Factories\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

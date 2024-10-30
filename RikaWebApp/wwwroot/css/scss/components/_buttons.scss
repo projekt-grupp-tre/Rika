@@ -3,7 +3,7 @@ a.btn {
     border-radius: 10px;
     text-decoration: none;
     &:hover {
-        box-shadow: $sahdow-full;
+        box-shadow: $shadow-full;
         cursor: pointer;
     }
 }
@@ -14,7 +14,7 @@ a.btn {
     appearance: none;
     border: none;
     &:hover {
-        box-shadow: $sahdow-full;
+        box-shadow: $shadow-full;
         cursor: pointer;
     }
     i {
