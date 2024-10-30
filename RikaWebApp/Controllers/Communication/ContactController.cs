@@ -35,6 +35,10 @@ namespace RikaWebApp.Controllers
 								using var httpClient = new HttpClient();
 								var jsonContent = JsonConvert.SerializeObject(model);
 								using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+								// --> Spara ner mejl-adressen till databas
+								// ........................
+
+								// --> Skicka bekräftelsemejl via EmailProvider?
 								var response = await httpClient.PostAsync($"https://localhost:1234/api/contact?key={_configuration["ApiKey"]}", content);
 
 								if (response.IsSuccessStatusCode)
