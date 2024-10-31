@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace RikaWebApp.Controllers.Ordeer
+namespace RikaWebApp.Controllers.Order
 {
     public class ShoppingCartController : Controller
     {
