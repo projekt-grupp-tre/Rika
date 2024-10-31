@@ -204,7 +204,7 @@ a.btn:hover {
 #register .form .input-group .input-and-eye .eye {
   border-bottom: 1px solid grey;
 }
-#register .form .error-message {
+#register .error-message {
   color: rgb(245, 79, 79);
 }
 #register .checkbox-and-text {

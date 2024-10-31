@@ -22,7 +22,7 @@ namespace RikaWebApp.Models
         [Required(ErrorMessage = "A password is required")]
         [Display(Order = 3)]
         [DataType(DataType.Password)]
-        [RegularExpression("^(?=.[a-z])(?=.[A-Z])(?=.\\d)(?=.[!@#$%^&*()\\-_=+{};:,<.>]).{8,}$", ErrorMessage = "Invalid password")]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()\\-_=+{};:,<.>]).{8,}$", ErrorMessage = "Invalid password")]
         public string Password { get; set; } = null!;
 
         [Required(ErrorMessage = "You must confirm your password")]
