@@ -4,13 +4,12 @@
 @import './scss/components/_components.scss';
 @import './scss/sections/_sections.scss';
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    font-family: $font-stack;
+}
 html, body {
     height: 100%;
     font-size: 1rem;
-}
-
-body {
-    font-family: $font-stack;
-    box-sizing: border-box;
-    margin: 0;
 }
