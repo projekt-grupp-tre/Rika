@@ -8,6 +8,13 @@ namespace RikaWebApp.Controllers
 {
     public class SignUpController : Controller
     {
+        private readonly HttpClient _httpClient;
+
+        public SignUpController(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
         [HttpGet]
         public IActionResult SignUpView()
         {
@@ -21,25 +28,27 @@ namespace RikaWebApp.Controllers
             {
                 using HttpClient http = new HttpClient();
                 var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-                var response = await http.PostAsync("https://localhost:7286/api/Register", content);
+                var response = await http.PostAsync("https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/Api/Register", content);
 
                 switch (response.StatusCode)
                 {
                     case System.Net.HttpStatusCode.Conflict:
                         TempData["ErrorRegister"] = "Email already exists";
-                        return View("SignUpView", model);
+                        break;
 
                     case System.Net.HttpStatusCode.BadRequest:
                         TempData["ErrorRegister"] = "Invalid form data";
-                        return View("SignUpView", model);
+                        break;
 
                     case System.Net.HttpStatusCode.InternalServerError:
                         TempData["ErrorRegister"] = "Internal Server Error";
-                        return View("SignUpView", model);
+                        break;
 
                     case System.Net.HttpStatusCode.Created:
                         return RedirectToAction("Index", "Home");
                 }
+
+                return View("SignUpView", model);
             }
 
             return View("SignUpView", model);
