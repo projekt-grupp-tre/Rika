@@ -1,0 +1,159 @@
+﻿@using RikaWebApp.ViewModels.Product
+
+@model IEnumerable<ProductIndexViewModel>
+
+@{
+    ViewData["Title"] = "Clothes";
+}
+
+<section id="product-category-clothes" class="product-category">
+    <div class="container">
+        <h3>Clothes</h3>
+        <div class="grid">
+            @foreach (var product in Model)
+            {
+                <a asp-action="Details" asp-controller="Product" asp-route-id="@product.ProductId">
+                    <div class="product-card">
+                        <div class="product-card_img">
+                            <img class="img-card" src="@product.Images.FirstOrDefault() ?? " ~ /images/product/default-image.jpg"" alt="@product.Name" />
+                            <form asp-controller="Account" asp-action="SavedProduct" method="post" style="display: inline;">
+                                <input type="hidden" name="productId" value="@product.ProductId" />
+                                <button type="submit" class="btn">
+                                    <i class="fa-regular fa-heart"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="product-card_body">
+                        <h5>@product.Name</h5>
+                        <h6>@product.Description</h6>
+                        <h5>$@product.Price</h5>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+
+
+@*             <a href="/Product/Details/1">
+                <div class="product-card">
+                    <div class="product-card_img">
+                        <img class="img-card" src="~/images/product/rico.jpg" alt="">
+                        <form action="/Account/SavedProduct" method="post" style="display: inline;">
+                            <input type="hidden" name="cproductId" value="1" />
+                            <button type="submit" class="btn">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="product-card_body">
+                    <h5>Roller Rabbit</h5>
+                    <h6>Vado Odelle Dress</h6>
+                    <h5>$198.00</h5>
+                </div>
+            </a>
+
+            <a href="/Product/Details/1">
+                <div class="product-card">
+                    <div class="product-card_img">
+                        <img class="img-card" src="~/images/product/rico.jpg" alt="">
+                        <form action="/Account/SavedProduct" method="post" style="display: inline;">
+                            <input type="hidden" name="cproductId" value="1" />
+                            <button type="submit" class="btn">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="product-card_body">
+                    <h5>Roller Rabbit</h5>
+                    <h6>Vado Odelle Dress</h6>
+                    <h5>$198.00</h5>
+                </div>
+            </a>
+
+            <a href="/Product/Details/1">
+                <div class="product-card">
+                    <div class="product-card_img">
+                        <img class="img-card" src="~/images/product/rico.jpg" alt="">
+                        <form action="/Account/SavedProduct" method="post" style="display: inline;">
+                            <input type="hidden" name="cproductId" value="1" />
+                            <button type="submit" class="btn">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="product-card_body">
+                    <h5>Roller Rabbit</h5>
+                    <h6>Vado Odelle Dress</h6>
+                    <h5>$198.00</h5>
+                </div>
+            </a>
+
+            <a href="/Product/Details/1">
+                <div class="product-card">
+                    <div class="product-card_img">
+                        <img class="img-card" src="~/images/product/rico.jpg" alt="">
+                        <form action="/Account/SavedProduct" method="post" style="display: inline;">
+                            <input type="hidden" name="cproductId" value="1" />
+                            <button type="submit" class="btn">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="product-card_body">
+                    <h5>Roller Rabbit</h5>
+                    <h6>Vado Odelle Dress</h6>
+                    <h5>$198.00</h5>
+                </div>
+            </a>
+
+            <a href="/Product/Details/1">
+                <div class="product-card">
+                    <div class="product-card_img">
+                        <img class="img-card" src="~/images/product/rico.jpg" alt="">
+                        <form action="/Account/SavedProduct" method="post" style="display: inline;">
+                            <input type="hidden" name="cproductId" value="1" />
+                            <button type="submit" class="btn">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="product-card_body">
+                    <h5>Roller Rabbit</h5>
+                    <h6>Vado Odelle Dress</h6>
+                    <h5>$198.00</h5>
+                </div>
+            </a>
+
+            <a href="/Product/Details/1">
+                <div class="product-card">
+                    <div class="product-card_img">
+                        <img class="img-card" src="~/images/product/rico.jpg" alt="">
+                        <form action="/Account/SavedProduct" method="post" style="display: inline;">
+                            <input type="hidden" name="cproductId" value="1" />
+                            <button type="submit" class="btn">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="product-card_body">
+                    <h5>Roller Rabbit</h5>
+                    <h6>Vado Odelle Dress</h6>
+                    <h5>$198.00</h5>
+                </div>
+            </a> *@

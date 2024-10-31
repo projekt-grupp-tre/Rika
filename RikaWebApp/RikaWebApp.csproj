@@ -12,16 +12,14 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="Controllers\Communication\" />
     <Folder Include="Controllers\Auth\" />
-    <Folder Include="Controllers\Product\" />
     <Folder Include="Controllers\Ordeer\" />
+    <Folder Include="ViewModels\Product\" />
     <Folder Include="Views\Shared\Partials\Communication\" />
     <Folder Include="Views\Shared\Partials\Auth\" />
     <Folder Include="Views\Shared\Partials\Product\" />
     <Folder Include="Views\Shared\Partials\Order\" />
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
   <ItemGroup>
