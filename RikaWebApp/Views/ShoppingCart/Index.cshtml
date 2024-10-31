@@ -4,3 +4,60 @@
     ViewData["Title"] = "My Cart";
 }
 
+<section id="shopping-cart">
+
+    <div class="container">
+
+        <h2>My Cart</h2>
+
+        <div class="cart-items-list">
+
+            <div class="cart-item-object">
+                <div class="cart-product-image">
+                    <img />
+                </div>
+            
+                <div class="cart-item-object-specifications">
+                    <h3>Roller Rabbit</h3>
+                    <p>Vado Odelle Dress</p>
+                    <h3>$198.00</h3>
+
+                    <div class="cart-product-quantity">
+                        <input type="number" id="quantity" name="quantity" value="1" min="1" />
+                    </div>               
+
+                <div/>
+
+            </div>   
+        
+        </div>
+
+        <div class="cart-total-price">
+            <div class="cart-specified-price">
+                <h3>Subtotal:</h3>
+                <h5>$483</h5>
+            </div>
+
+            <div class="cart-specified-price">
+                <h3>Shipping:</h3>
+                <h3>$17</h3>
+            </div>
+        
+            <div class="cart-specified-price">
+                <h3>BagTotal:</h3>
+                <p>(3 item)</p>
+                <h3>$500</h3>
+            </div>
+        </div>
+
+        <div class="cart-promo-code">
+            <input type="text" id="promocode" name="promocode" placeholder="Promo Code" />
+            <button id="apply-promocode">Apply</button>
+        </div>
+        <p id="promocode-message"></p>
+
+        <a class=btn>Proceed to Checkout</a>
+
+    </div>
+
+</div>
