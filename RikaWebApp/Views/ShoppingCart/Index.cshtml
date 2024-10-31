@@ -4,3 +4,8 @@
     ViewData["Title"] = "My Cart";
 }
 
+<form method="post" novalidate asp-action="ValidatePromoCode" asp-controller="Shoppingcart">
+   <input asp-for="PromoCodeForm.Code" />
+   <span asp-validation-for="PromoCodeForm.Code"></span>
+   <button type="submit">submit</button>
+</form>
