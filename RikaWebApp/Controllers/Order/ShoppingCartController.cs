@@ -26,10 +26,8 @@ namespace RikaWebApp.Controllers.Order
             return View(nameof(Index), viewModel);
         }
 
-        public IActionResult ValidatePromoCode(PromoCodeFormModel form)
+        public IActionResult ValidatePromoCode(ShoppingCartViewModel viewModel)
         {
-            ShoppingCartViewModel viewModel = new ShoppingCartViewModel();
-
             if (ModelState.IsValid)
             {
                 return View(nameof(Index), viewModel);
