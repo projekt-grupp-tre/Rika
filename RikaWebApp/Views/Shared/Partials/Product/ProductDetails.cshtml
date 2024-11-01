@@ -5,7 +5,7 @@
     <div class="container">
 
         <div class="back-icon">
-            <a asp-controller="Products" asp-action="Index" class="">
+            <a asp-controller="ProductByCategory" asp-action="Index" class="">
                 <i class="fa-regular fa-arrow-left"></i>
             </a>
         </div>
@@ -252,7 +252,7 @@
     document.querySelectorAll('.color-btn').forEach(btn => {
         const checkmark = document.createElement('span');
         checkmark.classList.add('checkmark');
-        checkmark.innerHTML = '😊'; 
+        checkmark.innerHTML = '✔️'; 
         btn.appendChild(checkmark);
 
         btn.addEventListener('click', function () {
