@@ -1,0 +1,77 @@
+﻿@using RikaWebApp.Models;
+
+@model SignUpModel; 
+
+
+<section id="register">
+    <div class="container register-container">
+        <div class="title">
+            <img src="/iamges/rika_logo_dark.svg" alt="">
+        </div>
+        <div class="sign-up-title">
+            <h3>Sign up</h3>
+            <p>Create a new account</p>
+        </div>
+        @if (TempData["ErrorRegister"] != null)
+        {
+            <span class="error-message">Email is already in use</span>
+        }
+        
+        <div class="form">
+            <form id="RegisterForm" asp-action="Register" asp-controller="SignUp" method="post" novalidate>
+                <div class="input-group">
+                    <label asp-for="FirstName">First Name</label>
+                    <input asp-for ="FirstName" type="text">
+                    <span asp-validation-for="FirstName" class="error-message"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="LastName">Last Name</label>
+                    <input asp-for="LastName" type="text">
+                    <span asp-validation-for="LastName" class="error-message"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email">
+                    <span asp-validation-for="Email" class="error-message"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="Password">Password</label>
+                    <div class="input-and-eye">
+                        <input asp-for="Password" type="password">
+                        <div class="eye">
+                            <i class="fa-solid fa-eye-slash"></i>
+                            <i style="display: none;" class="fa-solid fa-eye"></i>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Password" class="error-message"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="ConfirmPassword">Confirm Password</label>
+                    <div class="input-and-eye">
+                        <input asp-for="ConfirmPassword" type="password">
+                        <div class="eye">
+                            <i class="fa-solid fa-eye-slash"></i>
+                            <i style="display: none;" class="fa-solid fa-eye"></i>
+                        </div>
+                    </div>
+                    <span asp-validation-for="ConfirmPassword" class="error-message"></span>
+                </div>
+                
+                <div>
+                    <div class="checkbox-and-text">
+                        <input asp-for="TermsAndConditions" type="checkbox">
+                        <p>By creating an account you have to agree with our terms & conditions.</p>
+                    </div>
+                    <span asp-validation-for="TermsAndConditions" class="error-message"></span>
+                </div>
+                <button type="submit" class="btn-round btn-sign-up">Register</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+

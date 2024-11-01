@@ -24,12 +24,15 @@
 
   <ItemGroup>
     <Folder Include="Communication\" />
-    <Folder Include="Auth\" />
     <Folder Include="Order\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RikaWebApp\RikaWebApp.csproj" />
   </ItemGroup>
 
 </Project>
