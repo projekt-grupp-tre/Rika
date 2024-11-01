@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+
+
+    <Folder Include="ViewModels\" />
+
     <Folder Include="Controllers\Communication\" />
     <Folder Include="Controllers\Auth\" />
     <Folder Include="Controllers\Product\" />
@@ -28,6 +32,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
     <ProjectReference Include="..\WebApp.Tests\WebApp.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,89 @@
+@using RikaWebApp.Models.Communication
+@model ContactViewModel
+<section id="contact-us-section">        
+    <h1>Contact Us</h1>
+
+    <div class="faq-content">
+        <h2>FAQ</h2>        
+        <div id="faq-container">
+            <p>Loading FAQ...</p> <!-- Initial text while loading -->
+        </div>
+    </div>
+    <div class="contact-content">
+        <h2>Contact details</h2>
+        <p>Please contact us if you have any questions.</p>
+        <p>Phone: <a href="tel:+11234567890">(123) 456-7890</a></p>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="updateSuccessBox" id="updateSuccessBox">@TempData["Success"]?.ToString()</div>
+    }
+    else if (TempData["Failed"] != null)
+    {
+        <div class="updateErrorBox" id="updateErrorBox">@TempData["Failed"]?.ToString()</div>
+    }
+    
+    <form asp-controller="Contact" asp-action="ContactSubmit" method="post" novalidate>
+        <h2>Send us an email</h2>
+        <div class="input-group">
+            <label asp-for="ContactForm.FullName"></label>
+            <input asp-for="ContactForm.FullName">
+            <span asp-validation-for="ContactForm.FullName"></span>
+        </div>
+        <div class="input-group">
+            <label asp-for="ContactForm.Email"></label>
+            <input asp-for="ContactForm.Email">
+            <span asp-validation-for="ContactForm.Email"></span>
+        </div>
+        <div class="input-group service-group">
+            <label asp-for="ContactForm.ContactService"></label>
+            <select asp-for="ContactForm.ContactService" class="dropbtn">
+                <option disabled="" selected="">Desired service</option>
+                @foreach (ContactServiceModel service in Model.Services)
+                {
+                    <option value="@service.Title">@service.Title</option>
+                }
+            </select>
+        </div>
+        
+        <div class="input-group message-group">
+            <label asp-for="@Model.ContactForm.Message"></label>
+            <textarea id="contactMessage" asp-for="@Model.ContactForm.Message"></textarea>
+            <span asp-validation-for="@Model.ContactForm.Message"></span>
+        </div>
+        <div class="checkbox-group">
+            <input class="checkbox-input" asp-for="@Model.ContactForm.TermsAndConditions" type="checkbox" id="termsAndConditions">
+            <label class="checkbox-label" for="daily-newsletter" asp-for="@Model.ContactForm.TermsAndConditions"></label>
+        </div>
+        <button type="submit" id="contactSubmitBtn" disabled class="btn-round btn-disabled">Send Contact Request</button>
+    </form>
+    
+</section>
+@await Html.PartialAsync("_ContactValidationPartial.cshtml")
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", async () => {
+        const faqContainer = document.getElementById("faq-container");
+        try {
+            const response = await fetch("https://faqproviderrika20241031121551.azurewebsites.net/api/Questions");
+            if (!response.ok) {
+                throw new Error("HTTP error " + response.status);
+            }
+            const questions = await response.json();
+            console.log("FAQ h�mtad:", questions);
+            faqContainer.innerHTML = ""; // Clear loading message
+
+            // Populate FAQ section
+            questions.forEach(question => {
+                const faqGroup = document.createElement("div");
+                faqGroup.classList.add("faq-group");
+                faqGroup.innerHTML = `<h4>${question.questionTitle}</h4><p>${question.questionAnswer}<a href="${question.questionUrl}"> this link</a></p>`;
+                faqContainer.appendChild(faqGroup);
+            });
+        } catch (error) {
+            faqContainer.innerHTML = "<p>Fel vid inl�sning av FAQ: " + error.message + "</p>";
+        }
+    });
+</script>
