@@ -1,3 +1,5 @@
+using Business.Services.Product;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Lägg till tjänster

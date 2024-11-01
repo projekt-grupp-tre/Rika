@@ -1,16 +1,17 @@
 ﻿using Business.Dto.Product;
 using Newtonsoft.Json;
+using System.Net.Http;
 using System.Text;
 
 namespace Business.Services.Product;
 
-public class ProductService
+public class ProductService : IProductService
 {
-    private readonly HttpClient _client;
+    private readonly HttpClient _httpClient;
 
-    public ProductService(IHttpClientFactory clientFactory)
+    public ProductService(HttpClient httpClient)
     {
-        _client = clientFactory.CreateClient("AzureFunctionClient");
+        _httpClient = httpClient;
     }
 
     /// <summary>
@@ -47,22 +48,22 @@ public class ProductService
                       }
                     }"
             };
-            //Console.WriteLine(queryObject.query);
+
             var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
 
             //post förfrågan till graphql API:et med det serializerade innehållet
-            var response = await _client.PostAsync("https://productprovidergraphql.azurewebsites.net/api/GraphQL?code=0GQhXGiLSYJRnfNBuRrB1_csNX6zQjBWwiUQgHPZb8pPAzFuI7EMSQ%3D%3D", content);
+            var response = await _httpClient.PostAsync("https://productprovidergraphql.azurewebsites.net/api/GraphQL?code=0GQhXGiLSYJRnfNBuRrB1_csNX6zQjBWwiUQgHPZb8pPAzFuI7EMSQ%3D%3D", content);
 
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 var responseString = await response.Content.ReadAsStringAsync();
                 //packa upp svaret 
-                var result = JsonConvert.DeserializeObject<GraphQLProductListResponse>(responseString); 
+                var result = JsonConvert.DeserializeObject<GraphQLProductListResponse>(responseString);
                 return result?.Data?.GetProducts!;
             }
             return null!;
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             Console.WriteLine($"Ett oväntat fel inträffade: {ex.Message}");
             throw;
@@ -109,7 +110,7 @@ public class ProductService
             var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
 
             //post förfrågan till API:et med det serializerade innehållet
-            var response = await _client.PostAsync("https://productprovidergraphql.azurewebsites.net/api/GraphQL?code=0GQhXGiLSYJRnfNBuRrB1_csNX6zQjBWwiUQgHPZb8pPAzFuI7EMSQ%3D%3D", content);
+            var response = await _httpClient.PostAsync("https://productprovidergraphql.azurewebsites.net/api/GraphQL?code=0GQhXGiLSYJRnfNBuRrB1_csNX6zQjBWwiUQgHPZb8pPAzFuI7EMSQ%3D%3D", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -119,15 +120,12 @@ public class ProductService
             }
             return null!;
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             Console.WriteLine($"Ett oväntat fel inträffade: {ex.Message}");
             throw;
         }
     }
-
-
-
 }
 
 public class GraphQLProductListResponse
