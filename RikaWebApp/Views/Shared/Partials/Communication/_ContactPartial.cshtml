@@ -3,22 +3,26 @@
 <section id="contact-us-section">        
     <h1>Contact Us</h1>
 
-    <div class="content">
-        <h2>FAQ</h2>
-        
+    <div class="faq-content">
+        <h2>FAQ</h2>        
         <div id="faq-container">
             <p>Loading FAQ...</p> <!-- Initial text while loading -->
         </div>
-        @* <div class="faq-group">
-            <h4>How do I reset my password?</h4>
-            <p>- You can reset your password by clicking on <a href="#">this link</a></p>
-        </div> *@
     </div>
-    <div class="content">
+    <div class="contact-content">
         <h2>Contact details</h2>
         <p>Please contact us if you have any questions.</p>
         <p>Phone: <a href="tel:+11234567890">(123) 456-7890</a></p>
     </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="updateSuccessBox" id="updateSuccessBox">@TempData["Success"]?.ToString()</div>
+    }
+    else if (TempData["Failed"] != null)
+    {
+        <div class="updateErrorBox" id="updateErrorBox">@TempData["Failed"]?.ToString()</div>
+    }
     
     <form asp-controller="Contact" asp-action="ContactSubmit" method="post" novalidate>
         <h2>Send us an email</h2>
@@ -68,7 +72,7 @@
                 throw new Error("HTTP error " + response.status);
             }
             const questions = await response.json();
-            console.log("FAQ hämtad:", questions);
+            console.log("FAQ hï¿½mtad:", questions);
             faqContainer.innerHTML = ""; // Clear loading message
 
             // Populate FAQ section
@@ -79,7 +83,7 @@
                 faqContainer.appendChild(faqGroup);
             });
         } catch (error) {
-            faqContainer.innerHTML = "<p>Fel vid inläsning av FAQ: " + error.message + "</p>";
+            faqContainer.innerHTML = "<p>Fel vid inlï¿½sning av FAQ: " + error.message + "</p>";
         }
     });
 </script>

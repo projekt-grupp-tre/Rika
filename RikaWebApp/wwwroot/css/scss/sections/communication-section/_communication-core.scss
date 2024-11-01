@@ -65,3 +65,54 @@ form {
   background-color: $accent-color !important;
   color: $secondary-color !important;
 }
+
+.updateSuccessBox {
+  position: fixed;
+  top: 3.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 0.5rem 1.5rem;
+  background-color: lightgreen;
+  border-radius: 6px;
+  text-align: center;
+  
+  color: black;
+  animation: alertFadeout 1s forwards;
+  animation-delay: 5s;
+}
+
+
+.updateErrorBox {
+  position: fixed;
+  top: 3.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 0.5rem 1.5rem;
+  background-color: #EEAAAA;
+  border-radius: 6px;
+  text-align: center;
+
+  color: black;
+  animation: alertFadeout 1s forwards;
+  animation-delay: 5s;
+}
+
+
+@keyframes alertFadeout {
+  0% {
+      opacity: 1;
+      display: block;
+  }
+
+  90% {
+      opacity: 0;
+      display: block;
+  }
+
+  100% {
+      opacity: 0;
+      display: none;
+  }
+}

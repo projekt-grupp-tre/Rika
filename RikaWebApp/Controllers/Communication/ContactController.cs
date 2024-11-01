@@ -48,18 +48,18 @@ namespace RikaWebApp.Controllers
 				{
 						await using var sbClient = new ServiceBusClient(_configuration.GetConnectionString("ServiceBusConnection"));
 						ServiceBusSender sender = sbClient.CreateSender("email_request");
-						await sender.SendMessageAsync(new ServiceBusMessage(jsonContent));
+						await sender.SendMessageAsync(new ServiceBusMessage(jsonContent));                                                                              
+						TempData["Success"] = "Thank you for your email";                                     
+						TempData["Failed"] = null;
+						Console.WriteLine(TempData["Success"]);
 				}
-				catch (Exception ex) { Debug.WriteLine(ex.Message); }
-
-				// if (result.IsSuccessStatusCode)
-				// {
-				// 		TempData["Success"] = "Email sent";
-				// }
-				// else
-				// {
-				// 		TempData["Failed"] = "Error";
-				// }
+				catch (Exception ex) 
+				{ 
+						Debug.WriteLine(ex.Message); 
+						TempData["Failed"] = "Error sending email, please try again soon";
+						TempData["Success"] = null;
+						Console.WriteLine(TempData["Failed"]);
+				}
 			}
 			return RedirectToAction("Index", "Contact");
 		}
