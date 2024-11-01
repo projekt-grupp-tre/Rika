@@ -9,4 +9,6 @@ public class ContactViewModel
         new ContactServiceModel { Title = "Legal" },
         new ContactServiceModel { Title = "Product Support" }
     };
+
+    public List<FaQModel> FaQList { get; set; } = new List<FaQModel>();
 }

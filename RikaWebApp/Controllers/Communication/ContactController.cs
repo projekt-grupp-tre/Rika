@@ -11,54 +11,57 @@ namespace RikaWebApp.Controllers
     public class ContactController(ILogger<ContactController> logger, IConfiguration configuration) : Controller
     {
         private readonly ILogger<ContactController> _logger = logger;
-				private readonly IConfiguration _configuration = configuration;
+		private readonly IConfiguration _configuration = configuration;
 
-				[HttpGet]
-				[Route("/contact")]
-        public IActionResult Index()
+
+
+		[HttpGet]
+		[Route("/contact")]
+        public async Task<IActionResult> Index()
         {
             return View();
         }
 
-				[HttpPost]
-				[Route("/contact/submit")]
-				public async Task<IActionResult> ContactSubmit([Bind(Prefix = "ContactForm")] ContactFormModel contactForm)
+		[HttpPost]
+		[Route("/contact/submit")]
+		public async Task<IActionResult> ContactSubmit([Bind(Prefix = "ContactForm")] ContactFormModel contactForm)
+		{
+			
+			if (TryValidateModel(contactForm))
+			{
+				var emailRequest = new ContactEmailRequest() 
 				{
-						if (TryValidateModel(contactForm))
-						{
-								var emailRequest = new ContactEmailRequest() 
-								{
-									To = contactForm.Email,
-									Subject = $"Thank you {contactForm.FullName} for contacting us regarding {contactForm.ContactService}",
-									HtmlBody = "",
-									PlainText = $"We will get back to you in 24hrs regarding your question {contactForm.Message}"
-								};
+					To = contactForm.Email,
+					Subject = $"Thank you {contactForm.FullName} for contacting us regarding {contactForm.ContactService}",
+					HtmlBody = "",
+					PlainText = $"We will get back to you in 24hrs regarding your question {contactForm.Message}"
+				};
 
-								using var httpClient = new HttpClient();
-								var jsonContent = JsonConvert.SerializeObject(emailRequest);
+				using var httpClient = new HttpClient();
+				var jsonContent = JsonConvert.SerializeObject(emailRequest);
 
-								// --> Spara ner mejl-adressen till databas
-								// using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-								// var response = await httpClient.PostAsync($"https://localhost:1234/api/contact?key={_configuration["ApiKey"]}", content);
+				// --> Spara ner mejl-adressen till databas
+				// using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+				// var response = await httpClient.PostAsync($"https://localhost:1234/api/contact?key={_configuration["ApiKey"]}", content);
 								
-								try
-								{
-										await using var sbClient = new ServiceBusClient(_configuration.GetConnectionString("ServiceBusConnection"));
-										ServiceBusSender sender = sbClient.CreateSender("email_request");
-										await sender.SendMessageAsync(new ServiceBusMessage(jsonContent));
-								}
-								catch (Exception ex) { Debug.WriteLine(ex.Message); }
-
-								// if (result.IsSuccessStatusCode)
-								// {
-								// 		TempData["Success"] = "Email sent";
-								// }
-								// else
-								// {
-								// 		TempData["Failed"] = "Error";
-								// }
-						}
-						return RedirectToAction("Index", "Contact");
+				try
+				{
+						await using var sbClient = new ServiceBusClient(_configuration.GetConnectionString("ServiceBusConnection"));
+						ServiceBusSender sender = sbClient.CreateSender("email_request");
+						await sender.SendMessageAsync(new ServiceBusMessage(jsonContent));
 				}
+				catch (Exception ex) { Debug.WriteLine(ex.Message); }
+
+				// if (result.IsSuccessStatusCode)
+				// {
+				// 		TempData["Success"] = "Email sent";
+				// }
+				// else
+				// {
+				// 		TempData["Failed"] = "Error";
+				// }
+			}
+			return RedirectToAction("Index", "Contact");
+		}
     }
 }
