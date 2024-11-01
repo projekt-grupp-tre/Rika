@@ -4,7 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Lägg till tjänster
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IProductServiceEdvin, ProductServiceEdvin>();
+builder.Services.AddScoped<IProductServiceCategory, ProductServiceCategory>();
 builder.Services.AddHttpClient(); // Registrera HttpClient
 
 
