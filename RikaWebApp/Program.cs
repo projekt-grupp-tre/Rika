@@ -1,5 +1,9 @@
+using Business.Interfaces.OrderInterfaces;
+using Business.Services.OrderServices;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
