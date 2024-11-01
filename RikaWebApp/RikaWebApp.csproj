@@ -11,10 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
+
     <Folder Include="Models\" />
     <Folder Include="Controllers\Communication\" />
     <Folder Include="Controllers\Auth\" />
     <Folder Include="Controllers\Ordeer\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Controllers\Product\" />
+
     <Folder Include="Views\Shared\Partials\Communication\" />
     <Folder Include="Views\Shared\Partials\Auth\" />
     <Folder Include="Views\Shared\Partials\Order\" />
@@ -27,6 +31,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Business\Business.csproj" />
     <ProjectReference Include="..\WebApp.Tests\WebApp.Tests.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
   </ItemGroup>
 
 </Project>

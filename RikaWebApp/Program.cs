@@ -1,11 +1,18 @@
+
 using Business.Services.Product;
+using Business.Interfaces.OrderInterfaces;
+using Business.Services.OrderServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Lägg till tjänster
+builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
+
+
+// Lï¿½gg till tjï¿½nster
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProductServiceCategory, ProductServiceCategory>();
 builder.Services.AddHttpClient(); // Registrera HttpClient
+
 
 
 builder.Services.AddHttpClient("AzureFunctionClient", client =>
