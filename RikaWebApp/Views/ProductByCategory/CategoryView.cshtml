@@ -20,7 +20,7 @@
             <div class="grid">
                 @foreach (var product in Model)
                 {
-                    <a asp-action="ProductDetails" asp-controller="ProductByCategory" asp-route-id="@product.ProductId">
+                    <a asp-action="ProductDetails" asp-controller="Products" asp-route-id="@product.ProductId">
                         <div class="product-card">
                             <div class="product-card_img">
                                 <img class="img-card" src="~/images/product/@(product.Images.FirstOrDefault() ?? "default-image.jpg")" alt="@product.Name" />
