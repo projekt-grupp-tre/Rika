@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<section class="category-selection">
+    <div class="container">
+        <button class="btn-arrow"><i class="fa-solid fa-left"></i></button>
+        <div class="search-bar-container">
+            <i class="fa-regular fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search Categories">
+        </div>
+        <div class="grid">
+            <div class="category-card">
+                <div class="card-information">
+                    <h4>New Arrivals</h4>
+                    <p>208 Products</p>
+                </div>
+            </div>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="clothes">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Clothes</h4>
+                        <p>208 Products</p>
+                    </div>
+                </div>
+            </a>
+            <div class="category-card">
+                <div class="card-information">
+                    <h4>Bags</h4>
+                    <p>208 Products</p>
+                </div>
+            </div>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="shoes">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Shoes</h4>
+                        <p>208 Products</p>
+                    </div>
+                </div>
+            </a>
+            <div class="category-card">
+                <div class="card-information">
+                    <h4>Electronics</h4>
+                    <p>208 Products</p>
+                </div>
+            </div>
+            <div class="category-card">
+                <div class="card-information">
+                    <h4>Jewelry</h4>
+                    <p>208 Products</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
