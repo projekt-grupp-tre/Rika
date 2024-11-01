@@ -1,0 +1,104 @@
+#shopping-cart {
+
+    .container {
+        padding: 20px;
+
+        .cart-item-object {
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+
+            .cart-product-image {
+            }
+
+            .cart-item-object-specifications {
+                flex: 1;
+
+                .cart-item-price {
+                    padding-top: 20px;
+                }
+            }
+
+            .cart-product-quantity {
+                height: 25px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 18px;
+                border-radius: 15px;
+                padding: 15px;
+                background-color: #F3F3F3;
+                margin-top: auto;
+
+                span {
+                }
+
+                button {
+                    border: none;
+                    background-color: none;
+                    font-size: 20px;
+                }
+            }
+        }
+
+        .cart-total-price {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #F3F3F3;
+            border-radius: 15px;
+            padding: 20px;
+
+            .cart-specified-price {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px;
+
+                .cart-bag-total {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 8px;
+                    align-items: center;
+                }
+            }
+        }
+
+        .cart-promo-code {
+            margin-bottom: 20px;
+            position: relative;
+
+            input {
+                width: 100%;
+                border-radius: 10px;
+                border: none;
+                background-color: #F3F3F3;
+                padding: 15px;
+            }
+
+            .btn {
+                color: white;
+                background-color: black;
+                border: none;
+                border-radius: 10px;
+                text-decoration: none;
+                position: absolute;
+                padding: 8px 15px;
+                right: 10px;
+                top: 7px;
+            }
+        }
+
+        .proceed-to-checkout {
+
+            .btn {
+                color: white;
+                background-color: black;
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+}

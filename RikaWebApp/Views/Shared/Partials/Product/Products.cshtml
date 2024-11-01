@@ -1,0 +1,76 @@
+﻿@model RikaWebApp.ViewModels.ProductsPageViewModel
+
+<h1>@Model.Title</h1>
+
+@if (Model.Products != null && Model.Products.Any())
+{
+    <ul>
+        @foreach (var product in Model.Products)
+        {
+            
+            <li>
+                <h3>Kategori</h3>
+                <p>@product.Category.Name</p>
+                <h3>Produkt</h3>
+                <a asp-action="ProductDetails" asp-route-id="@product.ProductId">
+                    <h2>@product.Name</h2>
+                </a>
+               
+                @* <p>@product.Description</p> *@
+
+                <p>
+                    @if(product.Images != null && product.Images.Any())
+                    {
+                        @foreach(var img in product.Images)
+                        {
+                            <p>@img</p>
+                        }
+                    }
+                </p>
+                <br />
+                @* <h3>Kategori</h3>
+                <p>Kategori: @product.Category?.Name</p> *@
+
+                <br />
+                <h3>ProductVariant</h3>
+                @if(product.Variants != null && product.Variants.Any())
+                {
+                    <ul>
+                        <li>Pris: @product.Variants.FirstOrDefault()?.Price</li>
+
+
+                        @* @foreach(var variant in product.Variants)
+                        { *@
+                            @* <li>@variant.Color</li>
+                            <li>@variant.Size</li> *@
+                            @* <li>@variant.Price</li> *@
+                            @* <li>@variant.Stock</li> *@
+                            <hr />
+                        @* } *@
+                    </ul>
+                }
+            </li>
+
+            <br />
+
+            @* <h3>Resensioner</h3>
+            <ul>
+            @if(product.Reviews.Any())
+            {
+                @foreach(var review in product.Reviews)
+                {
+                    <li>@review.ClientName</li>
+                    <li>@review.Rating</li>
+                    <li>@review.Comment</li>
+                    <hr />
+                }
+            }
+            </ul>
+            <hr /> *@
+        }
+    </ul>
+}
+else
+{
+    <p>Inga produkter tillgängliga.</p>
+}

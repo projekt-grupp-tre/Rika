@@ -1,0 +1,113 @@
+﻿.product-category {
+    padding: 2rem 0;
+    background-color: #fff;
+
+    .container {
+        padding: 1rem;
+
+        h3 {
+            font-size: 2rem;
+            text-align: start;
+            margin-bottom: 1.5rem;
+        }
+
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(2, 1fr);
+            justify-items: center;
+
+            a {
+                text-decoration: none;
+
+                .product-card {
+                    background-color: #fff;
+                    border-radius: 0.5rem;
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                    overflow: hidden;
+                    transition: transform 0.2s ease-in-out;
+
+                    &:hover {
+                        transform: translateY(-5px);
+                    }
+
+                    &_img {
+                        position: relative;
+                        width: 100%;
+                        padding-top: 110%;
+                        overflow: hidden;
+                        background-color: #eee;
+
+                        .img-card {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            transition: transform 0.3s ease;
+
+                            &:hover {
+                                transform: scale(1.05);
+                            }
+                        }
+
+                        .btn {
+                            position: absolute;
+                            top: 1rem;
+                            right: 1rem;
+                            width: 2rem;
+                            height: 2rem;
+                            background-color: rgba(7, 7, 7, 0.8);
+                            border-radius: 50%;
+                            border: none;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            transition: background-color 0.3s ease;
+
+                            &:hover {
+                                background-color: rgba(255, 255, 255, 0.9);
+
+                                .fa-heart {
+                                    color: black;
+                                }
+                            }
+
+                            .fa-heart {
+                                color: white;
+                                font-size: 1.2rem;
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+
+                .product-card_body {
+                    padding-top: 1rem;
+                    text-align: center;
+
+                    h5,
+                    h6 {
+                        margin-bottom: 0.1rem;
+                    }
+
+                    h5 {
+                        font-size: 1.2rem;
+                        color: #333;
+                        font-weight: 600;
+
+                    }
+
+                    h6 {
+                        font-size: 1rem;
+                        color: #666;
+                        font-weight: 400;
+                    }
+                }
+            }
+        }
+    }
+}

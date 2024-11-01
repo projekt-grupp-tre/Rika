@@ -1,0 +1,118 @@
+:root {
+  --danger: rgb(231, 99, 37);
+}
+
+button {
+  font-weight: bold;
+  color: white;
+  background-color: $primary-color;
+  transition: all 0.2s;
+
+  &:hover,&:active,&:focus {
+    background-color: $accent-color;
+  }
+}
+
+input {
+  width: 100%;
+}
+
+input[type="checkbox"] {
+  width: fit-content;
+}
+
+.field-validation-error {
+  color: var(--danger);
+}
+
+form {
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  
+    input {
+      font-family: $font-stack;
+      padding: 0.5rem 0;
+      border-width: 1.5px;
+      transition: all 0.2s;
+
+      &:hover {
+        border-color: $primary-color;
+      }
+    }
+  
+    textarea {
+      font-family: $font-stack;
+      border: 1.5px solid $accent-color;
+      font-size: 1rem;
+      transition: all 0.2s;
+      width: 100%;
+      height: 150px;
+      outline: none;
+      padding: 0.6rem .8rem;
+      border-radius: 8px;
+      background-color: transparent;
+
+      &:hover {
+        border-color: $primary-color;
+      }
+    }
+  }
+}
+
+.btn-disabled {
+  background-color: $accent-color !important;
+  color: $secondary-color !important;
+}
+
+.updateSuccessBox {
+  position: fixed;
+  top: 3.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 0.5rem 1.5rem;
+  background-color: lightgreen;
+  border-radius: 6px;
+  text-align: center;
+  
+  color: black;
+  animation: alertFadeout 1s forwards;
+  animation-delay: 5s;
+}
+
+
+.updateErrorBox {
+  position: fixed;
+  top: 3.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 0.5rem 1.5rem;
+  background-color: #EEAAAA;
+  border-radius: 6px;
+  text-align: center;
+
+  color: black;
+  animation: alertFadeout 1s forwards;
+  animation-delay: 5s;
+}
+
+
+@keyframes alertFadeout {
+  0% {
+      opacity: 1;
+      display: block;
+  }
+
+  90% {
+      opacity: 0;
+      display: block;
+  }
+
+  100% {
+      opacity: 0;
+      display: none;
+  }
+}

@@ -1,0 +1,78 @@
+﻿@using RikaWebApp.ViewModels
+@model ShoppingCartViewModel
+@{
+    ViewData["Title"] = "My Cart";
+}
+
+<section id="shopping-cart">
+
+    <div class="container">
+        <h2>My Cart</h2>
+
+        @if (Model.Products!.Any())
+        {
+            @foreach (var item in Model.Products!)
+            {
+                <div class="cart-item-object">
+                    <div class="cart-product-image">
+                        <img src="" alt="">
+                    </div>
+
+                    <div class="cart-item-object-specifications">
+                        <h3>@item.Name</h3>
+                        <p>@item.Description</p>
+                        <h3 class="cart-item-price">$@item.Price</h3>
+
+                    </div>
+
+                    <div class="cart-product-quantity">
+                        <button type="button" id="decrease">-</button>
+                        <span id="quantity">1</span>
+                        <button type="button" id="increase">+</button>
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="cart-total-price">
+            <div class="cart-specified-price">
+                <h3>Subtotal:</h3>
+                <h3>$483</h3>
+            </div>
+
+            <div class="cart-specified-price">
+                <h3>Shipping:</h3>
+                <h3>$17</h3>
+            </div>
+
+            <div class="cart-specified-price">
+                <h3>BagTotal:</h3>
+                <div class="cart-bag-total">
+                    <p>(3 item)</p>
+                    <h3>$500</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="cart-promo-code">
+            <input type="text" id="promocode" name="promocode" placeholder="Promo Code" />
+            <button class="btn" id="apply-promocode">Apply</button>
+        </div>
+        <p id="promocode-message"></p>
+
+        <div class="proceed-to-checkout">
+            <a class="btn">Proceed to Checkout</a>
+        </div>
+        
+    </div>
+
+</section>
+
+
+
+        
+
+
+
+
+
