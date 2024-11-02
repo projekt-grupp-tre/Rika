@@ -7,6 +7,7 @@ namespace RikaWebApp.Controllers.Product
         [Route("categories")]
         public IActionResult Index()
         {
+            ViewData["Title"] = "Categories";
             return View();
         }
     }

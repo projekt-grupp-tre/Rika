@@ -5,7 +5,7 @@
     <div class="container">
 
         <div class="back-icon">
-            <a asp-controller="ProductByCategory" asp-action="Index" class="">
+            <a asp-controller="ProductByCategory" asp-action="Index" asp-route-categoryName="@ViewData["CategoryName"]">
                 <i class="fa-regular fa-arrow-left"></i>
             </a>
         </div>
@@ -101,18 +101,22 @@
                             int fullStars = (int)averageRating;
                             int totalReviews = Model.Reviews.Count;
 
+                            // Rendera stjärnorna baserat på betyget
                             for (int i = 1; i <= 5; i++)
                             {
                                 if (i <= fullStars)
                                 {
-                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i> 
                                 }
                                 else
                                 {
-                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i> 
                                 }
                             }
-                            <a href="#" class="review-link">(@totalReviews Review)</a>
+
+                            <a asp-controller="Reviews" asp-action="Index" asp-route-categoryName="@ViewData["CategoryName"]" asp-route-productId="@Model.ProductId" class="review-link">
+                                (@totalReviews Reviews)
+                            </a>
                         }
                         else
                         {

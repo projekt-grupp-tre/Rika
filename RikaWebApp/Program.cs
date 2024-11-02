@@ -11,6 +11,7 @@ builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 // L�gg till tj�nster
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProductServiceCategory, ProductServiceCategory>();
+builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
 builder.Services.AddHttpClient(); // Registrera HttpClient
 
 
@@ -40,6 +41,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
 

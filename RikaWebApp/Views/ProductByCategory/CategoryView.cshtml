@@ -7,8 +7,12 @@
 
 <section id="product-category-@ViewData["Title"].ToString().ToLower()" class="product-category">
     <div class="container">
+        <div class="back-icon">
+            <a asp-controller="CategorySelection" asp-action="Index">
+                <i class="fa-regular fa-arrow-left"></i>
+            </a>
+        </div>
         <h3>@ViewData["Title"]</h3>
-
         @if (ViewBag.ErrorMessage != null)
         {
             <div class="alert alert-danger">
@@ -20,7 +24,7 @@
             <div class="grid">
                 @foreach (var product in Model)
                 {
-                    <a asp-action="ProductDetails" asp-controller="Products" asp-route-id="@product.ProductId">
+                    <a asp-action="ProductDetails" asp-controller="Products" asp-route-id="@product.ProductId" asp-route-categoryName="@ViewData["CategoryName"]">
                         <div class="product-card">
                             <div class="product-card_img">
                                 <img class="img-card" src="~/images/product/@(product.Images.FirstOrDefault() ?? "default-image.jpg")" alt="@product.Name" />

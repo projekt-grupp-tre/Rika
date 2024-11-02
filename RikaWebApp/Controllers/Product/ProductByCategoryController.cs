@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace RikaWebApp.Controllers.Product
 {
+    [Route("categories/{categoryName}/products")]
     public class ProductByCategoryController : Controller
     {
         private readonly IProductServiceCategory _productService;
@@ -16,8 +17,8 @@ namespace RikaWebApp.Controllers.Product
         {
             _productService = productService;
         }
-
-        public async Task<IActionResult> Index(string categoryName = "clothes")
+        [HttpGet("")]
+        public async Task<IActionResult> Index(string categoryName)
         {
             try
             {
@@ -25,6 +26,7 @@ namespace RikaWebApp.Controllers.Product
                 var viewModel = productsDto.Select(ProductViewModel.FromDto).ToList();
 
                 ViewData["Title"] = categoryName.First().ToString().ToUpper() + categoryName.Substring(1);
+                ViewData["CategoryName"] = categoryName;
 
                 return View("CategoryView", viewModel);
             }
