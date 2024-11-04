@@ -19,15 +19,11 @@ public class ProductsController : Controller
         var productDto = await _productService.GetAllProductsAsync();
         //Console.WriteLine($"hittade {productDto.Count} produkter");
 
+        ViewData["Title"] = "All produkter";
+        var Products = productDto.Select(ProductViewModel.FromDto).ToList();
 
-        //instans för att föra vidare data till vyn
-        var viewModel = new ProductsPageViewModel
-        {
-            Title = "Alla Produkter",
-            Products = productDto.Select(ProductViewModel.FromDto).ToList(),
-        };
 
-        return View("Partials/Product/Products", viewModel); 
+        return View("Partials/Product/Products", Products); 
     }
     [HttpGet("{id}")]
     public async Task<IActionResult> ProductDetails(string categoryName, Guid id)

@@ -12,12 +12,14 @@
             <input type="text" placeholder="Search Categories">
         </div>
         <div class="grid">
-            <div class="category-card">
-                <div class="card-information">
-                    <h4>New Arrivals</h4>
-                    <p>208 Products</p>
+            <a asp-controller="products" asp-action="Index">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>New Arrivals</h4>
+                        <p>208 Products</p>
+                    </div>
                 </div>
-            </div>
+            </a>
             <a asp-controller="ProductByCategory" asp-route-categoryName="clothes">
                 <div class="category-card">
                     <div class="card-information">
@@ -26,12 +28,14 @@
                     </div>
                 </div>
             </a>
-            <div class="category-card">
-                <div class="card-information">
-                    <h4>Bags</h4>
-                    <p>208 Products</p>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="Bags">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Bags</h4>
+                        <p>208 Products</p>
+                    </div>
                 </div>
-            </div>
+            </a>
             <a asp-controller="ProductByCategory" asp-route-categoryName="shoes">
                 <div class="category-card">
                     <div class="card-information">
@@ -40,18 +44,22 @@
                     </div>
                 </div>
             </a>
-            <div class="category-card">
-                <div class="card-information">
-                    <h4>Electronics</h4>
-                    <p>208 Products</p>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="Electronics">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Electronics</h4>
+                        <p>208 Products</p>
+                    </div>
                 </div>
-            </div>
-            <div class="category-card">
-                <div class="card-information">
-                    <h4>Jewelry</h4>
-                    <p>208 Products</p>
+            </a>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="Jewelry">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Jewelry</h4>
+                        <p>208 Products</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </section>
