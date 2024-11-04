@@ -2,7 +2,7 @@
 using Moq;
 using Moq.Protected;
 using RikaWebApp.Controllers.Auth;
-using RikaWebApp.Models;
+using RikaWebApp.Models.AuthModels;
 using System.Net;
 using System.Text;
 
