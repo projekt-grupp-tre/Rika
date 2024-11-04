@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using RikaWebApp.Models;
+using RikaWebApp.Models.AuthModels;
 using System.Text;
 
-namespace RikaWebApp.Controllers
+namespace RikaWebApp.Controllers.Auth
 {
     public class SignUpController : Controller
     {
@@ -24,7 +24,7 @@ namespace RikaWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(SignUpModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 using HttpClient http = new HttpClient();
                 var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
