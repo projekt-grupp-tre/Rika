@@ -27,7 +27,7 @@
                     <a asp-action="ProductDetails" asp-controller="Products" asp-route-id="@product.ProductId" asp-route-categoryName="@ViewData["CategoryName"]">
                         <div class="product-card">
                             <div class="product-card_img">
-                                <img class="img-card" src="~/images/product/@(product.Images.FirstOrDefault() ?? "default-image.jpg")" alt="@product.Name" />
+                                <img class="img-card" src="@(product.Images.FirstOrDefault() ?? "default-image.jpg")" alt="@product.Name" />
                                 <form asp-controller="Account" asp-action="SavedProduct" method="post" style="display: inline;">
                                     <input type="hidden" name="productId" value="@product.ProductId" />
                                     <button type="submit" class="btn">
