@@ -29,7 +29,9 @@ namespace RikaWebApp.Controllers
 			
 			if (TryValidateModel(contactForm))
 			{
-				var caseId = new Guid();
+				// Creating temporary support ticket id
+				var caseId = Guid.NewGuid();
+				
 				var emailRequest = new ContactEmailRequest() 
 				{
 					To = contactForm.Email,
@@ -41,12 +43,13 @@ namespace RikaWebApp.Controllers
 				using var httpClient = new HttpClient();
 				var jsonContent = JsonConvert.SerializeObject(emailRequest);
 
+				// SEND REQUEST TO CasesProvider HERE TO CREATE A NEW CASE AND TO GET A CASE ID
 				// using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-				// var response = await httpClient.PostAsync($"https://localhost:7212/create", content);
+				// var response = await httpClient.PostAsync($"https://localhost:1234/create", content);
 								
 				try
 				{
-						await using var sbClient = new ServiceBusClient(_configuration.GetConnectionString("ServiceBusConnection"));
+						await using var sbClient = new ServiceBusClient("Endpoint=sb://sb-emailprovider.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=QjQqQwMnKcdPepvC5Xh5Kc7ohPzEF/7hx+ASbAbHsVo=");
 						ServiceBusSender sender = sbClient.CreateSender("email_request");
 						await sender.SendMessageAsync(new ServiceBusMessage(jsonContent));                                                                              
 						TempData["Success"] = "Thank you for your email";                                     
@@ -55,7 +58,7 @@ namespace RikaWebApp.Controllers
 				}
 				catch (Exception ex) 
 				{ 
-						Debug.WriteLine(ex.Message); 
+						Debug.WriteLine(ex); 
 						TempData["Failed"] = "Error sending email, please try again soon";
 						TempData["Success"] = null;
 						Console.WriteLine(TempData["Failed"]);
