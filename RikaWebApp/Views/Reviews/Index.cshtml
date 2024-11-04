@@ -10,7 +10,10 @@
         </a>
     </div>
     <h2>@ViewData["Title"]</h2>
-    
+    <div class="search-bar">
+        <i class="fa-regular fa-magnifying-glass"></i>
+        <input type="text" id="search-bar" placeholder="Search Categories">
+    </div>
 
     @if (!Model.Any())
     {

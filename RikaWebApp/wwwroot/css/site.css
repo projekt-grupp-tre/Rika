@@ -603,6 +603,30 @@ a.btn:hover {
   color: white;
 }
 
+.search-bar {
+  display: flex;
+  place-self: center;
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.search-bar input, .search-bar i {
+  background-color: #F3F4F5;
+  border: none;
+}
+.search-bar i {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  padding: 1rem 0 1rem 1.5rem;
+}
+.search-bar input {
+  border-bottom-right-radius: 30px;
+  border-top-right-radius: 30px;
+  padding: 1rem 1rem 1rem 1rem;
+  font-family: "Outfit", sans-serif;
+  width: 100%;
+}
+
 .reviews-container {
   font-family: Arial, sans-serif;
   margin: 20px;
