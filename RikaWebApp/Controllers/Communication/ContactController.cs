@@ -29,10 +29,11 @@ namespace RikaWebApp.Controllers
 			
 			if (TryValidateModel(contactForm))
 			{
+				var caseId = new Guid();
 				var emailRequest = new ContactEmailRequest() 
 				{
 					To = contactForm.Email,
-					Subject = $"Thank you {contactForm.FullName} for contacting us regarding {contactForm.ContactService}",
+					Subject = $"Thank you {contactForm.FullName} for contacting us regarding {contactForm.ContactService} || Support ticket number: {caseId}",
 					HtmlBody = "",
 					PlainText = $"We will get back to you in 24hrs regarding your question {contactForm.Message}"
 				};
@@ -40,9 +41,8 @@ namespace RikaWebApp.Controllers
 				using var httpClient = new HttpClient();
 				var jsonContent = JsonConvert.SerializeObject(emailRequest);
 
-				// --> Spara ner mejl-adressen till databas
 				// using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-				// var response = await httpClient.PostAsync($"https://localhost:1234/api/contact?key={_configuration["ApiKey"]}", content);
+				// var response = await httpClient.PostAsync($"https://localhost:7212/create", content);
 								
 				try
 				{
