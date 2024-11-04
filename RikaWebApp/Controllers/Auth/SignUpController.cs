@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RikaWebApp.Models.AuthModels;
+using System.Diagnostics;
 using System.Text;
 
 namespace RikaWebApp.Controllers.Auth
@@ -45,6 +45,7 @@ namespace RikaWebApp.Controllers.Auth
                         break;
 
                     case System.Net.HttpStatusCode.Created:
+                        SetEmailCookie(model.Email);
                         return RedirectToAction("Index", "Home");
                 }
 
@@ -52,6 +53,30 @@ namespace RikaWebApp.Controllers.Auth
             }
 
             return View("SignUpView", model);
+        }
+
+
+        public void SetEmailCookie(string email)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(email))
+                {
+                    CookieOptions cookieOptions = new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        Expires = DateTime.UtcNow.AddMinutes(15),
+                        SameSite = SameSiteMode.Strict
+                    };
+
+                    Response.Cookies.Append("UserEmail", email, cookieOptions);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }
