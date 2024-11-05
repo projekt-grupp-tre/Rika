@@ -26,3 +26,29 @@ searchToggle.addEventListener('click', function () {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    var searchBars = document.querySelectorAll("#search-bar");
+
+    searchBars.forEach(function (searchBar) {
+        searchBar.addEventListener("input", function () {
+            var searchTerm = this.value.toLowerCase();
+            var parentSection = this.closest(".container, .reviews-container, .category-selection");
+
+            if (parentSection) {
+                var items = parentSection.querySelectorAll(".grid a, .reviews-list .review-card, .product-category .grid a");
+
+                items.forEach(function (item) {
+                    var itemText = item.innerText.toLowerCase();
+
+                    if (itemText.includes(searchTerm)) {
+                        item.style.display = "";
+                    } else {
+                        item.style.display = "none";
+                    }
+                });
+            }
+        });
+    });
+});
+
+
