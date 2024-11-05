@@ -19,7 +19,7 @@
                     </div>
                 </li>
             }
-            <li class="outgoing-message")">
+            <li class="outgoing-message">
                 <div class="message-wrapper">
                     <div class="message-text">
                         Hej!
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </li>
-            <li class="incoming-message" )">
+            <li class="incoming-message">
                 <div class="message-wrapper">
                     <div class="message-text">
                         Hej!
@@ -48,6 +48,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 <script>
     const inputObj = document.getElementById('chat-input')
+
     // const messagesElement = document.getElementById('messages')
     // const messageBox = document.getElementById('message')
     let inputValue = '';
@@ -55,15 +56,14 @@
 
     inputObj.addEventListener('keyup', (e) => {
         inputValue = e.target.value;
-        console.log(inputValue);
     });
 
     const chatConnection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7255/chatHub")
+        .withUrl("http://localhost:5000/chatHub")
         .withAutomaticReconnect()
         .build();
         
-    chatConnection.on("MessageReceived", message => {
+    chatConnection.on("MessageReceived", (message) => {
         displayMessage(message)
     })
 
@@ -121,9 +121,23 @@
         }
     }
     function displayMessage(message) {
-        const messageBlob = document.createElement('li')
-        messageBlob.textContent = message
-        messagesElement.appendChild(messageBlob)
+        const chatList = document.getElementById('chatlist');
+        const messageBlob = document.createElement('li');
+        messageBlob.className = 'outgoing-message'; 
+        messageBlob.innerHTML = `
+            <div class="message-wrapper">
+                <div class="message-text">
+                    ${message || 'No content'} 
+                </div>
+                <div class="message-timestamp">
+                    ${new Date().toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' })}
+                </div>
+            </div>
+        `;
+        
+        chatList.appendChild(messageBlob);
+        chatList.scrollTop = chatList.scrollHeight;
+        document.querySelector('#chatList').innerHTML = messageBlob.innerHTML
     }
 
     start();
