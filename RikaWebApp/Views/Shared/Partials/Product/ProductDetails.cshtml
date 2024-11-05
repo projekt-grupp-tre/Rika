@@ -15,11 +15,7 @@
                 <i class="fa-regular fa-bag-shopping"></i>
             </a>
         </div>
-        <div class="heart-icon">
-            <button class="favorite-btn" data-product-id="@Model.ProductId">
-                <i class="fa-regular fa-heart" id="favoriteIcon"></i>
-            </button>
-        </div>
+
 
         <div class="product-image">
             <div id="carouselIndicators" class="carousel slide">
@@ -93,7 +89,7 @@
         <div class="product-detail-content">
             <div class="header">
                 <div class="header-text">
-                    <h1>@Model.Name</h1>
+                    <h6>@Model.Name</h6>
                     <p>Subtitle(?)</p>
                     <div class="rating">
                         @if (Model.Reviews != null && Model.Reviews.Any())
@@ -132,40 +128,40 @@
                         <input type="text" class="form-control text-center" value="1" id="quantity" readonly>
                         <button class="btn btn-outline-secondary" type="button" id="increment">+</button>
                     </div>
-                    <div class="stock">
-                        @if (Model.Variants != null && Model.Variants.Any())
-                        {
-                            var firstVariant = Model.Variants.First();
-                            if (firstVariant.Stock > 0)
-                            {
-                                <span>Available in stock</span>
-                            }
-                            else
-                            {
-                                <span>Out of stock</span>
-                            }
-                        }
-                        else
-                        {
-                            <span>Slut i lager</span>
-                        }
+                    <div class="stock" id="stockStatus">
+                        <span id="chooseColorText"></span>
                     </div>
                 </div>
-
-    @*             <div class="stock">
-                    @Model.Variants.FirstOrDefault().Stock;
-                </div> *@
+                <div class="heart-icon">
+                    <button class="favorite-btn" data-product-id="@Model.ProductId">
+                        <i class="fa-regular fa-heart" id="favoriteIcon"></i>
+                    </button>
+                </div>
             </div>
 
             <div class="mid-content">
-                <div class="size-selection">
-                    @if (Model.Variants != null && Model.Variants.Any())
-                    {
-                        @foreach (var variant in Model.Variants.DistinctBy(v => v.Size))
+                    <h6>Size</h6>
+                <div class="size-container">
+
+                    <div class="size-selection">
+                        @if (Model.Variants != null && Model.Variants.Any())
                         {
-                            <button class="btn-round size-btn" data-size="@variant.Size">@variant.Size</button>
+                            <div class="size-carousel">
+                                <a class="carousel-btn" id="prev-size-btn" disabled>&lt;</a>
+
+                                <div class="size-list-container" id="size-list-container">
+                                    <div class="size-list" id="size-list">
+                                        @foreach (var variant in Model.Variants.DistinctBy(v => v.Size))
+                                        {
+                                            <button class="btn-round size-btn" data-size="@variant.Size">@variant.Size</button>
+                                        }
+                                    </div>
+                                </div>
+
+                                <a class="carousel-btn" id="next-size-btn">&gt;</a>
+                            </div>
                         }
-                    }
+                    </div>
                 </div>
 
                 <div class="color-selection">
@@ -180,20 +176,21 @@
                     }
                     else
                     {
-                        <p>Inga färger tillgängliga.</p>
+                        <p>No available colors</p>
                     }
                 </div>
             </div>
 
             <div class="product-description">
-                <h3>Description</h3>
+                <h6>Description</h6>
                 <p>@Model.Description</p>
             </div>
+
 
             <div class="bottom">
                 <div class="price">
                     <span>Total Price</span>
-                    <p>$@Model.Variants?.FirstOrDefault()?.Price</p>
+                    <p id="displayPrice">$@Model.Variants?.FirstOrDefault()?.Price</p>
                 </div>
                 <div class="add-to-cart">
                     <button id="addToCartButton" class="btn-round primary">
@@ -201,6 +198,7 @@
                     </button>
                 </div>
             </div>
+            <p id="errorMessage" class="error"></p>
 
         </div>
     </div>
@@ -208,80 +206,218 @@
 
 
  <script>
-        document.getElementById('increment').addEventListener('click', function () {
-            var quantity = document.getElementById('quantity');
-            quantity.value = parseInt(quantity.value) + 1;
-        });
 
-        document.getElementById('decrement').addEventListener('click', function () {
-            var quantity = document.getElementById('quantity');
-            if (parseInt(quantity.value) > 1) {
-                quantity.value = parseInt(quantity.value) - 1;
-            }
-        });
+     //funktion för att uppdatera lagerstatus och visa produktens lagerinfo
+    function updateStockStatus() {
+        const variants = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants));
+        const stockElement = document.querySelector('.stock');
+        const incrementBtn = document.getElementById('increment');
+        const decrementBtn = document.getElementById('decrement');
+        const addToCartBtn = document.getElementById('addToCartButton');
+        const quantity = document.getElementById('quantity');
+        const priceElement = document.getElementById('displayPrice');
 
+        
+        stockElement.innerHTML = '';
 
-        //fyller i hjärtat
-        document.querySelector('.favorite-btn').addEventListener('click', function (e) {
-            e.preventDefault();
+        //hämta användarens val
+        const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
+        const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
 
-            const icon = document.getElementById('favoriteIcon');
-            const productId = this.getAttribute('data-product-id');
+        
+        if (!selectedSize) {
+            stockElement.innerHTML = 'Please select a size';
+            incrementBtn.disabled = true;
+            decrementBtn.disabled = true;
+            addToCartBtn.disabled = true;
+            return;
+        }
 
-            // växlar mellan ifylld och inte ifylld
-            if (icon.classList.contains('fa-regular')) {
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid'); 
-                console.log("ifylld");
+        if (!selectedColor) {
+            stockElement.innerHTML = 'Please select a color';
+            incrementBtn.disabled = true;
+            decrementBtn.disabled = true;
+            addToCartBtn.disabled = true;
+            return;
+        }
+
+        //hittar den specifika produktvarianten baserat på storlek och färg
+        const variant = variants.find(v => v.Color.toLowerCase() === selectedColor.toLowerCase() && v.Size === selectedSize);
+
+        //uppdatera lagerinformation samt aktiverar/inaktiverar knappar baserat på lagerstatusen
+        if (variant) {
+            if (variant.Stock > 0) {
+                stockElement.innerHTML = `Available in stock (${variant.Stock})`;
+                quantity.value = 1;
+                incrementBtn.disabled = variant.Stock <= 1;
+                decrementBtn.disabled = true;
+                addToCartBtn.disabled = false;
             } else {
-                icon.classList.remove('fa-solid');
-                icon.classList.add('fa-regular'); 
-                console.log("inte ifylld");
+                stockElement.innerHTML = 'Out of stock';
+                quantity.value = 0;
+                incrementBtn.disabled = true;
+                decrementBtn.disabled = true;
+                addToCartBtn.disabled = true;
             }
+
+            // uppdatera priset baserat på vald variant
+            priceElement.innerHTML = `$${variant.Price.toFixed(2)}`;
+        } else {
+            stockElement.innerHTML = 'Price is not available';
+            incrementBtn.disabled = true;
+            decrementBtn.disabled = true;
+            addToCartBtn.disabled = true;
+        }
+    }
+
+    //eventlistener för klickhändelser på storleksknapparna för att uppdatera lager och färgvalet
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            // ta bort markering från alla storleksknappar och markera den som användaren klickade på
+            document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('selected'));
+            this.classList.add('selected');
+
+            // återställ felmeddelande och sätt kvantiteten till 1
+            const chooseColorText = document.getElementById('chooseColorText');
+            if (chooseColorText) {
+                chooseColorText.classList.remove('error');
+                chooseColorText.innerText = '';
+            }
+
+            // sätt kvantiteten till 1 när man bytar storlek
+            document.getElementById('quantity').value = 1;
+
+            // visar färgsektionen och uppdatera färger för vald storlek
+            document.querySelector('.color-selection').style.display = 'flex';
+            updateAvailableColors(this.getAttribute('data-size'));
+
+            // nollställ färgvalet
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.querySelector('.checkmark').style.display = 'none';
+            });
+
+            // uppdatera lagerstatus 
+            updateStockStatus();
         });
+    });
 
+    //funktion för att uuppdatera färgalternativen baserat på den valda storleken
+    function updateAvailableColors(selectedSize) {
+        const variants = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants));
 
-        //val av storlek
-     document.querySelectorAll('.size-btn').forEach(btn => {
-         btn.addEventListener('click', function () {
-             document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('selected'));
+        const availableColors = variants
+            .filter(v => v.Size === selectedSize)
+            .map(v => v.Color.toLowerCase());
 
-             this.classList.add('selected');
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            const color = btn.getAttribute('data-color').toLowerCase();
+            btn.style.display = availableColors.includes(color) ? 'inline-block' : 'none';
+        });
+    }
 
-             selectedSize = this.getAttribute('data-size');
-         });
-     });
-
-
-     //val av färg
+    // eventlistener för färgknappar för att markera val och uppdatera lager
     document.querySelectorAll('.color-btn').forEach(btn => {
         const checkmark = document.createElement('span');
         checkmark.classList.add('checkmark');
-        checkmark.innerHTML = '✔️'; 
+        checkmark.innerHTML = '✔️';
+        checkmark.style.display = 'none';
         btn.appendChild(checkmark);
 
         btn.addEventListener('click', function () {
-            document.querySelectorAll('.color-btn').forEach(btn => btn.classList.remove('selected'));
-
-            
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.querySelector('.checkmark').style.display = 'none';
+            });
             this.classList.add('selected');
- 
-            const selectedColor = this.getAttribute('data-color');
-            console.log("vald färg:", selectedColor);
+            this.querySelector('.checkmark').style.display = 'inline';
+            updateStockStatus();
         });
+    });
+
+    // eventlistener för att öka kvantiteten
+    document.getElementById('increment').addEventListener('click', function () {
+        const quantity = document.getElementById('quantity');
+        const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
+        const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
+        const chooseColorText = document.getElementById('chooseColorText');
+
+        // kontrollera att storlek och färg är valda
+        if (!selectedSize) {
+            if (chooseColorText) {
+                chooseColorText.classList.add('error');
+                chooseColorText.innerText = 'Please select a size';
+            }
+            return;
+        }
+
+        if (!selectedColor) {
+            if (chooseColorText) {
+                chooseColorText.classList.add('error');
+                chooseColorText.innerText = 'Please select a color';
+            }
+            return;
+        }
+
+        const variants = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants));
+        const variant = variants.find(v => v.Color.toLowerCase() === selectedColor.toLowerCase() && v.Size === selectedSize);
+
+        if (variant && parseInt(quantity.value) < variant.Stock) {
+            quantity.value = parseInt(quantity.value) + 1;
+            document.getElementById('decrement').disabled = false;
+
+            if (parseInt(quantity.value) >= variant.Stock) {
+                document.getElementById('increment').disabled = true;
+            }
+        }
+    });
+
+    // eventlistener för att minska kvantiteten
+    document.getElementById('decrement').addEventListener('click', function () {
+        const quantity = document.getElementById('quantity');
+
+        if (parseInt(quantity.value) > 1) {
+            quantity.value = parseInt(quantity.value) - 1;
+
+            document.getElementById('increment').disabled = false;
+
+            if (parseInt(quantity.value) <= 1) {
+                document.getElementById('decrement').disabled = true;
+            }
+        }
+    });
+
+
+    //eventlistener som fyller i hjärtat
+    document.querySelector('.favorite-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const icon = document.getElementById('favoriteIcon');
+        const productId = this.getAttribute('data-product-id');
+
+        // växlar mellan ifylld och inte ifylld
+        if (icon.classList.contains('fa-regular')) {
+            icon.classList.remove('fa-regular');
+            icon.classList.add('fa-solid');
+            console.log("ifylld");
+        } else {
+            icon.classList.remove('fa-solid');
+            icon.classList.add('fa-regular');
+            console.log("inte ifylld");
+        }
     });
 
 
     //lägg till i kundvagn
-     document.getElementById('addToCartButton').addEventListener('click', () => {
-         const productId = "@Model.ProductId";
-         const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
-         const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
-         const quantity = document.getElementById('quantity').value;
+    document.getElementById('addToCartButton').addEventListener('click', () => {
+        const productId = "@Model.ProductId";
+        const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
+        const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
+        const quantity = document.getElementById('quantity').value;
 
-         if(!selectedColor || !selectedSize) {
-             alert('You have to chose a size and color');
-             return;
+        if (!selectedColor || !selectedSize) {
+            alert('You have to chose a size and color');
+            return;
         } else {
             // skriv ut valda alternativ
             console.log("produkt id:", productId);
@@ -292,5 +428,73 @@
         console.log(`Produkt id: ${productId} attribut (${selectedSize}, ${selectedColor}, ${quantity} st) har lagts till i kundvagnen.`);
 
 
-     });
-    </script>
+    });
+
+    //funktion för att bläddra bland storlekar 
+    document.addEventListener("DOMContentLoaded", function () {
+        const sizeList = document.getElementById("size-list");
+        const sizeListContainer = document.getElementById("size-list-container");
+        const sizeButtons = sizeList.querySelectorAll(".size-btn");
+        const prevBtn = document.getElementById("prev-size-btn");
+        const nextBtn = document.getElementById("next-size-btn");
+
+        let position = 0; // startposition för karusellen
+        const visibleCount = 4; // antal synliga storlekar för mobilläge
+        const totalSizes = sizeButtons.length;
+        const buttonWidth = 35; // justera baserat på knappbredd och marginal
+
+        //funktion för att uppdatera synligheten för < > knappar
+        function updateButtons() {
+            prevBtn.classList.toggle("hidden", position === 0);
+            nextBtn.classList.toggle("hidden", position >= totalSizes - visibleCount);
+        }
+
+        //funktion för att scrolla karusellen baserat på riktning (< eller >)
+        function scrollSizes(direction) {
+            const maxPosition = totalSizes - visibleCount;
+            if (direction === "next" && position < maxPosition) {
+                position++;
+            } else if (direction === "prev" && position > 0) {
+                position--;
+            }
+            position = Math.max(0, Math.min(position, maxPosition));
+            sizeList.style.transform = `translateX(-${position * buttonWidth}px)`;
+            
+            //uppdaterar knapoarnas tillstånd efter scrolling
+            updateButtons();
+        }
+        //eventlistener för bläddringsknapparna (< >)
+        prevBtn.addEventListener("click", function () {
+            scrollSizes("prev");
+        });
+
+        nextBtn.addEventListener("click", function () {
+            scrollSizes("next");
+        });
+
+        // swipe-funktionalitet
+        let startX = 0;
+
+        sizeListContainer.addEventListener("touchstart", function (e) {
+            startX = e.touches[0].clientX;
+        });
+
+        //eventlistener för att hantera rörelse under swipe och bläddrar baserat på riktining
+        sizeListContainer.addEventListener("touchmove", function (e) {
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - startX;
+
+            if (Math.abs(deltaX) > 30) {
+                if (deltaX < 0) {
+                    scrollSizes("next");
+                } else {
+                    scrollSizes("prev");
+                }
+                startX = touch.clientX; // återställ startX för nästa svep
+            }
+        });
+
+        // uppdatera knapparnas tillstånd vid laddning
+        updateButtons();
+    });
+ </script>

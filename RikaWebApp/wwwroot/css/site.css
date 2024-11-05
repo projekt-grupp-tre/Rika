@@ -263,16 +263,17 @@ a.btn:hover {
   font-weight: 400;
 }
 
-.product-details {
-  position: relative;
+.error {
+  color: red;
 }
+
 .product-details .container .back-icon a {
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 1rem;
-  left: 0;
+  top: 1.5rem;
+  left: 1rem;
   z-index: 10;
   background-color: black;
   border-radius: 50%;
@@ -285,13 +286,18 @@ a.btn:hover {
   font-size: 1rem;
   color: white;
 }
+.product-details .container .back-icon a:hover {
+  background-color: black;
+  color: white;
+  transition: ease-in-out 0.2s;
+}
 .product-details .container .shop-icon a {
   display: flex;
   align-items: center;
   justify-content: center;
   position: absolute;
-  top: 1rem;
-  right: 0rem;
+  top: 1.5rem;
+  right: 1rem;
   z-index: 10;
   background-color: white;
   border-radius: 50%;
@@ -303,30 +309,8 @@ a.btn:hover {
   font-size: 1rem;
   color: black;
 }
-.product-details .container .heart-icon {
-  /*display: none;*/
-}
-.product-details .container .heart-icon .favorite-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: 18.8rem;
-  text-decoration: none;
-  right: 0rem;
-  z-index: 10;
-  background-color: white;
-  border-radius: 50%;
-  padding: 0.5rem;
-  width: 2rem;
-  height: 2rem;
-  border: none;
-}
-.product-details .container .heart-icon .favorite-btn i {
-  font-size: 1rem;
-  color: black;
-}
 .product-details .container .product-image {
+  position: relative;
   /*border: solid green 1px;*/
   width: 100vw;
   margin-left: calc(50% - 50vw);
@@ -357,27 +341,29 @@ a.btn:hover {
   /*display: flex;*/
   /*border: solid red 1px;*/
   /*            align-content: center;
-              justify-content: center;*/
+  justify-content: center;*/
 }
 .product-details .container .product-detail-content .header {
   display: flex;
+  position: relative;
+  justify-content: space-between;
   /*border: solid red 1px;*/
 }
-.product-details .container .product-detail-content .header .header-text h1 {
-  font-size: 1rem;
+.product-details .container .product-detail-content .header .header-text h6 {
+  /*font-size: 1rem;*/
   margin-bottom: 0.2rem;
+  font-weight: 700;
 }
 .product-details .container .product-detail-content .header .header-text p {
   color: gray;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   margin-top: 0;
 }
 .product-details .container .product-detail-content .header .header-text .rating {
   display: flex;
   align-content: center;
   align-items: center;
-  font-size: 0.8rem;
-  /*border: solid red 1px;*/
+  font-size: 0.6rem;
 }
 .product-details .container .product-detail-content .header .header-text .rating .fa-star {
   font-size: 0.6rem;
@@ -393,15 +379,17 @@ a.btn:hover {
   color: grey;
 }
 .product-details .container .product-detail-content .header .counter {
+  /*border: solid red 1px;*/
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   /*justify-content: center;*/
+  align-items: center;
 }
 .product-details .container .product-detail-content .header .counter .input-group {
   overflow: hidden;
   border-radius: 18px;
-  width: 60%;
+  width: 90%;
 }
 .product-details .container .product-detail-content .header .counter .input-group button, .product-details .container .product-detail-content .header .counter .input-group input {
   text-align: center;
@@ -422,25 +410,89 @@ a.btn:hover {
 .product-details .container .product-detail-content .header .counter .stock {
   font-size: 0.8rem;
   font-weight: 500;
+  text-align: center;
+}
+.product-details .container .product-detail-content .header .heart-icon {
+  /*display: none;*/
+}
+.product-details .container .product-detail-content .header .heart-icon .favorite-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -3.5rem;
+  right: -0.5rem;
+  text-decoration: none;
+  z-index: 10;
+  background-color: white;
+  border-radius: 50%;
+  padding: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+}
+.product-details .container .product-detail-content .header .heart-icon .favorite-btn i {
+  font-size: 1rem;
+  color: black;
 }
 .product-details .container .product-detail-content .mid-content {
-  margin-top: 2rem;
+  margin-top: 1rem;
+  position: relative;
+}
+.product-details .container .product-detail-content .mid-content h6 {
+  /*margin: 0;
+  padding: 0;*/
+}
+.product-details .container .product-detail-content .mid-content .size-container {
   display: flex;
   gap: 2rem;
   align-content: center;
-  position: relative;
   margin-bottom: 1rem;
 }
-.product-details .container .product-detail-content .mid-content .size-selection .btn-round {
-  background-color: white;
-  border: solid black 1px;
-  font-size: 0.6rem;
-  padding: 0;
-  padding: 0.6rem 0.8rem;
+.product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel {
+  display: flex;
+  align-items: center;
+  /*border: solid red 1px;*/
 }
-.product-details .container .product-detail-content .mid-content .size-selection .btn-round.selected {
-  background-color: black;
+.product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .carousel-btn {
+  margin-left: 0.2rem;
+  margin-right: 0.2rem;
+  text-decoration: none;
+  color: black;
+}
+.product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .carousel-btn:hover {
+  cursor: pointer;
+}
+.product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-list-container {
+  background-color: white;
+  overflow: hidden;
+  max-width: 10.5rem;
+}
+.product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-list {
+  display: flex;
+  transition: transform 0.3s ease;
+  /*border: solid red 1px;*/
+}
+.product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn {
+  min-width: 30px;
+  margin: 2px;
+  padding: 5px;
+  font-size: 0.8rem;
+  background-color: white;
+  border: solid gray 1px;
+  color: gray;
+}
+.product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn:hover {
   color: white;
+  background-color: black;
+}
+.product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn.selected {
+  color: white;
+  background-color: black;
+}
+.product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .carousel-btn.hidden {
+  visibility: hidden;
+  opacity: 0;
 }
 .product-details .container .product-detail-content .mid-content .color-selection {
   display: flex;
@@ -450,10 +502,11 @@ a.btn:hover {
   gap: 0.5rem;
   position: absolute;
   bottom: -1rem;
-  right: 0.8rem;
+  right: -0.5rem;
   box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 24px;
   padding: 0.5rem;
   border-radius: 1rem;
+  display: none;
 }
 .product-details .container .product-detail-content .mid-content .color-selection .checkmark {
   position: absolute;
@@ -477,23 +530,24 @@ a.btn:hover {
   height: .5rem;*/
 }
 .product-details .container .product-detail-content .mid-content .color-selection .color-btn.selected {
-  border-color: black;
+  border-color: white;
 }
 .product-details .container .product-detail-content .mid-content .color-selection .color-btn.selected .checkmark {
   display: block;
+  border-color: white;
 }
-.product-details .container .product-detail-content .product-description h3 {
+.product-details .container .product-detail-content .product-description h6 {
   font-size: 1rem;
 }
 .product-details .container .product-detail-content .product-description p {
-  font-size: 0.6rem;
+  font-size: 0.8rem;
 }
 .product-details .container .product-detail-content .bottom {
   display: flex;
   justify-content: space-between;
 }
 .product-details .container .product-detail-content .bottom .price span {
-  font-size: 0.6rem;
+  font-size: 0.8rem;
 }
 .product-details .container .product-detail-content .bottom .price p {
   font-weight: 700;
@@ -505,11 +559,19 @@ a.btn:hover {
   align-items: center;
   text-align: center;
 }
+.product-details .container .product-detail-content .bottom .add-to-cart .btn-round:active, .product-details .container .product-detail-content .bottom .add-to-cart .btn-round:focus {
+  background-color: black;
+  color: white;
+}
+.product-details .container .product-detail-content .bottom .add-to-cart .btn-round:active i, .product-details .container .product-detail-content .bottom .add-to-cart .btn-round:focus i {
+  color: inherit;
+  background-color: inherit;
+}
 .product-details .container .product-detail-content .bottom .add-to-cart .btn-round i {
   padding-right: 0.5rem;
   font-size: 1rem;
-  background: black;
-  color: white;
+  color: inherit;
+  background-color: inherit;
 }
 
 .category-selection .container {
