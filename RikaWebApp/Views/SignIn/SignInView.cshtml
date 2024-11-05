@@ -1,5 +1,38 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using RikaWebApp.Models.AuthModels;
+
+@model SignInModel;
+
+<section id="register">
+    <div class="container register-container">
+        <div class="title">
+            <img src="/images/auth/logo.svg" alt="Rika logotype">
+        </div>
+        <div class="sign-up-title">
+            <h3>Welcome!</h3>
+            <p>Please login or <a asp-action="SignUpView" asp-controller="SignUp">sign up</a> to continue</p>
+        </div>
+
+        <div class="form">
+            <form id="SignInForm" asp-action="Login" asp-controller="SignIn" method="post" novalidate>
+                <div class="input-group">
+                    <label asp-for="Email">Email</label>
+                    <input asp-for="Email">
+                    <span asp-validation-for="Email" class="error-message"></span>
+                </div>
+
+                <div class="input-group">
+                    <label asp-for="Password">Password</label>
+                    <div class="input-and-eye">
+                        <input asp-for="Password" type="password">
+                        <div class="eye">
+                            <i class="fa-solid fa-eye-slash"></i>
+                            <i style="display: none;" class="fa-solid fa-eye"></i>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Password" class="error-message"></span>
+                </div>
+                <button type="submit" class="btn-round btn-sign-up">Login</button>
+            </form>
+        </div>
+    </div>
+</section>
