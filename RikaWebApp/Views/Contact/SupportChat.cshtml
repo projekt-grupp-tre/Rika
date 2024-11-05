@@ -1,0 +1,130 @@
+﻿@using RikaWebApp.Models.Communication
+@{
+    var messages = new List<MessageModel>();
+}
+<div id="chat-wrapper">
+    <div id="chat-topbar">
+        <h3>Support chat</h3>
+    </div>
+        @*Logik för att visa Support agentens namn/id i kundtjäsnt chatt och användares namn i community-chatt*@
+        <ul id="chatlist">
+            @foreach (var message in messages)
+            {
+                <li class="@(message.IsSentFromThisClient ? "outgoing-message" : "incoming-message")">
+                    <div class="message-text">
+                        @message.Content
+                    </div>
+                    <div class="message-timestamp">
+                        @message.MessageSentAt.ToString("HH:mm")
+                    </div>
+                </li>
+            }
+            <li class="outgoing-message")">
+                <div class="message-wrapper">
+                    <div class="message-text">
+                        Hej!
+                    </div>
+                    <div class="message-timestamp">
+                        @DateTime.Now.ToString("HH:mm")
+                    </div>
+                </div>
+            </li>
+            <li class="incoming-message" )">
+                <div class="message-wrapper">
+                    <div class="message-text">
+                        Hej!
+                    </div>
+                    <div class="message-timestamp">
+                        @DateTime.Now.ToString("HH:mm")
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <form id="chat-form">
+        <input id="chat-input" />
+            <button id="chat-submit-btn" class="btn-primary"><i class="fa-solid fa-paper-plane-top"></i></button>
+        </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+<script>
+    const inputObj = document.getElementById('chat-input')
+    // const messagesElement = document.getElementById('messages')
+    // const messageBox = document.getElementById('message')
+    let inputValue = '';
+    let groupId
+
+    inputObj.addEventListener('keyup', (e) => {
+        inputValue = e.target.value;
+        console.log(inputValue);
+    });
+
+    const chatConnection = new signalR.HubConnectionBuilder()
+        .withUrl("https://localhost:7255/chatHub")
+        .withAutomaticReconnect()
+        .build();
+        
+    chatConnection.on("MessageReceived", message => {
+        displayMessage(message)
+    })
+
+    chatConnection.on("AddedToGroup", addedGroupId => {
+        groupId = addedGroupId
+    })
+
+    async function start() {
+        try {
+            await chatConnection.start()
+            console.log('Connected to SignalR')
+
+        } catch (err) {
+            console.error("Error connecting to  hub: ", err)
+            setTimeout(startConnection, 5000)
+        }
+
+        // Add the new event listener
+        window.addEventListener('beforeunload', async () => {
+            try {
+                await chatConnection.stop()
+            } catch (err) {
+                console.error("Error disconnecting from SignalR hub: ", err)
+            }
+        });
+    }
+
+    const submitButton = document.getElementById('chat-submit-btn');
+    submitButton.addEventListener('click', async (e) => {
+        e.preventDefault(); // Förhindra standardbeteendet för knappen
+        try {
+            if (inputValue)
+                console.log(inputValue);
+                await chatConnection.invoke("SendMessage", {
+                    username: "Levi",
+                    userId: null,
+                    groupId: groupId,
+                    messageContent: inputValue,
+                    messageSent: null,
+                    attachmentUrls: null
+                })
+        } catch (err) {
+            console.error("Error sending message: ", err)
+        }
+        inputObj.value = "";
+    });
+
+    async function sendMessage() {
+        try {
+            console.log(payload)
+            if (inputValue)
+                await chatConnection.invoke("SendMessage", payload)
+        } catch (err) {
+            console.error("Error sending message: ", err)
+        }
+    }
+    function displayMessage(message) {
+        const messageBlob = document.createElement('li')
+        messageBlob.textContent = message
+        messagesElement.appendChild(messageBlob)
+    }
+
+    start();
+</script>

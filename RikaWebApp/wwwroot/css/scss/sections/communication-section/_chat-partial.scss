@@ -1,0 +1,106 @@
+﻿#chat-wrapper {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $primary-color;
+    border-radius: 15px;
+
+    #chat-topbar {
+        display: flex;
+        justify-content: center;
+        border-bottom: 1px solid $primary-color;
+    }
+
+    @media (min-width: 1200px) {
+        max-width: 50%;
+    }
+
+    @media (min-width: 992px) {
+        max-width: 60%;
+    }
+
+    #chatlist {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 80vh;
+        list-style: none;
+        padding-left: 0;
+
+        .outgoing-message, .incoming-message {
+            display: flex;
+            width: 100%;
+            padding: 8px;
+            margin: 4px 0;
+
+            .message-timestamp {
+                font-size: 12px;
+            }
+
+            .message-wrapper {
+                max-width: 65%;
+                padding: 4px 12px 8px 12px;
+            }
+        }
+
+        .outgoing-message {
+            justify-content: flex-end;
+
+            .message-wrapper {
+                background-color: #e6f2ff;
+                border-radius: 10px 10px 0px 10px;
+
+                .message-text, .message-timestamp {
+                    text-align: right;
+                    margin-right: 8px;
+                }
+
+                .message-timestamp {
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .incoming-message {
+            justify-content: flex-start;
+
+            .message-wrapper {
+                background-color: #f2f2f2;
+                border-radius: 10px 10px 10px 0px;
+
+                .message-content, .message-timestamp {
+                    text-align: left;
+                }
+
+                .message-timestamp {
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
+
+    #chat-form {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        margin-bottom: 6px;
+        margin-top: 6px;
+
+        #chat-input {
+            margin: 0px 10px;
+            height: 2rem;
+            resize: none;
+            border-radius: 20px;
+
+            textarea::-webkit-scrollbar {
+                display: none;
+            }
+
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        #chat-submit-btn {
+            border-radius: 10px;
+        }
+    }
+}

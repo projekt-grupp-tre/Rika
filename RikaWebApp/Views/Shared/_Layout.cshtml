@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - RikaWebApp</title>
-    <script defer src="https://kit.fontawesome.com/41c8b474e2.js" crossorigin="anonymous"></script>
+    @*<script defer src="https://kit.fontawesome.com/41c8b474e2.js" crossorigin="anonymous"></script>*@
     <link rel="stylesheet" href="https://kit.fontawesome.com/a576612222.css" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/RikaWebApp.styles.css" asp-append-version="true" />
@@ -36,5 +36,6 @@
         </footer>
     </div>
     @await RenderSectionAsync("Scripts", required: false)
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 </body>
 </html>

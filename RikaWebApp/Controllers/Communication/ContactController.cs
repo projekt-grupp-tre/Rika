@@ -66,5 +66,12 @@ namespace RikaWebApp.Controllers
 			}
 			return RedirectToAction("Index", "Contact");
 		}
+
+		[HttpGet]
+		[Route("/contact/support-chat")]
+		public ActionResult SupportChat()
+		{
+			return View("SupportChat");
+		}
     }
 }
