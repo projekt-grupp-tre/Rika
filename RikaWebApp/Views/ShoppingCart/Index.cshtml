@@ -1,57 +1,62 @@
 ﻿@using RikaWebApp.ViewModels
 @model ShoppingCartViewModel
+
 @{
     ViewData["Title"] = "My Cart";
 }
 
 <section id="shopping-cart">
-
     <div class="container">
         <h2>My Cart</h2>
 
-        @if (Model.Products!.Any())
+        @if (Model.Product != null)
         {
-            @foreach (var item in Model.Products!)
-            {
-                <div class="cart-item-object">
-                    <div class="cart-product-image">
-                        <img src="" alt="">
-                    </div>
-
-                    <div class="cart-item-object-specifications">
-                        <h3>@item.Name</h3>
-                        <p>@item.Description</p>
-                        <h3 class="cart-item-price">$@item.Price</h3>
-
-                    </div>
-
-                    <div class="cart-product-quantity">
-                        <button type="button" id="decrease">-</button>
-                        <span id="quantity">1</span>
-                        <button type="button" id="increase">+</button>
-                    </div>
+            <div class="cart-item-object">
+                <div class="cart-product-image">
+                    @* <img src="@(Model.Product.Images?.FirstOrDefault() ?? "")" alt="Product Image" /> *@
+                    <img class="cart-product" src="~/images/product/alex.jpg" />
                 </div>
-            }
+                <div class="cart-item-object-specifications">
+                    <h4 class="cart-item-h4">@Model.Product.Name</h4>
+                    <p class="cart-item-description">@Model.Product.Description</p>
+                    <h4 class="cart-item-h4" data-base-price="@Model.Product.Price">$@Model.Product.Price</h4>
+                </div>
+
+                <div class="cart-product-quantity">
+                    <button type="button" onclick="updateQuantity(false)">-</button>
+                    <span id="quantity">1</span>
+                    <button type="button" onclick="updateQuantity(true)">+</button>
+                </div>
+            </div>
+        }
+        else
+        {
+            <p>Your cart is empty.</p>
         }
 
         <div class="cart-total-price">
             <div class="cart-specified-price">
-                <h3>Subtotal:</h3>
-                <h3>$483</h3>
+                <h4 class="cart-item-h4">Subtotal:</h4>
+                <h4 class="cart-item-h4" id="subtotal">
+                    @(Model.Product?.Price != null ? $"${Model.Product.Price.Value:F2}" : "$0.00")
+                </h4>
             </div>
 
             <div class="cart-specified-price">
-                <h3>Shipping:</h3>
-                <h3>$17</h3>
+                <h4 class="cart-item-h4">Shipping:</h4>
+                <h4 class="cart-item-h4">$17</h4>
             </div>
 
             <div class="cart-specified-price">
-                <h3>BagTotal:</h3>
+                <h4 class="cart-item-h4">BagTotal:</h4>
                 <div class="cart-bag-total">
-                    <p>(3 item)</p>
-                    <h3>$500</h3>
+                    <h4 class="cart-item-h4" id="bag-total">
+                        <span id="item-count">(1 Item)</span> 
+                        <span id="total-price">@($"${(Model.Product?.Price ?? 0) + 17}")</span> 
+                    </h4>
                 </div>
             </div>
+
         </div>
 
         <div class="cart-promo-code">
@@ -63,16 +68,46 @@
         <div class="proceed-to-checkout">
             <a class="btn">Proceed to Checkout</a>
         </div>
-        
     </div>
-
 </section>
 
 
+@section Scripts {
+    <script>
+        function updateQuantity(isIncrease) {
+            const quantityElement = document.getElementById("quantity");
+            const priceElement = document.querySelector(".cart-item-price");
+            const subtotalElement = document.getElementById("subtotal");
+            const itemCountElement = document.getElementById("item-count"); 
+            const totalPriceElement = document.getElementById("total-price"); 
 
-        
+            const basePrice = parseFloat(priceElement.dataset.basePrice); 
+            const shippingCost = 17.0; 
 
+            let quantity = parseInt(quantityElement.innerText);
 
+            
+            if (isIncrease) {
+                quantity++;
+            } else if (quantity > 1) {
+                quantity--;
+            }
 
+            
+            quantityElement.innerText = quantity;
 
+            
+            const subtotal = basePrice * quantity;
+            const bagTotal = subtotal + shippingCost;
+
+            
+            priceElement.innerText = `$${subtotal.toFixed(2)}`;
+            subtotalElement.innerText = `$${subtotal.toFixed(2)}`;
+            totalPriceElement.innerText = `$${bagTotal.toFixed(2)}`; 
+
+            
+            itemCountElement.innerText = `(${quantity} Item${quantity > 1 ? 's' : ''})`; 
+        }
+    </script>
+}
 

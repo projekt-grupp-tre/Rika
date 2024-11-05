@@ -1,7 +1,9 @@
 ﻿using Business.Interfaces.OrderInterfaces;
+using Business.Services.OrderServices;
 using Microsoft.AspNetCore.Mvc;
 using RikaWebApp.Models.OrderModels;
 using RikaWebApp.ViewModels;
+using System.Diagnostics;
 
 namespace RikaWebApp.Controllers.Order
 {
@@ -14,17 +16,32 @@ namespace RikaWebApp.Controllers.Order
             _shoppingCartService = shoppingCartService;
         }
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+        //    ShoppingCartViewModel viewModel = new ShoppingCartViewModel();
+        //    PromoCodeFormModel form = new PromoCodeFormModel();
+        //    var productList = _shoppingCartService.GetOneProductAsync();
+
+        //    viewModel.Products = productList;
+        //    viewModel.PromoCodeForm = form;
+
+        //    return View(nameof(Index), viewModel);
+        //}
+
+
+        public async Task<IActionResult> Index()
         {
-            ShoppingCartViewModel viewModel = new ShoppingCartViewModel();
-            PromoCodeFormModel form = new PromoCodeFormModel();
-            var productsList = _shoppingCartService.GetProctsFromApi();
+            var product = await _shoppingCartService.GetOneProductAsync();
 
-            viewModel.Products = productsList;
-            viewModel.PromoCodeForm = form;
+            var viewModel = new ShoppingCartViewModel
+            {
+                Product = product 
+            };
 
-            return View(nameof(Index), viewModel);
+            return View(viewModel);
         }
+
+
 
         public IActionResult ValidatePromoCode(ShoppingCartViewModel viewModel)
         {

@@ -4,6 +4,7 @@ namespace Business.Interfaces.OrderInterfaces
 {
     public interface IShoppingCartService
     {
-        public IEnumerable<ProductDto> GetProctsFromApi();
+        //public IEnumerable<ProductDto> GetProctsFromApi();
+        Task<ProductDto> GetOneProductAsync();
     }
 }

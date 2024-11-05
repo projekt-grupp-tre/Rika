@@ -7,6 +7,8 @@ namespace RikaWebApp.ViewModels
     {
         public IEnumerable<ProductDto>? Products { get; set; } = [];
 
+        public ProductDto? Product { get; set; }
+
         public PromoCodeFormModel PromoCodeForm { get; set; } = null!;
     }
 }
