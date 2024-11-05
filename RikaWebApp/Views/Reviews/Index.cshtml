@@ -4,16 +4,22 @@
     ViewData["Title"] = ViewData["Title"] ?? "reviews";
 }
 <div class="reviews-container">
+
+
     <div class="back-icon">
         <a asp-controller="Products" asp-action="ProductDetails" asp-route-categoryName="@ViewData["CategoryName"]" asp-route-id="@ViewData["ProductId"]">
             <i class="fa-regular fa-arrow-left"></i>
         </a>
     </div>
-    <h2>@ViewData["Title"]</h2>
-    <div class="search-bar">
-        <i class="fa-regular fa-magnifying-glass"></i>
+    <div class="search-glass">
+        <i class="fa-regular fa-magnifying-glass" id="search-toggle"></i>
+    </div>
+
+    <div class="search-bar" id="search-bar">
         <input type="text" id="search-bar" placeholder="Search Categories">
     </div>
+    <h2>@ViewData["Title"]</h2>
+
 
     @if (!Model.Any())
     {
