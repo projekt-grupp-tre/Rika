@@ -11,7 +11,10 @@
             <h3>Welcome!</h3>
             <p>Please login or <a asp-action="SignUpView" asp-controller="SignUp">sign up</a> to continue</p>
         </div>
-
+        @if (TempData["ErrorLogin"] != null)
+        {
+            <span class="error-message">@TempData["ErrorLogin"]</span>
+        }
         <div class="form">
             <form id="SignInForm" asp-action="Login" asp-controller="SignIn" method="post" novalidate>
                 <div class="input-group">

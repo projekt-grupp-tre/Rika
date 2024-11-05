@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RikaWebApp.Models.AuthModels;
+using System.Reflection;
 
 namespace RikaWebApp.Controllers.Auth
 {
@@ -19,14 +21,28 @@ namespace RikaWebApp.Controllers.Auth
             {
                 using HttpClient client = new HttpClient();
                 var result = await client.PostAsJsonAsync("https://localhost:7286/api/SignIn", signInModel);
-                if(result.IsSuccessStatusCode)
+                
+                switch (result.StatusCode)
                 {
-                    var userInfo = await result.Content.ReadAsStringAsync();
-                    var basicUserInfo = JsonConvert.DeserializeObject<BasicLoggedInUser>(userInfo);
-                    return RedirectToAction("Index", "Home", basicUserInfo);
+                    case System.Net.HttpStatusCode.OK:
+                        var userInfo = await result.Content.ReadAsStringAsync();
+                        var basicUserInfo = JsonConvert.DeserializeObject<BasicLoggedInUser>(userInfo);
+                        return RedirectToAction("Index", "Home", basicUserInfo);
+                    case System.Net.HttpStatusCode.Unauthorized:
+                        TempData["ErrorLogin"] = "Wrong email or password";
+                        break;
+                    case System.Net.HttpStatusCode.BadRequest:
+                        TempData["ErrorLogin"] = "Invalid Email or password format";
+                        break;
+                    case System.Net.HttpStatusCode.InternalServerError:
+                        TempData["ErrorLogin"] = "Internal Server Error";
+                        break;
+                    default:
+                        TempData["ErrorLogin"] = "Something wnet wrong. Please try again later";
+                        break;
                 }
             }
-            return View("Index", signInModel);
+            return View("SignInView", signInModel);
         }
     }
 }
