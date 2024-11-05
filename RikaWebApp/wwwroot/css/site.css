@@ -175,6 +175,47 @@ a.btn:hover {
 .product-category .container {
   padding: 1rem;
 }
+.product-category .container .back-icon a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  background-color: black;
+  border-radius: 50%;
+  padding: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  text-decoration: none;
+}
+.product-category .container .back-icon a i {
+  font-size: 1rem;
+  color: white;
+}
+.product-category .container .search-bar {
+  display: none;
+}
+.product-category .container .search-bar input {
+  background-color: #F3F4F5;
+  border: none;
+}
+.product-category .container .search-bar input {
+  border-bottom-right-radius: 30px;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
+  padding: 1rem 1rem 1rem 1rem;
+  font-family: "Outfit", sans-serif;
+  width: 100%;
+}
+.product-category .container .search-glass {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
 .product-category .container h3 {
   font-size: 2rem;
   text-align: start;
@@ -190,6 +231,7 @@ a.btn:hover {
   text-decoration: none;
 }
 .product-category .container .grid a .product-card {
+  position: relative;
   background-color: #fff;
   border-radius: 0.5rem;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -261,6 +303,60 @@ a.btn:hover {
   font-size: 1rem;
   color: #666;
   font-weight: 400;
+}
+.product-category .container .grid a .product-card_body h6 {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.product-category .container .grid a .product-card_body h6 .tooltip {
+  visibility: hidden;
+  width: 200px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.product-category .container .grid a .product-card_body h6:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+.product-category .container .pagination {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.product-category .container .pagination .page-item.active .page-link {
+  background-color: #F3F4F5;
+  color: black;
+  border: none;
+  font-weight: bold;
+}
+.product-category .container .pagination .page-item:hover:not(.active) .page-link {
+  background-color: #F3F4F5;
+}
+.product-category .container .pagination .page-link {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  color: black;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.product-category .container .pagination .page-link:hover {
+  color: #0056b3;
 }
 
 .product-details {
@@ -586,16 +682,19 @@ a.btn:hover {
   padding: 0.2rem 0;
 }
 
-.back-icon {
-  margin-bottom: 1rem;
-}
 .back-icon a {
+  display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
   background-color: black;
   border-radius: 50%;
   padding: 0.5rem;
   width: 2rem;
+  height: 2rem;
   text-decoration: none;
 }
 .back-icon a i {
@@ -604,27 +703,27 @@ a.btn:hover {
 }
 
 .search-bar {
-  display: flex;
-  place-self: center;
-  width: 100%;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  display: none;
 }
-.search-bar input, .search-bar i {
+.search-bar input {
   background-color: #F3F4F5;
   border: none;
-}
-.search-bar i {
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-  padding: 1rem 0 1rem 1.5rem;
 }
 .search-bar input {
   border-bottom-right-radius: 30px;
   border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
   padding: 1rem 1rem 1rem 1rem;
   font-family: "Outfit", sans-serif;
   width: 100%;
+}
+
+.search-glass {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
 }
 
 .reviews-container {

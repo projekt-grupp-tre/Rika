@@ -1,0 +1,146 @@
+﻿@using RikaWebApp.ViewModels
+@model IEnumerable<ProductViewModel>
+
+@{
+    ViewData["Title"] = ViewData["Title"] ?? "Products";
+}
+
+<section id="product-category-@ViewData["Title"].ToString().ToLower()" class="product-category">
+    <div class="container">
+        <div class="back-icon">
+            <a asp-controller="CategorySelection" asp-action="Index">
+                <i class="fa-regular fa-arrow-left"></i>
+            </a>
+        </div>
+        <div class="search-glass">
+            <i class="fa-regular fa-magnifying-glass" id="search-toggle"></i>
+        </div>
+
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-bar" placeholder="Search Categories">
+        </div>
+
+            <h3>@ViewData["Title"]</h3>
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+        else
+        {
+            <div class="grid">
+                @foreach (var product in Model)
+                {
+                    <div class="product-card">
+                        <a asp-action="ProductDetails" asp-controller="Products" asp-route-id="@product.ProductId" asp-route-categoryName="@ViewData["CategoryName"]">
+                            <div class="product-card_img">
+                                <img class="img-card" src="@(product.Images.FirstOrDefault() ?? "default-image.jpg")" alt="@product.Name" />
+                                <button type="button" class="btn favorite-btn" data-product-id="@product.ProductId">
+                                    <i id="favoriteIcon-@product.ProductId" class="fa-regular fa-heart"></i>
+                                </button>
+                            </div>
+
+                            <div class="product-card_body">
+                                <h5>@product.Name</h5>
+                                <h6>
+                                    @(product.Description.Length > 20 ? product.Description.Substring(0, 20) + "..." : product.Description)
+                                    <span class="tooltip">@product.Description</span>
+                                    @foreach (var variant in product.Variants)
+                                    {
+                                        <span class="tooltip">In stock: @variant.Stock</span>
+                                    }
+                                    
+                                </h6>
+                                <h5>$@(product.Variants.FirstOrDefault()?.Price.ToString("F2") ?? "0.00")</h5>
+                            </div>
+
+                        </a>
+
+                    </div>
+                }
+            </div>
+
+            <nav class="pagnation" aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@i" asp-route-categoryName="@ViewData["CategoryName"]">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
+</section>
+
+<script>
+    // document.querySelectorAll('.favorite-btn').forEach(button => {
+    //     button.addEventListener('click', function (e) {
+    //         e.preventDefault();
+
+    //         const icon = this.querySelector('i');
+
+    //         if (icon.classList.contains('fa-regular')) {
+    //             icon.classList.remove('fa-regular');
+    //             icon.classList.add('fa-solid');
+    //         } else {
+    //             icon.classList.remove('fa-solid');
+    //             icon.classList.add('fa-regular');
+    //         }
+    //     });
+    // });
+
+    // const searchToggle = document.getElementById('search-toggle');
+    // const searchBar = document.getElementById('search-bar');
+
+    // searchToggle.addEventListener('click', function () {
+    //     if (searchBar.style.display === 'none' || searchBar.style.display === '') {
+    //         searchBar.style.display = 'block'; 
+    //         searchBar.querySelector('input').focus(); 
+    //     } else {
+    //         searchBar.style.display = 'none'; 
+    //     }
+    // });
+</script>
+
+
+@* <script>
+    document.querySelectorAll('.favorite-btn').forEach(button => {
+        button.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const productId = this.getAttribute('data-product-id');
+            const icon = document.getElementById(`favoriteIcon-${productId}`);
+
+            // AJAX-request för att spara produkten som favorit
+            fetch(`/account/saveproduct`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({ productId: productId })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Växla ikonens utseende mellan favoritmarkerad och inte
+                        if (icon.classList.contains('fa-regular')) {
+                            icon.classList.remove('fa-regular');
+                            icon.classList.add('fa-solid');
+                            console.log("Produkten är nu favoritmarkerad.");
+                        } else {
+                            icon.classList.remove('fa-solid');
+                            icon.classList.add('fa-regular');
+                            console.log("Produkten är nu avmarkerad som favorit.");
+                        }
+                    } else {
+                        console.error("Kunde inte spara produkten som favorit.");
+                    }
+                })
+                .catch(error => console.error("Ett fel uppstod:", error));
+        });
+    });
+
+</script> *@

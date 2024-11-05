@@ -1,13 +1,17 @@
 ﻿.back-icon {
-    margin-bottom: 1rem;
-
     a {
+        display: flex;
         align-items: center;
         justify-content: center;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 10;
         background-color: black;
         border-radius: 50%;
-        padding: 0.5rem;
+        padding: .5rem;
         width: 2rem;
+        height: 2rem;
         text-decoration: none;
 
         i {
@@ -16,31 +20,32 @@
         }
     }
 }
-.search-bar {
-    display: flex;
-    place-self: center;
-    width: 100%;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
 
-    input, i {
+.search-bar {
+    display: none;
+
+    input {
         background-color: #F3F4F5;
         border: none;
     }
 
-    i {
-        border-top-left-radius: 30px;
-        border-bottom-left-radius: 30px;
-        padding: 1rem 0 1rem 1.5rem;
-    }
 
     input {
         border-bottom-right-radius: 30px;
         border-top-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+        border-top-left-radius: 30px;
         padding: 1rem 1rem 1rem 1rem;
         font-family: $font-stack;
         width: 100%;
     }
+}
+
+.search-glass {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
 }
 
 .reviews-container {

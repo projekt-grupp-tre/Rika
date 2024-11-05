@@ -6,11 +6,20 @@
 
 <section class="category-selection">
     <div class="container">
-        <button class="btn-arrow"><i class="fa-solid fa-left"></i></button>
-        <div class="search-bar-container">
-            <i class="fa-regular fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search Categories">
+   
+        <div class="back-icon">
+            <a>
+                <i class="fa-regular fa-arrow-left"></i>
+            </a>
         </div>
+        <div class="search-glass">
+            <i class="fa-regular fa-magnifying-glass" id="search-toggle"></i>
+        </div>
+
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-bar" placeholder="Search Categories">
+        </div>
+
         <div class="grid">
             <a asp-controller="products" asp-action="Index">
                 <div class="category-card">
