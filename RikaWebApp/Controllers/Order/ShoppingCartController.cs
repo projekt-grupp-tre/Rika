@@ -35,11 +35,25 @@ namespace RikaWebApp.Controllers.Order
 
             var viewModel = new ShoppingCartViewModel
             {
-                Product = product 
+                Product = product
             };
 
             return View(viewModel);
         }
+
+
+        //FÖR ATT TESTA METODEN = 200 OK
+        //public async Task<IActionResult> Index(int productId)
+        //{
+        //    var product = await _shoppingCartService.GetOneProductByIdAsync(productId);
+
+        //    var viewModel = new ShoppingCartViewModel
+        //    {
+        //        Id = productId
+        //    };
+
+        //    return View(viewModel);
+        //}
 
 
 

@@ -9,6 +9,8 @@ namespace RikaWebApp.ViewModels
 
         public ProductDto? Product { get; set; }
 
+        public int Id { get; set; }  //kanske
+
         public PromoCodeFormModel PromoCodeForm { get; set; } = null!;
     }
 }

@@ -2,6 +2,7 @@
 using Business.Dto.OrderDtos;
 using Business.Dto.Product;
 using Business.Interfaces.OrderInterfaces;
+using Business.Services.Product;
 using Newtonsoft.Json;
 using System.Text;
 using System.Text.Json;
@@ -40,30 +41,32 @@ namespace Business.Services.OrderServices
 
         //}
 
+        #region AddProductToCartItemAsync
+        public async Task<bool> AddProductToCartItemAsync(string email, int productId)
+        {
+            try
+            {
+                var shoppingCartItem = new CartItemDto
+                {
+                    Email = email,
+                    ProductId = productId,
+                    Quantity = 1 //dynamiskt
+                };
 
-        //public async Task<bool> AddProductToCartAsync(int userId, ProductDto productDto)
-        //{
-        //    try
-        //    {
-        //        var shoppingCartItem = new CartItemDto
-        //        {
-        //            UserId = userId,
-        //            ProductId = productDto.Id,
-        //            Quantity = 1
-        //        };
+                var json = JsonConvert.SerializeObject(shoppingCartItem);
 
-        //        var json = JsonConvert.SerializeObject(shoppingCartItem);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        //        var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync("", content);
 
-        //        var response = await _httpClient.PostAsync("", content);
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception ex) { return false; }
+        }
+        #endregion
 
-        //        return response.IsSuccessStatusCode;
-        //    }
-        //    catch (Exception ex) { return false; }
-        //}
-
-
+        #region GetOne (ta bort)
+        // Ta bort denna? Använd produktteamets metod.
         public async Task<ProductDto> GetOneProductAsync()
         {
             try
@@ -110,6 +113,115 @@ namespace Business.Services.OrderServices
             return null;
         }
 
-    }
+        public async Task<string?> GetOneProductByIdAsync(int productId)
+        {
+            try
+            {
+                var query = @"{
+                            ""query"": ""query GetProductById($productId: UUID!) { getProductById(productId: $productId) { productId name description images category { name } variants { size color stock price } reviews { clientName rating comment } } }"",
+                            ""variables"": {
+                                ""productId"": ""40ab5ee3cb974c50fff408dcf829356a""
+                            }
+                        }";
 
+                using var content = new StringContent(query, Encoding.UTF8, "application/json");
+                var result = await _httpClient.PostAsync("https://productprovidergraphql.azurewebsites.net/api/GraphQL?code=0GQhXGiLSYJRnfNBuRrB1_csNX6zQjBWwiUQgHPZb8pPAzFuI7EMSQ%3D%3D", content);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var json = await result.Content.ReadAsStringAsync();
+                    dynamic jsonObj = JsonConvert.DeserializeObject<dynamic>(json);
+
+                    var productData = jsonObj?.data?.getProductById;
+
+                    if (productData == null)
+                    {
+                        return null;
+                    }
+
+                    return productData.productId?.ToString();
+                }
+
+                return null;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        #endregion
+
+        #region GetOneUserByEmailAsync
+        private async Task<bool> GetUserByEmailAsync(string email)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"");
+                if (response.IsSuccessStatusCode)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    dynamic user = JsonConvert.DeserializeObject<dynamic>(json);
+
+                    return user != null;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
+        #endregion
+
+        #region AddProductToCartAsync
+        public async Task<ResponseDto> AddProductToCartAsync(string email, int productId)
+        {
+            try
+            {
+                var user = await GetUserByEmailAsync(email);
+                if (user != true)
+                {
+                    return new ResponseDto
+                    {
+                        IsSuccess = false,
+                        Message = "Could not find user"
+                    };
+
+                    //skapa nytt sessionsId om användaren inte är inloggad
+                }
+
+                var product = await GetOneProductAsync();
+                if (product == null || product?.Quantity <= 0) 
+                {
+                    return new ResponseDto
+                    {
+                        IsSuccess = false,
+                        Message = "Product out of stock"
+                    };
+                }
+
+                var addToCart = await AddProductToCartItemAsync(email, productId);
+                if (addToCart)
+                {
+                    return new ResponseDto
+                    {
+                        IsSuccess = true,
+                        Message = "Added to cart."
+                    };
+                }
+
+                return new ResponseDto
+                {
+                    IsSuccess = false,
+                    Message = "Failed to add to cart"
+                };
+            }
+            catch (Exception)
+            {
+                return null!;
+            }
+        }
+        #endregion
+    }
 }
