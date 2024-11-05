@@ -9,6 +9,7 @@ namespace RikaWebApp.Controllers.Product
         {
             ViewData["Title"] = "Categories";
             return View();
+
         }
     }
 }
