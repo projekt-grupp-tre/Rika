@@ -22,7 +22,11 @@ public class VerificationController : Controller
             using HttpClient http = new HttpClient();
             var content = new StringContent(JsonConvert.SerializeObject(new {Email = email, Code = model.VerificationCode}), Encoding.UTF8, "application/json");
             var response = await http.PostAsync("https://verificationprovider-group3.azurewebsites.net/api/verify?code=ye61aXEds-iuSA3YG7OPCbMbLpU5B6-awY7TKB88oBacAzFud3pmkQ%3D%3D", content);
-             
+            
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("SuccessView", "Success");
+            }
         }
 
         return View();
