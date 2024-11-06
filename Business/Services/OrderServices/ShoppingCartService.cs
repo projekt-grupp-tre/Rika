@@ -152,23 +152,27 @@ namespace Business.Services.OrderServices
         #endregion
 
         #region GetOneUserByEmailAsync
-        private async Task<bool> GetUserByEmailAsync(string email)
+        public async Task<string> GetUserByEmailAsync(string email)
         {
             try
             {
-                var response = await _httpClient.GetAsync($"");
+                var response = await _httpClient.GetAsync($"https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/api/GetUser");
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
                     dynamic user = JsonConvert.DeserializeObject<dynamic>(json);
 
-                    return user != null;
+                    if (user != null && user.email != null) 
+                    {
+                        return user.email.ToString();
+                   
+                    }else {  return null!; }
                 }
-                return false;
+                return null!;
             }
             catch (Exception)
             {
-                return false;
+                return null!;
             }
 
         }
@@ -180,7 +184,7 @@ namespace Business.Services.OrderServices
             try
             {
                 var user = await GetUserByEmailAsync(email);
-                if (user != true)
+                if (user != null)
                 {
                     return new ResponseDto
                     {

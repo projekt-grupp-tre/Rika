@@ -65,8 +65,9 @@
         </div>
         <p id="promocode-message"></p>
 
+        @* Controller att produkter finns i shopping cart *@
         <div class="proceed-to-checkout">
-            <a class="btn">Proceed to Checkout</a>
+            <a asp-controller="ShoppingCart" asp-action="PaymentMethod" class="btn">Proceed to Checkout</a>
         </div>
     </div>
 </section>

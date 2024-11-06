@@ -11,6 +11,8 @@ namespace RikaWebApp.ViewModels
 
         public int Id { get; set; }  //kanske
 
+        public string? Email { get; set; }
+
         public PromoCodeFormModel PromoCodeForm { get; set; } = null!;
     }
 }

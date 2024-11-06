@@ -7,5 +7,6 @@ namespace Business.Interfaces.OrderInterfaces
         //public IEnumerable<ProductDto> GetProctsFromApi();
         Task<ProductDto> GetOneProductAsync();
         Task<string?> GetOneProductByIdAsync(int productId);
+        Task<string> GetUserByEmailAsync(string email);
     }
 }
