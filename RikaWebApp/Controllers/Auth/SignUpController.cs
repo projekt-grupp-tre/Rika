@@ -46,7 +46,7 @@ namespace RikaWebApp.Controllers.Auth
 
                     case System.Net.HttpStatusCode.Created:
                         SetEmailCookie(model.Email);
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("VerificationView", "Verification");
                 }
 
                 return View("SignUpView", model);
