@@ -228,6 +228,69 @@ a.btn:hover {
   margin-top: 2rem;
 }
 
+.header-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 100%;
+  margin: 0 auto;
+  height: 70px;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  justify-items: center;
+  align-items: center;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  box-shadow: rgba(149, 157, 165, 0.4) 0px 8px 24px;
+}
+
+.header-item {
+  display: block;
+}
+
+.is-inactive {
+  transition: all ease-in-out 120ms;
+}
+.is-inactive:hover {
+  transform: scale(1.2);
+}
+
+.is-active {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  background-color: rgb(228, 228, 228);
+  padding-right: 0.4rem;
+  border-radius: 2rem;
+  z-index: -1;
+}
+
+.a-link-is-inactive {
+  color: black;
+  text-decoration: none;
+  transition: all ease-in-out 120ms;
+}
+.a-link-is-inactive:hover {
+  color: gray;
+}
+
+.a-link-is-active {
+  position: relative;
+  color: white;
+  background-color: black;
+  padding: 0.5rem;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.span-is-active {
+  color: black;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding-inline: 0.3rem;
+}
+
 :root {
   --danger: rgb(231, 99, 37);
 }
