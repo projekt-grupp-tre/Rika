@@ -20,15 +20,39 @@ namespace RikaWebApp.Controllers.Auth
             if(ModelState.IsValid)
             {
                 using HttpClient client = new HttpClient();
-                var result = await client.PostAsJsonAsync("https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/Api/SignIn", signInModel);
+                var result = await client.PostAsJsonAsync("https://localhost:7286/api/SignIn", signInModel);
                 
                 switch (result.StatusCode)
                 {
                     case System.Net.HttpStatusCode.OK:
                         var userInfo = await result.Content.ReadAsStringAsync();
                         var basicUserInfo = JsonConvert.DeserializeObject<BasicLoggedInUser>(userInfo);
-                        HttpContext.Session.SetString("JwtToken", basicUserInfo!.Token);
-                        return RedirectToAction("Index", "Home", basicUserInfo);
+                        //HttpContext.Session.SetString("JwtToken", basicUserInfo!.Token);
+
+                        Response.Cookies.Append("JwtToken", basicUserInfo!.jwttoken, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict,
+                            Expires = DateTimeOffset.UtcNow.AddHours(1)
+                        });
+
+                        string token = Request.Cookies["JwtToken"].ToString();
+
+                        if (!string.IsNullOrEmpty(token))
+                        {
+                            var claims = JwtHelper.ParseJwt(token);
+
+                            Console.WriteLine(claims["firstName"]); 
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ingen JWT-token hittades.");
+                        }
+
+                        return RedirectToAction("Index", "Home");
+
+
                     case System.Net.HttpStatusCode.Unauthorized:
                         TempData["ErrorLogin"] = "Wrong email or password";
                         break;
