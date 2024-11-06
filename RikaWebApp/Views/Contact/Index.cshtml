@@ -1,0 +1,10 @@
+@using RikaWebApp.Models.Communication
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div id="contact-us-page">
+    <main>
+        @await Html.PartialAsync("~/Views/Shared/Partials/Communication/_ContactPartial.cshtml", new ContactViewModel())
+    </main>
+</div>

@@ -1,0 +1,48 @@
+﻿@using RikaWebApp.ViewModels
+@model IEnumerable<ProductViewModel>
+
+@{
+    ViewData["Title"] = ViewData["Title"] ?? "Products";
+}
+
+<section id="product-category-@ViewData["Title"].ToString().ToLower()" class="product-category">
+    <div class="container">
+        <h3>@ViewData["Title"]</h3>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+        else
+        {
+            <div class="grid">
+                @foreach (var product in Model)
+                {
+                    <a asp-action="ProductDetails" asp-controller="Products" asp-route-id="@product.ProductId">
+                        <div class="product-card">
+                            <div class="product-card_img">
+                                <img class="img-card" src="~/images/product/@(product.Images.FirstOrDefault() ?? "default-image.jpg")" alt="@product.Name" />
+                                <form asp-controller="Account" asp-action="SavedProduct" method="post" style="display: inline;">
+                                    <input type="hidden" name="productId" value="@product.ProductId" />
+                                    <button type="submit" class="btn">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="product-card_body">
+                            <h5>@product.Name</h5>
+                            <h6>
+                                @(product.Description.Length > 20 ? product.Description.Substring(0, 20) + "..." : product.Description)
+                            </h6>
+                            <h5>$@(product.Variants.FirstOrDefault()?.Price.ToString("F2") ?? "0.00")</h5>
+                        </div>
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</section>
