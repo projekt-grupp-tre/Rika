@@ -27,6 +27,7 @@ namespace RikaWebApp.Controllers.Auth
                     case System.Net.HttpStatusCode.OK:
                         var userInfo = await result.Content.ReadAsStringAsync();
                         var basicUserInfo = JsonConvert.DeserializeObject<BasicLoggedInUser>(userInfo);
+                        HttpContext.Session.SetString("JwtToken", basicUserInfo!.Token);
                         return RedirectToAction("Index", "Home", basicUserInfo);
                     case System.Net.HttpStatusCode.Unauthorized:
                         TempData["ErrorLogin"] = "Wrong email or password";

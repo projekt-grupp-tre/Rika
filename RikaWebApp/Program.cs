@@ -22,7 +22,7 @@ builder.Services.AddHttpClient("AzureFunctionClient", client =>
 });
 
 builder.Services.AddScoped<ProductService>();
-
+builder.Services.AddSession();
 
 var app = builder.Build();
 
