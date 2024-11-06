@@ -10,3 +10,4 @@ namespace RikaWebApp.Controllers.Auth
         }
     }
 }
+
