@@ -1,0 +1,79 @@
+﻿.product-backoffice {
+    font-family: $font-stack;
+
+    .container {
+        display: grid;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    a {
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 4px;
+        border: none;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #459fff;
+        color: #fff;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        color: #fff;
+        margin-left: 0.5rem;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+        margin-left: 0.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    input[type="text"],
+    select {
+        padding: 8px;
+        background-color: #F3F4F5;
+        border: 1px solid rgb(158, 158, 158);
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    .table-container {
+        max-height: 65vh;
+        overflow-y: auto;
+    }
+
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .table th, .table td {
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+    }
+
+    .table th {
+        background-color: black;
+        color: #ffffff;
+        position: sticky;
+        top: 0px;
+        z-index: 1;
+    }
+
+    .table tr:nth-child(even) {
+        background-color: #e7e7e7;
+    }
+}

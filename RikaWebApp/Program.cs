@@ -1,7 +1,7 @@
-
 using Business.Services.Product;
 using Business.Interfaces.OrderInterfaces;
 using Business.Services.OrderServices;
+using Business.Services.Product.Backoffice;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +12,7 @@ builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProductServiceCategory, ProductServiceCategory>();
 builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
+builder.Services.AddScoped<ProductBackofficeService>();
 builder.Services.AddHttpClient(); // Registrera HttpClient
 
 

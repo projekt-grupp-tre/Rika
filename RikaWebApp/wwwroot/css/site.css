@@ -831,6 +831,191 @@ a.btn:hover {
   color: #333;
 }
 
+.product-backoffice {
+  font-family: "Outfit", sans-serif;
+}
+.product-backoffice .container {
+  display: grid;
+}
+.product-backoffice .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.product-backoffice a {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+  text-decoration: none;
+}
+.product-backoffice .btn-primary {
+  background-color: #459fff;
+  color: #fff;
+}
+.product-backoffice .btn-info {
+  background-color: #17a2b8;
+  color: #fff;
+  margin-left: 0.5rem;
+}
+.product-backoffice .btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+  margin-left: 0.5rem;
+}
+.product-backoffice .form-group {
+  margin-bottom: 15px;
+}
+.product-backoffice input[type=text],
+.product-backoffice select {
+  padding: 8px;
+  background-color: #F3F4F5;
+  border: 1px solid rgb(158, 158, 158);
+  border-radius: 4px;
+  font-size: 14px;
+}
+.product-backoffice .table-container {
+  max-height: 65vh;
+  overflow-y: auto;
+}
+.product-backoffice .table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.product-backoffice .table th, .product-backoffice .table td {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+}
+.product-backoffice .table th {
+  background-color: black;
+  color: #ffffff;
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+}
+.product-backoffice .table tr:nth-child(even) {
+  background-color: #e7e7e7;
+}
+
+.add-product-backoffice {
+  font-family: "Outfit", sans-serif;
+  margin-bottom: 5rem;
+}
+.add-product-backoffice form {
+  display: grid;
+  gap: 0.5rem;
+  width: 60%;
+  place-self: center;
+  border-radius: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "form-title form-title" "product-name product-category" "product-description product-description" "product-images product-images" "product-variants product-variants" "save-button save-button";
+}
+.add-product-backoffice form h1 {
+  grid-area: form-title;
+  margin: 0;
+}
+.add-product-backoffice form #product-name {
+  grid-area: product-name;
+}
+.add-product-backoffice form #product-description {
+  grid-area: product-description;
+}
+.add-product-backoffice form #product-images {
+  grid-area: product-images;
+}
+.add-product-backoffice form #product-category {
+  grid-area: product-category;
+}
+.add-product-backoffice form #product-variants {
+  grid-area: product-variants;
+}
+.add-product-backoffice form #save-button {
+  grid-area: save-button;
+}
+.add-product-backoffice form #save-button:hover {
+  background-color: rgb(78, 188, 78);
+  cursor: pointer;
+  color: white;
+}
+.add-product-backoffice form input, .add-product-backoffice form select, .add-product-backoffice form button {
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  font-family: "Outfit", sans-serif;
+}
+.add-product-backoffice .form-group {
+  display: grid;
+  gap: 0.2rem;
+  background-color: #cccccc;
+  padding: 2rem;
+  border-radius: 10px;
+}
+.add-product-backoffice .form-group button {
+  width: 20%;
+  background-color: #e7e7e7;
+  cursor: pointer;
+}
+.add-product-backoffice .form-group button:hover {
+  background-color: #acacac;
+}
+.add-product-backoffice #imageFields, .add-product-backoffice #variantFields {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+}
+.add-product-backoffice .image-field {
+  display: flex;
+}
+.add-product-backoffice .image-field input {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+.add-product-backoffice .image-field button {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  background-color: white;
+  cursor: pointer;
+}
+.add-product-backoffice .image-field button i {
+  color: black;
+}
+.add-product-backoffice .image-field button:hover {
+  background-color: white;
+}
+.add-product-backoffice .image-field button:hover i {
+  color: #dc3545;
+}
+.add-product-backoffice .variant-field {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem 1rem 1rem;
+  background-color: #e7e7e7;
+  border-radius: 5px;
+  position: relative;
+}
+.add-product-backoffice .variant-field h4 {
+  margin: 0;
+  color: black;
+}
+.add-product-backoffice .variant-field button {
+  position: absolute;
+  padding: 0;
+  width: 0;
+  cursor: pointer;
+  right: 25px;
+  top: 10px;
+}
+.add-product-backoffice .variant-field button i {
+  font-size: 18px;
+}
+.add-product-backoffice .variant-field button:hover i {
+  color: #dc3545;
+}
+
 #register {
   padding-top: 8rem;
 }

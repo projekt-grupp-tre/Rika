@@ -1,0 +1,56 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<section class="add-product-backoffice">
+    <div class="container">
+        <form id="addProductForm" onsubmit="submitNewProduct(event)">
+
+            <h1>Add New Product</h1>
+
+            <div id="product-name" class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" name="name" required>
+            </div>
+
+            <div id="product-description" class="form-group">
+                <label for="productDescription">Description</label>
+                <input type="text" id="productDescription" name="description" required></textarea>
+            </div>
+
+            <div id="product-category" class="form-group">
+                <label for="categorySelect">Category</label>
+                <select id="categorySelect" name="categoryId" required>
+                    <option value="">Select a category</option>
+                    <option value="1">Clothes</option>
+                    <option value="2">Shoes</option>
+                    <option value="3">Bags</option>
+                    <option value="4">Electronics</option>
+                    <option value="5">Jewelry</option>
+                </select>
+            </div>
+
+            <div id="product-images" class="form-group">
+                <label for="productImages">Product Images</label>
+                <button type="button" onclick="addImageField()">Add Image</button>
+                <div id="imageFields">
+                    <!-- Image input fields will be added here dynamically -->
+                </div>
+            </div>
+
+            <div id="product-variants" class="form-group">
+                <label>Product Variants</label>
+                <button type="button" onclick="addVariantField()">Add Variant</button>
+                <div id="variantFields">
+                    <!-- Variant input fields will be added here dynamically -->
+                </div>
+            </div>
+
+            <button id="save-button" type="submit" class="btn-primary">Save Product</button>
+        </form>
+    </div>
+</section>
+
+<script src="~/js/product/addProductForm.js"></script>
