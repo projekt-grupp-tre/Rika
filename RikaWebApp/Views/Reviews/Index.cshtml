@@ -4,8 +4,6 @@
     ViewData["Title"] = ViewData["Title"] ?? "reviews";
 }
 <div class="reviews-container">
-
-
     <div class="back-icon">
         <a asp-controller="Products" asp-action="ProductDetails" asp-route-categoryName="@ViewData["CategoryName"]" asp-route-id="@ViewData["ProductId"]">
             <i class="fa-regular fa-arrow-left"></i>
@@ -20,6 +18,10 @@
     </div>
     <h2>@ViewData["Title"]</h2>
 
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
 
     @if (!Model.Any())
     {
@@ -50,4 +52,8 @@
             }
         </div>
     }
+
+    <div class="add-review-btn mt-4">
+        <a class="btn btn-primary" asp-action="AddReviewForm" asp-controller="Reviews" asp-route-categoryName="@ViewData["CategoryName"]" asp-route-productId="@ViewData["ProductId"]">Add Review</a>
+    </div>
 </div>
