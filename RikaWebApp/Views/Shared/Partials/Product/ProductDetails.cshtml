@@ -1,7 +1,8 @@
 ﻿@using RikaWebApp.ViewModels
 @model ProductViewModel
 
-<div class="product-details">
+
+<section class="product-details" data-variants='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants))' data-product-id="@Model.ProductId">
     <div class="container">
 
         <div class="back-icon">
@@ -16,75 +17,38 @@
             </a>
         </div>
 
-
         <div class="product-image">
-            <div id="carouselIndicators" class="carousel slide">
+            <div id="carouselIndicators" class="carousel slide" data-bs-touch="true">
                 <ul class="carousel-indicators">
-                    <li data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active"></li>
-                    <li data-bs-target="#carouselIndicators" data-bs-slide-to="1"></li>
-                    <li data-bs-target="#carouselIndicators" data-bs-slide-to="2"></li>
+                    @if(Model.Images.Count > 1)
+                    {
+                        @for (int i = 0; i < Model.Images.Count; i++)
+                        {
+                            <li data-bs-target="#carouselIndicators" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                        }
+                    }
                 </ul>
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img class="d-block w-100" src="https://placehold.co/600x400" alt="First slide">
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block w-100" src="https://placehold.co/600x300" alt="Second slide">
-                    </div>
+                    @for (int i = 0; i < Model.Images.Count; i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img class="d-block w-100" src="@Model.Images[i]" alt="@Model.Name">
+                        </div>
+                    }
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                @if(Model.Images.Count > 1)
+                {
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                }
             </div>
         </div>
-
-                 @* Testa när bilder finns i databasen  *@
-        @* <div class="product-image">
-            @if (Model.Images != null && Model.Images.Count > 1)
-            {
-                <!-- Bootstrap karusell -->
-                <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-
-                    <ol class="carousel-indicators">
-                        @for (int i = 0; i < Model.Images.Count; i++)
-                        {
-                            <li data-target="#productCarousel" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
-                        }
-                    </ol>
-
-                    <!-- karusellbilder -->
-                    <div class="carousel-inner" style="margin-top: 2rem;">
-                        @for (int i = 0; i < Model.Images.Count; i++)
-                        {
-                            <div class="carousel-item @(i == 0 ? "active" : "")">
-                                <img class="d-block w-100" src="@Model.Images[i]" alt="Product Image" style="max-width:300px; max-height:300px;">
-                            </div>
-                        }
-                    </div>
-
-                    <!-- Controls                    INLINE STYLING ta bort sen -->
-                    <a class="carousel-control-prev" style="width: 80px; height:80px; background-size:80px 80px; background-color: limegreen;" href="#productCarousel" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" style="width: 80px; height:80px; background-size:80px 80px; background-color: blue;" href="#productCarousel" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            }
-            else if (Model.Images != null && Model.Images.Any())
-            {
-                <!-- visa bara 1 bild om det inte finns fler -->
-                <img src="@Model.Images.First()" alt="@Model.Name" style="max-width:300px; max-height:300px;" />
-            }
-        </div> *@
-
 
         <div class="product-detail-content">
             <div class="header">
@@ -98,7 +62,6 @@
                             int fullStars = (int)averageRating;
                             int totalReviews = Model.Reviews.Count;
 
-                            // Rendera stjärnorna baserat på betyget
                             for (int i = 1; i <= 5; i++)
                             {
                                 if (i <= fullStars)
@@ -110,7 +73,6 @@
                                     <i class="far fa-star"></i> 
                                 }
                             }
-
                             <a asp-controller="Reviews" asp-action="Index" asp-route-categoryName="@ViewData["CategoryName"]" asp-route-productId="@Model.ProductId" class="review-link">
                                 (@totalReviews Reviews)
                             </a>
@@ -133,8 +95,8 @@
                     </div>
                 </div>
                 <div class="heart-icon">
-                    <button class="favorite-btn" data-product-id="@Model.ProductId">
-                        <i class="fa-regular fa-heart" id="favoriteIcon"></i>
+                    <button type="button" class="btn favorite-btn" data-product-id="@Model.ProductId">
+                        <i id="favoriteIcon-@Model.ProductId" class="fa-regular fa-heart"></i>
                     </button>
                 </div>
             </div>
@@ -169,8 +131,12 @@
                     {
                         @foreach (var variant in Model.Variants.DistinctBy(v => v.Color))
                         {
-                            <a class="btn-round color-btn" data-color="@variant.Color"
-                                    style="background-color: @variant.Color;">
+                            <a class="btn-round color-btn
+                              @(variant.Color.ToLower() == "multicolor" || variant.Color.ToLower() == "rainbow" ? "rainbow" : "")
+                              @(variant.Color.ToLower() == "black" ? "black-bg" : "")"
+                               data-color="@variant.Color" title="@variant.Color"
+                               style="@(variant.Color.ToLower() == "rainbow" ? "" : $"background-color: {variant.Color};")">
+                                <span class="checkmark">✔</span>
                             </a>
                         }
                     }
@@ -186,7 +152,6 @@
                 <p>@Model.Description</p>
             </div>
 
-
             <div class="bottom">
                 <div class="price">
                     <span>Total Price</span>
@@ -199,302 +164,288 @@
                 </div>
             </div>
             <p id="errorMessage" class="error"></p>
-
         </div>
     </div>
-</div>
+</section>
 
 
  <script>
 
-     //funktion för att uppdatera lagerstatus och visa produktens lagerinfo
-    function updateStockStatus() {
-        const variants = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants));
-        const stockElement = document.querySelector('.stock');
-        const incrementBtn = document.getElementById('increment');
-        const decrementBtn = document.getElementById('decrement');
-        const addToCartBtn = document.getElementById('addToCartButton');
-        const quantity = document.getElementById('quantity');
-        const priceElement = document.getElementById('displayPrice');
+    document.addEventListener("DOMContentLoaded", function () {
+        // hämta produktvarianter från data-attributes
+        const productDetails = document.querySelector('.product-details');
+        const variantsData = productDetails.getAttribute('data-variants'); // hämta JSON-strängen
+        const variants = JSON.parse(variantsData); // ovandla till JavaScript-objekt
 
-        
-        stockElement.innerHTML = '';
+        console.log("Produktvarianter:", variants);
 
-        //hämta användarens val
-        const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
-        const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
 
-        
-        if (!selectedSize) {
-            stockElement.innerHTML = 'Please select a size';
-            incrementBtn.disabled = true;
-            decrementBtn.disabled = true;
-            addToCartBtn.disabled = true;
-            return;
-        }
+        // funktion för att uppdatera lagerstatus och visa produktens lagerinfo
+        function updateStockStatus() {
+            const stockElement = document.querySelector('.stock');
+            const incrementBtn = document.getElementById('increment');
+            const decrementBtn = document.getElementById('decrement');
+            const addToCartBtn = document.getElementById('addToCartButton');
+            const quantity = document.getElementById('quantity');
+            const priceElement = document.getElementById('displayPrice');
 
-        if (!selectedColor) {
-            stockElement.innerHTML = 'Please select a color';
-            incrementBtn.disabled = true;
-            decrementBtn.disabled = true;
-            addToCartBtn.disabled = true;
-            return;
-        }
 
-        //hittar den specifika produktvarianten baserat på storlek och färg
-        const variant = variants.find(v => v.Color.toLowerCase() === selectedColor.toLowerCase() && v.Size === selectedSize);
+            stockElement.innerHTML = '';
 
-        //uppdatera lagerinformation samt aktiverar/inaktiverar knappar baserat på lagerstatusen
-        if (variant) {
-            if (variant.Stock > 0) {
-                stockElement.innerHTML = `Available in stock (${variant.Stock})`;
-                quantity.value = 1;
-                incrementBtn.disabled = variant.Stock <= 1;
+            // hämta användarens val
+            const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
+            const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
+
+
+            if (!selectedSize) {
+                stockElement.innerHTML = 'Please select a size';
+                incrementBtn.disabled = true;
                 decrementBtn.disabled = true;
-                addToCartBtn.disabled = false;
+                addToCartBtn.disabled = true;
+                return;
+            }
+
+            if (!selectedColor) {
+                stockElement.innerHTML = 'Please select a color';
+                incrementBtn.disabled = true;
+                decrementBtn.disabled = true;
+                addToCartBtn.disabled = true;
+                return;
+            }
+
+            // hittar den specifika produktvarianten baserat på storlek och färg
+            const variant = variants.find(v => v.Color.toLowerCase() === selectedColor.toLowerCase() && v.Size === selectedSize);
+
+            // uppdatera lagerinformation samt aktiverar/inaktiverar knappar baserat på lagerstatusen
+            if (variant) {
+                if (variant.Stock > 0) {
+                    stockElement.innerHTML = `Available in stock (${variant.Stock})`;
+                    quantity.value = 1;
+                    incrementBtn.disabled = variant.Stock <= 1;
+                    decrementBtn.disabled = true;
+                    addToCartBtn.disabled = false;
+                } else {
+                    stockElement.innerHTML = 'Out of stock';
+                    quantity.value = 0;
+                    incrementBtn.disabled = true;
+                    decrementBtn.disabled = true;
+                    addToCartBtn.disabled = true;
+                }
+
+                // uppdatera priset baserat på vald variant
+                priceElement.innerHTML = `$${variant.Price.toFixed(2)}`;
             } else {
-                stockElement.innerHTML = 'Out of stock';
-                quantity.value = 0;
+                stockElement.innerHTML = 'Price is not available';
                 incrementBtn.disabled = true;
                 decrementBtn.disabled = true;
                 addToCartBtn.disabled = true;
             }
-
-            // uppdatera priset baserat på vald variant
-            priceElement.innerHTML = `$${variant.Price.toFixed(2)}`;
-        } else {
-            stockElement.innerHTML = 'Price is not available';
-            incrementBtn.disabled = true;
-            decrementBtn.disabled = true;
-            addToCartBtn.disabled = true;
-        }
-    }
-
-    //eventlistener för klickhändelser på storleksknapparna för att uppdatera lager och färgvalet
-    document.querySelectorAll('.size-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
-            // ta bort markering från alla storleksknappar och markera den som användaren klickade på
-            document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('selected'));
-            this.classList.add('selected');
-
-            // återställ felmeddelande och sätt kvantiteten till 1
-            const chooseColorText = document.getElementById('chooseColorText');
-            if (chooseColorText) {
-                chooseColorText.classList.remove('error');
-                chooseColorText.innerText = '';
-            }
-
-            // sätt kvantiteten till 1 när man bytar storlek
-            document.getElementById('quantity').value = 1;
-
-            // visar färgsektionen och uppdatera färger för vald storlek
-            document.querySelector('.color-selection').style.display = 'flex';
-            updateAvailableColors(this.getAttribute('data-size'));
-
-            // nollställ färgvalet
-            document.querySelectorAll('.color-btn').forEach(btn => {
-                btn.classList.remove('selected');
-                btn.querySelector('.checkmark').style.display = 'none';
-            });
-
-            // uppdatera lagerstatus 
-            updateStockStatus();
-        });
-    });
-
-    //funktion för att uuppdatera färgalternativen baserat på den valda storleken
-    function updateAvailableColors(selectedSize) {
-        const variants = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants));
-
-        const availableColors = variants
-            .filter(v => v.Size === selectedSize)
-            .map(v => v.Color.toLowerCase());
-
-        document.querySelectorAll('.color-btn').forEach(btn => {
-            const color = btn.getAttribute('data-color').toLowerCase();
-            btn.style.display = availableColors.includes(color) ? 'inline-block' : 'none';
-        });
-    }
-
-    // eventlistener för färgknappar för att markera val och uppdatera lager
-    document.querySelectorAll('.color-btn').forEach(btn => {
-        const checkmark = document.createElement('span');
-        checkmark.classList.add('checkmark');
-        checkmark.innerHTML = '✔️';
-        checkmark.style.display = 'none';
-        btn.appendChild(checkmark);
-
-        btn.addEventListener('click', function () {
-            document.querySelectorAll('.color-btn').forEach(btn => {
-                btn.classList.remove('selected');
-                btn.querySelector('.checkmark').style.display = 'none';
-            });
-            this.classList.add('selected');
-            this.querySelector('.checkmark').style.display = 'inline';
-            updateStockStatus();
-        });
-    });
-
-    // eventlistener för att öka kvantiteten
-    document.getElementById('increment').addEventListener('click', function () {
-        const quantity = document.getElementById('quantity');
-        const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
-        const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
-        const chooseColorText = document.getElementById('chooseColorText');
-
-        // kontrollera att storlek och färg är valda
-        if (!selectedSize) {
-            if (chooseColorText) {
-                chooseColorText.classList.add('error');
-                chooseColorText.innerText = 'Please select a size';
-            }
-            return;
         }
 
-        if (!selectedColor) {
-            if (chooseColorText) {
-                chooseColorText.classList.add('error');
-                chooseColorText.innerText = 'Please select a color';
-            }
-            return;
-        }
+        //eventlistener för klickhändelser på storleksknapparna för att uppdatera lager och färgvalet
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                // ta bort markering från alla storleksknappar och markera den som användaren klickade på
+                document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('selected'));
+                this.classList.add('selected');
 
-        const variants = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants));
-        const variant = variants.find(v => v.Color.toLowerCase() === selectedColor.toLowerCase() && v.Size === selectedSize);
-
-        if (variant && parseInt(quantity.value) < variant.Stock) {
-            quantity.value = parseInt(quantity.value) + 1;
-            document.getElementById('decrement').disabled = false;
-
-            if (parseInt(quantity.value) >= variant.Stock) {
-                document.getElementById('increment').disabled = true;
-            }
-        }
-    });
-
-    // eventlistener för att minska kvantiteten
-    document.getElementById('decrement').addEventListener('click', function () {
-        const quantity = document.getElementById('quantity');
-
-        if (parseInt(quantity.value) > 1) {
-            quantity.value = parseInt(quantity.value) - 1;
-
-            document.getElementById('increment').disabled = false;
-
-            if (parseInt(quantity.value) <= 1) {
-                document.getElementById('decrement').disabled = true;
-            }
-        }
-    });
-
-
-    //eventlistener som fyller i hjärtat
-    document.querySelector('.favorite-btn').addEventListener('click', function (e) {
-        e.preventDefault();
-
-        const icon = document.getElementById('favoriteIcon');
-        const productId = this.getAttribute('data-product-id');
-
-        // växlar mellan ifylld och inte ifylld
-        if (icon.classList.contains('fa-regular')) {
-            icon.classList.remove('fa-regular');
-            icon.classList.add('fa-solid');
-            console.log("ifylld");
-        } else {
-            icon.classList.remove('fa-solid');
-            icon.classList.add('fa-regular');
-            console.log("inte ifylld");
-        }
-    });
-
-
-    //lägg till i kundvagn
-    document.getElementById('addToCartButton').addEventListener('click', () => {
-        const productId = "@Model.ProductId";
-        const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
-        const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
-        const quantity = document.getElementById('quantity').value;
-
-        if (!selectedColor || !selectedSize) {
-            alert('You have to chose a size and color');
-            return;
-        } else {
-            // skriv ut valda alternativ
-            console.log("produkt id:", productId);
-            console.log("vald storlek:", selectedSize);
-            console.log("vald färg:", selectedColor);
-            console.log("antal:", quantity);
-        }
-        console.log(`Produkt id: ${productId} attribut (${selectedSize}, ${selectedColor}, ${quantity} st) har lagts till i kundvagnen.`);
-
-
-    });
-
-    //funktion för att bläddra bland storlekar 
-    document.addEventListener("DOMContentLoaded", function () {
-        const sizeList = document.getElementById("size-list");
-        const sizeListContainer = document.getElementById("size-list-container");
-        const sizeButtons = sizeList.querySelectorAll(".size-btn");
-        const prevBtn = document.getElementById("prev-size-btn");
-        const nextBtn = document.getElementById("next-size-btn");
-
-        let position = 0; // startposition för karusellen
-        const visibleCount = 4; // antal synliga storlekar för mobilläge
-        const totalSizes = sizeButtons.length;
-        const buttonWidth = 35; // justera baserat på knappbredd och marginal
-
-        //funktion för att uppdatera synligheten för < > knappar
-        function updateButtons() {
-            prevBtn.classList.toggle("hidden", position === 0);
-            nextBtn.classList.toggle("hidden", position >= totalSizes - visibleCount);
-        }
-
-        //funktion för att scrolla karusellen baserat på riktning (< eller >)
-        function scrollSizes(direction) {
-            const maxPosition = totalSizes - visibleCount;
-            if (direction === "next" && position < maxPosition) {
-                position++;
-            } else if (direction === "prev" && position > 0) {
-                position--;
-            }
-            position = Math.max(0, Math.min(position, maxPosition));
-            sizeList.style.transform = `translateX(-${position * buttonWidth}px)`;
-            
-            //uppdaterar knapoarnas tillstånd efter scrolling
-            updateButtons();
-        }
-        //eventlistener för bläddringsknapparna (< >)
-        prevBtn.addEventListener("click", function () {
-            scrollSizes("prev");
-        });
-
-        nextBtn.addEventListener("click", function () {
-            scrollSizes("next");
-        });
-
-        // swipe-funktionalitet
-        let startX = 0;
-
-        sizeListContainer.addEventListener("touchstart", function (e) {
-            startX = e.touches[0].clientX;
-        });
-
-        //eventlistener för att hantera rörelse under swipe och bläddrar baserat på riktining
-        sizeListContainer.addEventListener("touchmove", function (e) {
-            const touch = e.touches[0];
-            const deltaX = touch.clientX - startX;
-
-            if (Math.abs(deltaX) > 30) {
-                if (deltaX < 0) {
-                    scrollSizes("next");
-                } else {
-                    scrollSizes("prev");
+                // återställ felmeddelande och sätt kvantiteten till 1
+                const chooseColorText = document.getElementById('chooseColorText');
+                if (chooseColorText) {
+                    chooseColorText.classList.remove('error');
+                    chooseColorText.innerText = '';
                 }
-                startX = touch.clientX; // återställ startX för nästa svep
+
+                // sätt kvantiteten till 1 när man bytar storlek
+                document.getElementById('quantity').value = 1;
+
+                // visar färgsektionen och uppdatera färger för vald storlek
+                document.querySelector('.color-selection').style.display = 'flex';
+                updateAvailableColors(this.getAttribute('data-size'));
+
+                // nollställ färgvalet
+                document.querySelectorAll('.color-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.querySelector('.checkmark').style.display = 'none';
+                });
+
+                // uppdatera lagerstatus
+                updateStockStatus();
+            });
+        });
+
+        //funktion för att uuppdatera färgalternativen baserat på den valda storleken
+        function updateAvailableColors(selectedSize) {
+            const variants = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants));
+
+            const availableColors = variants
+                .filter(v => v.Size === selectedSize)
+                .map(v => v.Color.toLowerCase());
+
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                const color = btn.getAttribute('data-color').toLowerCase();
+                btn.style.display = availableColors.includes(color) ? 'inline-block' : 'none';
+            });
+        }
+
+        // eventlistener för färgknappar för att markera val och uppdatera lager
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            const checkmark = document.createElement('span');
+            checkmark.classList.add('checkmark');
+            checkmark.innerHTML = '✔️';
+            checkmark.style.display = 'none';
+            btn.appendChild(checkmark);
+
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.color-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.querySelector('.checkmark').style.display = 'none';
+                });
+                this.classList.add('selected');
+                this.querySelector('.checkmark').style.display = 'inline';
+                updateStockStatus();
+            });
+        });
+
+        // eventlistener för att öka kvantiteten
+        document.getElementById('increment').addEventListener('click', function () {
+            const quantity = document.getElementById('quantity');
+            const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
+            const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
+            const chooseColorText = document.getElementById('chooseColorText');
+
+            // kontrollera att storlek och färg är valda
+            if (!selectedSize) {
+                if (chooseColorText) {
+                    chooseColorText.classList.add('error');
+                    chooseColorText.innerText = 'Please select a size';
+                }
+                return;
+            }
+
+            if (!selectedColor) {
+                if (chooseColorText) {
+                    chooseColorText.classList.add('error');
+                    chooseColorText.innerText = 'Please select a color';
+                }
+                return;
+            }
+
+            const variants = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants));
+            const variant = variants.find(v => v.Color.toLowerCase() === selectedColor.toLowerCase() && v.Size === selectedSize);
+
+            if (variant && parseInt(quantity.value) < variant.Stock) {
+                quantity.value = parseInt(quantity.value) + 1;
+                document.getElementById('decrement').disabled = false;
+
+                if (parseInt(quantity.value) >= variant.Stock) {
+                    document.getElementById('increment').disabled = true;
+                }
             }
         });
 
-        // uppdatera knapparnas tillstånd vid laddning
-        updateButtons();
-    });
+        // eventlistener för att minska kvantiteten
+        document.getElementById('decrement').addEventListener('click', function () {
+            const quantity = document.getElementById('quantity');
+
+            if (parseInt(quantity.value) > 1) {
+                quantity.value = parseInt(quantity.value) - 1;
+
+                document.getElementById('increment').disabled = false;
+
+                if (parseInt(quantity.value) <= 1) {
+                    document.getElementById('decrement').disabled = true;
+                }
+            }
+        });
+
+
+        //lägg till i kundvagn
+        document.getElementById('addToCartButton').addEventListener('click', () => {
+            const productId = "@Model.ProductId";
+            const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
+            const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
+            const quantity = document.getElementById('quantity').value;
+
+            if (!selectedColor || !selectedSize) {
+                alert('You have to chose a size and color');
+                return;
+            } else {
+                // skriv ut valda alternativ
+                console.log("produkt id:", productId);
+                console.log("vald storlek:", selectedSize);
+                console.log("vald färg:", selectedColor);
+                console.log("antal:", quantity);
+            }
+            console.log(`Produkt id: ${productId} attribut (${selectedSize}, ${selectedColor}, ${quantity} st) har lagts till i kundvagnen.`);
+
+
+        });
+
+        //funktion för att bläddra bland storlekar
+            const sizeList = document.getElementById("size-list");
+            const sizeListContainer = document.getElementById("size-list-container");
+            const sizeButtons = sizeList.querySelectorAll(".size-btn");
+            const prevBtn = document.getElementById("prev-size-btn");
+            const nextBtn = document.getElementById("next-size-btn");
+
+            let position = 0; // startposition för karusellen
+            const visibleCount = 4; // antal synliga storlekar för mobilläge
+            const totalSizes = sizeButtons.length;
+            const buttonWidth = 35; // justera baserat på knappbredd och marginal
+
+            //funktion för att uppdatera synligheten för < > knappar
+            function updateButtons() {
+                prevBtn.classList.toggle("hidden", position === 0);
+                nextBtn.classList.toggle("hidden", position >= totalSizes - visibleCount);
+            }
+
+            //funktion för att scrolla karusellen baserat på riktning (< eller >)
+            function scrollSizes(direction) {
+                const maxPosition = totalSizes - visibleCount;
+                if (direction === "next" && position < maxPosition) {
+                    position++;
+                } else if (direction === "prev" && position > 0) {
+                    position--;
+                }
+                position = Math.max(0, Math.min(position, maxPosition));
+                sizeList.style.transform = `translateX(-${position * buttonWidth}px)`;
+
+                //uppdaterar knapoarnas tillstånd efter scrolling
+                updateButtons();
+            }
+            //eventlistener för bläddringsknapparna (< >)
+            prevBtn.addEventListener("click", function () {
+                scrollSizes("prev");
+            });
+
+            nextBtn.addEventListener("click", function () {
+                scrollSizes("next");
+            });
+
+            // swipe-funktionalitet
+            let startX = 0;
+
+            sizeListContainer.addEventListener("touchstart", function (e) {
+                startX = e.touches[0].clientX;
+            });
+
+            //eventlistener för att hantera rörelse under swipe och bläddrar baserat på riktining
+            sizeListContainer.addEventListener("touchmove", function (e) {
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - startX;
+
+                if (Math.abs(deltaX) > 30) {
+                    if (deltaX < 0) {
+                        scrollSizes("next");
+                    } else {
+                        scrollSizes("prev");
+                    }
+                    startX = touch.clientX; // återställ startX för nästa svep
+                }
+            });
+
+            // uppdatera knapparnas tillstånd vid laddning
+            updateButtons();
+        });
  </script>

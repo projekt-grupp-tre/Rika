@@ -1,8 +1,54 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using RikaWebApp.ViewModels
+
+@model List<CategoryProductCountViewModel>
+
+
+<section class="category-selection">
+    <div class="container">
+        <div class="back-icon">
+            <a>
+                <i class="fa-regular fa-arrow-left"></i>
+            </a>
+        </div>
+        <div class="search-glass">
+            <i class="fa-regular fa-magnifying-glass" id="search-toggle"></i>
+        </div>
+
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-bar" placeholder="Search Categories">
+        </div>
+
+        <div class="grid">
+
+            <a asp-controller="ProductByCategory" asp-action="AllProducts">
+
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>New Arrivals</h4>
+                        <p>Explore Our Latest Products</p>
+
+                    </div>
+                </div>
+            </a>
+
+            @foreach (var category in Model)
+            {
+                <a asp-controller="ProductByCategory" asp-route-categoryName="@category.CategoryName">
+                    <div class="category-card">
+                        <div class="card-information">
+                            <h4>@category.CategoryName</h4>
+                            <p>@category.ProductCount Products</p>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+
+
+@* 
 
 <section class="category-selection">
     <div class="container">
@@ -21,7 +67,8 @@
         </div>
 
         <div class="grid">
-            <a asp-controller="products" asp-action="Index">
+            <a asp-controller="ProductByCategory" asp-action="AllProducts">
+
                 <div class="category-card">
                     <div class="card-information">
                         <h4>New Arrivals</h4>
@@ -71,4 +118,4 @@
             </a>
         </div>
     </div>
-</section>
+</section> *@
