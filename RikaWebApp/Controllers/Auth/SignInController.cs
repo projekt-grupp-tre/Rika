@@ -52,7 +52,6 @@ namespace RikaWebApp.Controllers.Auth
 
                         return RedirectToAction("Index", "Home");
 
-
                     case System.Net.HttpStatusCode.Unauthorized:
                         TempData["ErrorLogin"] = "Wrong email or password";
                         break;
