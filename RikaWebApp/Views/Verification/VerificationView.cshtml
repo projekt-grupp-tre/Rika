@@ -1,0 +1,19 @@
+﻿@using RikaWebApp.Models.AuthModels;
+
+@model VerificationModel;
+
+<section id="verification">
+    <div class="container">
+        <div class="title">
+            <h2>Verify your account</h2>
+            <p>Use the coded provided in your email</p>
+        </div>
+        <div class="input-group">
+            <form asp-action="VerifyAccount" asp-controller="Verification" method="post" novalidate>
+                <input asp-for="VerificationCode" type="text">
+                <button type="submit" class="btn-round">Verify your account</button>
+            </form>
+        </div>
+    </div>
+</section>
+
