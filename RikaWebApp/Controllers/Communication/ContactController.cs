@@ -73,5 +73,11 @@ namespace RikaWebApp.Controllers
 		{
 			return View("SupportChat");
 		}
+        [HttpGet]
+        [Route("/contact/agent-chat")]
+        public ActionResult AgentChat()
+        {
+            return View("AgentChat");
+        }
     }
 }

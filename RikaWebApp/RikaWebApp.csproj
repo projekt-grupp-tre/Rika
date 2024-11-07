@@ -39,4 +39,12 @@
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Contact\AgentChat.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Contact\AgentChat.cshtml" />
+  </ItemGroup>
+
 </Project>
