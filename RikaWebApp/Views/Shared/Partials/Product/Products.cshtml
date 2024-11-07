@@ -17,7 +17,7 @@
         </div>
 
         <div class="search-bar" id="search-bar">
-            <input type="text" id="search-bar" placeholder="Search Categories">
+            <input type="text" id="search-bar" placeholder="Search Products">
         </div>
 
         <h3>@ViewData["Title"]</h3>
@@ -29,36 +29,54 @@
         }
         else
         {
-            <div class="search-bar" >
+            <div class="search-bar">
                 <i class="fa-regular fa-magnifying-glass"></i>
                 <input type="text" id="search-bar" placeholder="Search Categories">
             </div>
             <div class="grid">
                 @foreach (var product in Model)
                 {
-                    <a asp-action="ProductDetails" asp-controller="Products" asp-route-id="@product.ProductId" asp-route-categoryName="@product.Category.Name">
-                        <div class="product-card">
+                    <div class="product-card">
+                        <a asp-action="ProductDetails" asp-controller="Products" asp-route-id="@product.ProductId" asp-route-categoryName="@ViewData["CategoryName"]">
                             <div class="product-card_img">
                                 <img class="img-card" src="@(product.Images.FirstOrDefault() ?? "default-image.jpg")" alt="@product.Name" />
-                                <form asp-controller="Account" asp-action="SavedProduct" method="post" style="display: inline;">
-                                    <input type="hidden" name="productId" value="@product.ProductId" />
-                                    <button type="submit" class="btn">
-                                        <i class="fa-regular fa-heart"></i>
-                                    </button>
-                                </form>
+                                <button type="button" class="btn favorite-btn" data-product-id="@product.ProductId">
+                                    <i id="favoriteIcon-@product.ProductId" class="fa-regular fa-heart"></i>
+                                </button>
                             </div>
-                        </div>
 
-                        <div class="product-card_body">
-                            <h5>@product.Name</h5>
-                            <h6>
-                                @(product.Description.Length > 20 ? product.Description.Substring(0, 20) + "..." : product.Description)
-                            </h6>
-                            <h5>$@(product.Variants.FirstOrDefault()?.Price.ToString("F2") ?? "0.00")</h5>
-                        </div>
-                    </a>
+                            <div class="product-card_body">
+                                <h5>@product.Name</h5>
+                                <h6>
+                                    @(product.Description.Length > 20 ? product.Description.Substring(0, 20) + "..." : product.Description)
+                                    <span class="tooltip">@product.Description</span>
+                                    @foreach (var variant in product.Variants)
+                                    {
+                                        <span class="tooltip">In stock: @variant.Stock</span>
+                                    }
+
+                                </h6>
+                                <h5>$@(product.Variants.FirstOrDefault()?.Price.ToString("F2") ?? "0.00")</h5>
+                            </div>
+
+                        </a>
+
+                    </div>
                 }
             </div>
+
+            <nav class="pagnation" aria-label="Page navigation">
+                <ul class="pagination">
+                    @for (var i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a asp-controller="ProductByCategory" asp-action="AllProducts" asp-route-page="@i" asp-route-categoryName="@ViewBag.CategoryName">
+                                @i
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         }
     </div>
 </section>

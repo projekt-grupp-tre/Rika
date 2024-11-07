@@ -1,4 +1,5 @@
 ﻿.product-category {
+    margin-top: 2rem;
     padding: 2rem 0;
     background-color: #fff;
 
@@ -30,14 +31,11 @@
 
         .search-bar {
             display: none;
+            margin-bottom: 1rem;
 
             input {
                 background-color: #F3F4F5;
                 border: none;
-            }
-
-
-            input {
                 border-bottom-right-radius: 30px;
                 border-top-right-radius: 30px;
                 border-bottom-left-radius: 30px;
@@ -78,6 +76,8 @@
                     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
                     overflow: hidden;
                     transition: transform 0.2s ease-in-out;
+                    border-radius: 16px;
+
 
                     &:hover {
                         transform: translateY(-5px);
@@ -85,10 +85,12 @@
 
                     &_img {
                         position: relative;
-                        width: 100%;
+                        width: 155px;
                         padding-top: 110%;
                         overflow: hidden;
                         background-color: #eee;
+                        border-radius: 16px;
+                        height: 170px; // Set a fixed height
 
                         .img-card {
                             position: absolute;
@@ -98,6 +100,7 @@
                             height: 100%;
                             object-fit: cover;
                             transition: transform 0.3s ease;
+
 
                             &:hover {
                                 transform: scale(1.05);
@@ -184,7 +187,6 @@
                         visibility: visible;
                         opacity: 1;
                     }
-
                 }
             }
         }
@@ -206,6 +208,13 @@
                         border: none;
                         font-weight: bold;
                     }
+                    //a is for New arrivals page
+                    a {
+                        background-color: #F3F4F5;
+                        color: black;
+                        border: none;
+                        font-weight: bold;
+                    }
                 }
 
                 &:hover:not(.active) .page-link {
@@ -214,6 +223,20 @@
             }
 
             .page-link {
+                display: inline-block;
+                padding: 0.5rem 0.75rem;
+                color: black;
+                border: 1px solid #dee2e6;
+                border-radius: 0.25rem;
+                text-decoration: none;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    color: #0056b3;
+                }
+            }
+            //a is for New arrivals page
+            a {
                 display: inline-block;
                 padding: 0.5rem 0.75rem;
                 color: black;

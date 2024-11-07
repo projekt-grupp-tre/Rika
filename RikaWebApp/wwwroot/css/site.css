@@ -169,6 +169,7 @@ a.btn:hover {
 }
 
 .product-category {
+  margin-top: 2rem;
   padding: 2rem 0;
   background-color: #fff;
 }
@@ -196,12 +197,11 @@ a.btn:hover {
 }
 .product-category .container .search-bar {
   display: none;
+  margin-bottom: 1rem;
 }
 .product-category .container .search-bar input {
   background-color: #F3F4F5;
   border: none;
-}
-.product-category .container .search-bar input {
   border-bottom-right-radius: 30px;
   border-top-right-radius: 30px;
   border-bottom-left-radius: 30px;
@@ -237,16 +237,19 @@ a.btn:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   transition: transform 0.2s ease-in-out;
+  border-radius: 16px;
 }
 .product-category .container .grid a .product-card:hover {
   transform: translateY(-5px);
 }
 .product-category .container .grid a .product-card_img {
   position: relative;
-  width: 100%;
+  width: 155px;
   padding-top: 110%;
   overflow: hidden;
   background-color: #eee;
+  border-radius: 16px;
+  height: 170px;
 }
 .product-category .container .grid a .product-card_img .img-card {
   position: absolute;
@@ -343,6 +346,12 @@ a.btn:hover {
   border: none;
   font-weight: bold;
 }
+.product-category .container .pagination .page-item.active a {
+  background-color: #F3F4F5;
+  color: black;
+  border: none;
+  font-weight: bold;
+}
 .product-category .container .pagination .page-item:hover:not(.active) .page-link {
   background-color: #F3F4F5;
 }
@@ -356,6 +365,18 @@ a.btn:hover {
   transition: all 0.2s ease;
 }
 .product-category .container .pagination .page-link:hover {
+  color: #0056b3;
+}
+.product-category .container .pagination a {
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  color: black;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.product-category .container .pagination a:hover {
   color: #0056b3;
 }
 
@@ -670,6 +691,9 @@ a.btn:hover {
   background-color: inherit;
 }
 
+.category-selection {
+  margin-top: 4rem;
+}
 .category-selection .container {
   display: grid;
 }
@@ -716,14 +740,14 @@ a.btn:hover {
   place-self: center;
   place-items: center;
 }
-.category-selection .category-card {
+.category-selection .grid .category-card {
   height: 10rem;
   width: 10rem;
   background-color: #CCCCCC;
   position: relative;
   border-radius: 15px;
 }
-.category-selection .card-information {
+.category-selection .grid .card-information {
   background-color: #F3F4F5;
   position: absolute;
   bottom: 0;
@@ -731,15 +755,16 @@ a.btn:hover {
   height: 3rem;
   border-radius: 15px;
   text-align: center;
+  color: black;
 }
-.category-selection .card-information p, .category-selection .card-information h4 {
+.category-selection .grid .card-information p, .category-selection .grid .card-information h4 {
   margin: 0;
   font-family: "Outfit", sans-serif;
 }
-.category-selection .card-information p {
+.category-selection .grid .card-information p {
   font-size: 11px;
 }
-.category-selection .card-information h4 {
+.category-selection .grid .card-information h4 {
   font-size: 16px;
   padding: 0.2rem 0;
 }
