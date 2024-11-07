@@ -26,30 +26,16 @@ namespace RikaWebApp.Controllers.Auth
                 {
                     case System.Net.HttpStatusCode.OK:
                         var userInfo = await result.Content.ReadAsStringAsync();
-                        var basicUserInfo = JsonConvert.DeserializeObject<BasicLoggedInUser>(userInfo);
-                        //HttpContext.Session.SetString("JwtToken", basicUserInfo!.Token);
+                        var jwtTokenString = JsonConvert.DeserializeObject<JwtTokenStringModel>(userInfo);
+                        //HttpContext.Session.SetString("JwtToken", jwtTokenString!);
 
-                        Response.Cookies.Append("JwtToken", basicUserInfo!.jwttoken, new CookieOptions
+                        Response.Cookies.Append("JwtToken", jwtTokenString!.jwttoken, new CookieOptions
                         {
                             HttpOnly = true,
                             Secure = true,
                             SameSite = SameSiteMode.Strict,
-                            Expires = DateTimeOffset.UtcNow.AddHours(1)
+                            Expires = DateTimeOffset.UtcNow.AddMinutes(60)
                         });
-
-                        string token = Request.Cookies["JwtToken"].ToString();
-
-                        if (!string.IsNullOrEmpty(token))
-                        {
-                            var claims = JwtHelper.ParseJwt(token);
-
-                            Console.WriteLine(claims["firstName"]); 
-                        }
-                        else
-                        {
-                            Console.WriteLine("Ingen JWT-token hittades.");
-                        }
-
                         return RedirectToAction("Index", "Home");
 
                     case System.Net.HttpStatusCode.Unauthorized:
@@ -62,7 +48,7 @@ namespace RikaWebApp.Controllers.Auth
                         TempData["ErrorLogin"] = "Internal Server Error";
                         break;
                     default:
-                        TempData["ErrorLogin"] = "Something wnet wrong. Please try again later";
+                        TempData["ErrorLogin"] = "Something went wrong. Please try again later";
                         break;
                 }
             }

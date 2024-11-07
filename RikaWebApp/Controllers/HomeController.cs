@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using RikaWebApp.Helpers;
+using RikaWebApp.Models.AuthModels;
+using System.Collections;
 
 
 namespace RikaWebApp.Controllers
@@ -16,6 +19,5 @@ namespace RikaWebApp.Controllers
         {
             return View();
         }
-
     }
 }
