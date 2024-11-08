@@ -1,5 +1,4 @@
-﻿
-using Business.Dto.Product;
+﻿using Business.Dto.Product;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -47,27 +46,22 @@ public class ProductBackofficeService
             var mutation = new
             {
                 query = @"
-            mutation AddClothingProduct($input: AddProductInput!) {
-                addProduct(input: $input) {
-                    productId
-                    name
-                    description
-                    category {
+                mutation AddClothingProduct($input: AddProductInput!) {
+                    addProduct(input: $input) {
+                        productId
                         name
+                        description
+                        category {
+                            name
+                        }
+                        variants {
+                            size
+                            color
+                            stock
+                            price
+                        }
                     }
-                    variants {
-                        size
-                        color
-                        stock
-                        price
-                    }
-                    reviews {
-                        clientName
-                        rating
-                        comment
-                    }
-                }
-            }",
+                }",
                 variables = new
                 {
                     input = new
@@ -76,7 +70,13 @@ public class ProductBackofficeService
                         description = productInput.Description,
                         images = productInput.Images,
                         categoryName = productInput.CategoryName,
-                        variants = productInput.Variants,
+                        variants = productInput.Variants.Select(v => new
+                        {
+                            size = v.Size,
+                            color = v.Color,
+                            stock = v.Stock,
+                            price = v.Price
+                        }).ToList(),
                         reviews = new string[] { }
                     }
                 }
@@ -95,19 +95,30 @@ public class ProductBackofficeService
             var response = await _httpClient.SendAsync(requestMessage);
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
+            Console.WriteLine($"Status code from GraphQL server: {response.StatusCode}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Deserialize the response and check if the product was added
+                var result = JsonConvert.DeserializeObject<GraphQLResponse<ProductAddResponse>>(responseContent);
+                if (result?.Data?.AddProduct != null)
+                {
+                    Console.WriteLine("Product has been added successfully.");
+                    return;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Product creation failed: no product returned.");
+                }
+            }
+            else
             {
                 throw new HttpRequestException($"Failed to add product to GraphQL server. StatusCode: {response.StatusCode}, Error: {responseContent}");
             }
-
-          
-
-            // Här kan du logga eller hantera svaret om det behövs.
-            // Eftersom vi inte behöver något objekt kan vi sluta här.
         }
         catch (Exception ex)
         {
-            throw new Exception("Error occurred while adding product", ex);
+            throw new Exception("An error occurred while adding the product", ex);
         }
     }
 }

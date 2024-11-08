@@ -38,25 +38,32 @@ namespace RikaWebApp.Controllers.Product
         {
             try
             {
-                // Anropa tjänsten utan att tilldela resultat till en variabel
+                // Call the service to add the product
                 await _productBackofficeService.AddBackofficeProductAsync(productInput);
 
-                // Omdirigera till "Index"-sidan efter att produkten har lagts till
+                
+                TempData["SuccessMessage"] = "The product has been successfully added!";
+
+               
                 return RedirectToAction("Index");
             }
             catch (ArgumentNullException)
             {
-                return BadRequest("Required fields are missing or invalid.");
+                TempData["ErrorMessage"] = "Required fields are missing or invalid.";
+                return RedirectToAction("Index");
             }
             catch (InvalidOperationException invalidOpEx)
             {
-                return StatusCode(400, "Invalid operation: " + invalidOpEx.Message);
+                TempData["ErrorMessage"] = "Invalid operation: " + invalidOpEx.Message;
+                return RedirectToAction("Index");
             }
             catch (Exception)
             {
-                return StatusCode(500, "An error occurred while adding the product. Please try again.");
+                TempData["ErrorMessage"] = "An error occurred while adding the product. Please try again.";
+                return RedirectToAction("Index");
             }
         }
+
 
 
     }

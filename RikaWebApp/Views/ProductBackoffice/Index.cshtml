@@ -3,6 +3,19 @@
 <section class="product-backoffice">
     <div class="container">
         <h1>Product Management</h1>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
         <div class="header">
             <h2>Products</h2>
             <a class="btn-primary" asp-controller="ProductBackoffice" asp-action="AddProduct">Add New Product</a>

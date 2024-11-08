@@ -7,19 +7,19 @@
         <form id="addProductForm" method="post" action="/backoffice/addproduct">
             <h1>Add New Product</h1>
 
-            <!-- Product Name -->
+          
             <div id="product-name" class="form-group">
                 <label for="productName">Product Name</label>
                 <input type="text" id="productName" name="Name" required>
             </div>
 
-            <!-- Product Description -->
+           
             <div id="product-description" class="form-group">
                 <label for="productDescription">Description</label>
                 <input type="text" id="productDescription" name="Description" required>
             </div>
 
-            <!-- Product Category -->
+           
             <div id="product-category" class="form-group">
                 <label for="categorySelect">Category</label>
                 <select id="categorySelect" name="CategoryName" required>
@@ -33,25 +33,25 @@
             </div>
 
 
-            <!-- Hidden Category Name Field -->
+           
             <input type="hidden" id="categoryName" name="CategoryName">
 
-            <!-- Product Variants -->
+           
             <div id="product-variants" class="form-group">
                 <label>Product Variants</label>
-                <!-- Variant Fields -->
+               
                 <div id="variantFields">
                     <div class="variant-field">
-                        <input type="text" name="Variants[]" placeholder="Variant Size" required>
-                        <input type="text" name="VariantColors[]" placeholder="Variant Color" required>
-                        <input type="number" name="VariantStocks[]" placeholder="Stock Quantity" required>
-                        <input type="number" name="VariantPrices[]" placeholder="Price" required>
+                        <input type="text" name="Variants[0].Size" placeholder="Variant Size" required>
+                        <input type="text" name="Variants[0].Color" placeholder="Variant Color" required>
+                        <input type="number" name="Variants[0].Stock" placeholder="Stock Quantity" required>
+                        <input type="number" name="Variants[0].Price" placeholder="Price" required>
                     </div>
-                    <!-- Add more variants as needed -->
+                   
                 </div>
             </div>
 
-            <!-- Product Images -->
+          
             <div id="product-images" class="form-group">
                 <label for="productImages">Product Images</label>
                 <div id="imageFields">
@@ -59,8 +59,6 @@
                     <!-- Add more image fields as needed -->
                 </div>
             </div>
-
-            <!-- Save Button -->
             <button id="save-button" type="submit" class="btn-primary">Save Product</button>
         </form>
     </div>
