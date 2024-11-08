@@ -20,7 +20,7 @@ namespace RikaWebApp.Controllers.Auth
             if(ModelState.IsValid)
             {
                 using HttpClient client = new HttpClient();
-                var result = await client.PostAsJsonAsync("https://localhost:7286/api/SignIn", signInModel);
+                var result = await client.PostAsJsonAsync("https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/Api/SignIn", signInModel);
                 
                 switch (result.StatusCode)
                 {
