@@ -19,6 +19,14 @@
                 </div>
             </li>
         } *@
+
+        <li class="writing-indicator d-none">
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </li>
     </ul>
     <form id="chat-form">
         <input id="chat-input" />
@@ -26,97 +34,4 @@
     </form>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
-<script>
-    const inputObj = document.getElementById('chat-input')
-    let inputValue = '';
-    let groupId
-
-    inputObj.addEventListener('keyup', (e) => {
-        inputValue = e.target.value;
-    });
-
-    const chatConnection = new signalR.HubConnectionBuilder()
-        .withUrl("http://localhost:5000/chatHub")
-        .withAutomaticReconnect()
-        .build();
-        
-    chatConnection.on("MessageReceived", (message) => {
-        displayMessage(message)
-    })
-
-    chatConnection.on("AddedToGroup", addedGroupId => {
-        groupId = addedGroupId
-    })
-
-    async function start() {
-        try {
-            await chatConnection.start()
-            console.log('Connected to SignalR')
-
-        } catch (err) {
-            console.error("Error connecting to  hub: ", err)
-            setTimeout(startConnection, 5000)
-        }
-
-        // Add the new event listener
-        window.addEventListener('beforeunload', async () => {
-            try {
-                await chatConnection.stop()
-            } catch (err) {
-                console.error("Error disconnecting from SignalR hub: ", err)
-            }
-        });
-    }
-
-    const submitButton = document.getElementById('chat-submit-btn');
-    submitButton.addEventListener('click', async (e) => {
-        e.preventDefault(); // Förhindra standardbeteendet för knappen
-        try {
-            if (inputValue)
-                await chatConnection.invoke("SendMessage", {
-                    username: "Levi",
-                    senderUserId: chatConnection.connectionId,
-                    groupId: groupId,
-                    messageContent: inputValue,
-                    messageSentAt: null,
-                    attachmentUrls: null
-                })
-        } catch (err) {
-            console.error("Error sending message: ", err)
-        }
-        inputObj.value = "";
-    });
-
-    async function sendMessage() {
-        try {
-            console.log(payload)
-            if (inputValue)
-                await chatConnection.invoke("SendMessage", payload)
-        } catch (err) {
-            console.error("Error sending message: ", err)
-        }
-    }
-    function displayMessage(message) {
-        console.log(message)
-        const chatList = document.getElementById('chatlist');
-        const messageBlob = document.createElement('li');
-        messageBlob.className = message.senderUserId === chatConnection.connectionId ? 'outgoing-message' : 'incoming-message'; 
-
-        messageBlob.innerHTML = `
-            <div class="message-wrapper">
-                <div class="message-text">
-                    ${message.messageContent || 'No content'} 
-                </div>
-                <div class="message-timestamp">
-                    ${new Date().toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' })}
-                </div>
-            </div>
-        `;
-        
-        chatList.appendChild(messageBlob);
-        chatList.scrollTop = chatList.scrollHeight;
-        document.querySelector('#chatList').innerHTML = messageBlob.innerHTML
-    }
-
-    start();
-</script>
+<script src="/js/communication/shared-signalR.js"></script>

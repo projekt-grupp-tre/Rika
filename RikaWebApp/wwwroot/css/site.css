@@ -1,4 +1,4 @@
-﻿@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 .container {
   width: 100%;
   margin-right: auto;
@@ -390,6 +390,9 @@ form .input-group textarea:hover {
   display: flex;
   gap: 1rem;
 }
+#contact-us-page main #contact-us-section .chat-btn {
+  background-color: rgb(213, 213, 213);
+}
 
 #chat-wrapper {
   margin: 0 auto;
@@ -419,13 +422,12 @@ form .input-group textarea:hover {
   width: 100%;
   height: 80vh;
   list-style: none;
-  padding-left: 0;
+  padding: 0.5rem;
+  gap: 0.5rem;
 }
 #chat-wrapper #chatlist .outgoing-message, #chat-wrapper #chatlist .incoming-message {
   display: flex;
   width: 100%;
-  padding: 8px;
-  margin: 4px 0;
 }
 #chat-wrapper #chatlist .outgoing-message .message-timestamp, #chat-wrapper #chatlist .incoming-message .message-timestamp {
   font-size: 12px;
@@ -460,6 +462,43 @@ form .input-group textarea:hover {
 }
 #chat-wrapper #chatlist .incoming-message .message-wrapper .message-timestamp {
   margin-left: 5px;
+}
+#chat-wrapper #chatlist .writing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #f2f2f2;
+  border-radius: 10px 10px 0px 10px;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #4b5563;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: max-content;
+}
+#chat-wrapper #chatlist .writing-indicator .dots {
+  display: flex;
+  gap: 4px;
+}
+#chat-wrapper #chatlist .writing-indicator .dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6b7280;
+  animation: bounce 1.4s infinite;
+}
+#chat-wrapper #chatlist .writing-indicator .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+#chat-wrapper #chatlist .writing-indicator .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
 }
 #chat-wrapper #chat-form {
   display: grid;
