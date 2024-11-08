@@ -20,14 +20,24 @@ namespace RikaWebApp.Controllers.Auth
             if(ModelState.IsValid)
             {
                 using HttpClient client = new HttpClient();
-                var result = await client.PostAsJsonAsync("https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/Api/SignIn", signInModel);
+                var result = await client.PostAsJsonAsync("https://localhost:7286/api/SignIn", signInModel);
                 
                 switch (result.StatusCode)
                 {
                     case System.Net.HttpStatusCode.OK:
                         var userInfo = await result.Content.ReadAsStringAsync();
-                        var basicUserInfo = JsonConvert.DeserializeObject<BasicLoggedInUser>(userInfo);
-                        return RedirectToAction("Index", "Home", basicUserInfo);
+                        var jwtTokenString = JsonConvert.DeserializeObject<JwtTokenStringModel>(userInfo);
+                        //HttpContext.Session.SetString("JwtToken", jwtTokenString!);
+
+                        Response.Cookies.Append("JwtToken", jwtTokenString!.jwttoken, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict,
+                            Expires = DateTimeOffset.UtcNow.AddMinutes(60)
+                        });
+                        return RedirectToAction("Index", "Home");
+
                     case System.Net.HttpStatusCode.Unauthorized:
                         TempData["ErrorLogin"] = "Wrong email or password";
                         break;
@@ -38,7 +48,7 @@ namespace RikaWebApp.Controllers.Auth
                         TempData["ErrorLogin"] = "Internal Server Error";
                         break;
                     default:
-                        TempData["ErrorLogin"] = "Something wnet wrong. Please try again later";
+                        TempData["ErrorLogin"] = "Something went wrong. Please try again later";
                         break;
                 }
             }
