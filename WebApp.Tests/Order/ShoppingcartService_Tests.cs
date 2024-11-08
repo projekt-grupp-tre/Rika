@@ -1,8 +1,6 @@
 ﻿using Business.Dto.OrderDtos;
 using Business.Interfaces.OrderInterfaces;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Moq;
-using System.ComponentModel.DataAnnotations;
 
 namespace WebApp.Tests.Order;
 
@@ -54,60 +52,67 @@ public class ShoppingcartService_Tests
     public void AddCartItem_ShouldReturnConfirmationMessage_IfProductIsAddedToCartSuccessfully()
     {
         // Arrange
-        //CartItemDto cartItem = new CartItemDto { Name = "", Description = "", Price = 100 };
-        //ValidatorResult expectedResult = new ValidatorResult { StatusCode = 200, Message = "Successfully added item to cart" };
+        CartItemDto cartItem = new CartItemDto { ProductId = "123", Email = "testmail", Quantity = 2 };
+        ValidatorResult expectedResult = new ValidatorResult { StatusCode = 200, Message = "Successfully added item to cart" };
 
-        //_mockCartService.Setup(x => x.Validate(cartItem)).Returns(expectedResult);
+        _mockCartService.Setup(x => x.Validate(cartItem)).Returns(expectedResult);
 
+        //Act
+        ValidatorResult result = _mockCartService.Object.Validate(cartItem);
 
-        // Act
-        //ValidatorResult result = _mockCartService.Object.Validate(cartItem);
-
-        // Assert
-        //Assert.Equal(expectedResult, result);
-        //Assert.Equal(expectedResult.Message, result.Message);
-
+        //Assert
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedResult.Message, result.Message);
     }
 
     [Fact]
     public void AddCartItem_ShouldReturnErrornMessage_IfProductIsNotAddedToCartSuccessfully()
     {
-        //// Arrange
-        //CartItemDto cartItem = new CartItemDto { Name = "", Description = "", Price = 100 };
-        //ValidatorResult expectedResult = new ValidatorResult { StatusCode = 400, Message = "Could not add item to cart" };
+        // Arrange
+        CartItemDto cartItem = new CartItemDto { ProductId = "", Email = "testmail", Quantity = 2 };
+        ValidatorResult expectedResult = new ValidatorResult { StatusCode = 400, Message = "Could not add item to cart" };
 
-        //_mockCartService.Setup(x => x.Validate(cartItem)).Returns(expectedResult);
+        _mockCartService.Setup(x => x.Validate(cartItem)).Returns(expectedResult);
 
-        //// Act
-        //ValidatorResult result = _mockCartService.Object.Validate(cartItem);
+        // Act
+        ValidatorResult result = _mockCartService.Object.Validate(cartItem);
 
-        //// Assert
-        //Assert.Equal(expectedResult, result);
-        //Assert.Equal(expectedResult.Message, result.Message);
-
+        // Assert
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(expectedResult.Message, result.Message);
     }
 
 
     //Ska hämta ut alla cartitems från productAPI kopplade till shoppingcarten
     [Fact]
-    public void GetAllCartItems_ShouldGetAllCartItemsFromList_IfCartIsNotEmpty()
+    public void GetAllCartItems_ShouldGetAllCartItemsFromShoppingCart_IfCartIsNotEmpty()
     {
-        //// Arrange
-        //var cartItems = new List<CartItemDto>
-        //{
-        //    new CartItemDto { Email = "Email A", ProductId = "Product A", Quantity = 50 },
-        //    new CartItemDto { Email = "Email B", ProductId = "Product B", Quantity = 150 }
-        //};
+        // Arrange
+        string email = "hennesEmail@email.com";
 
-        //_mockCartService.Setup(x => x.GetAllCartItems()).Returns(cartItems);
+        var shoppingCart = new ShoppingCartDto
+        {
+            Id = "123",
+            UserEmail = "email",
+            Quantity = 2,
+            Created = DateTime.UtcNow,
+            Totalprice = 2,
+            PromoCode = 3456,
+            CartItems = new List<CartItemDto> {
+                new CartItemDto { ProductId = "blabla", Email ="yo@hej.se", Quantity=2 },
+                new CartItemDto { ProductId = "blabla", Email ="yo@hej.se", Quantity=2 }
+            }
+        };
 
-        //// Act
-        //var result = _mockCartService.Object.GetAllCartItems();
+        _mockCartService.Setup(x => x.GetFullShoppingCart(email)).ReturnsAsync(shoppingCart);
 
-        //// Assert
-        //Assert.Equal(cartItems.Count, result.Count);
-        //Assert.Equal(cartItems, result);
+        // Act
+        var result = _mockCartService.Object.GetFullShoppingCart(email);
 
+        // Assert
+        Assert.Same(shoppingCart, shoppingCart);
+        Assert.Equal(shoppingCart.CartItems, shoppingCart.CartItems);
+        Assert.NotNull(result);
     }
 
 
@@ -115,15 +120,28 @@ public class ShoppingcartService_Tests
     [Fact]
     public void GetAllCartItems_ShouldReturnEmptyList_IfCartIsEmpty()
     {
-        //// Arrange
-        //var emptyCartItems = new List<CartItemDto>();
+        // Arrange
+        string email = "minEmail@email.se";
+        var shoppingCart = new ShoppingCartDto
+        {
+            Id = "123",
+            UserEmail = "email",
+            Quantity = 2,
+            Created = DateTime.UtcNow,
+            Totalprice = 2,
+            PromoCode = 3456,
+            CartItems = new List<CartItemDto>()
+        };
 
-        //_mockCartService.Setup(x => x.GetAllCartItems()).Returns(emptyCartItems);
+        _mockCartService.Setup(x => x.GetFullShoppingCart(email)).ReturnsAsync(shoppingCart);
 
-        //// Act
-        //var result = _mockCartService.Object.GetAllCartItems();
+        // Act
+        var result = _mockCartService.Object.GetFullShoppingCart(email);
 
-        //// Assert
-        //Assert.Empty(result);
+        // Assert
+        Assert.Same(shoppingCart, shoppingCart);
+        Assert.Equal(shoppingCart.CartItems, shoppingCart.CartItems);
+        Assert.NotNull(result);
+        Assert.Empty(shoppingCart.CartItems);
     }
 }
