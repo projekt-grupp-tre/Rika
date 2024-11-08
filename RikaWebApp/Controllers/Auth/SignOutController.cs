@@ -8,7 +8,7 @@ namespace RikaWebApp.Controllers.Auth
         {
             Response.Cookies.Delete("JwtToken");
             TempData["LogOut"] = "You have successfully signed ut! Welcome back another time!";
-            return RedirectToAction("Home", "Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

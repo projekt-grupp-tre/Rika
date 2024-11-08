@@ -23,7 +23,7 @@ public class JwtHelper
         var bytes = Convert.FromBase64String(PadBase64String(base64));
         var jsonPayload = Encoding.UTF8.GetString(bytes);
 
-        return JsonSerializer.Deserialize<IDictionary<string, object>>(jsonPayload);
+        return JsonSerializer.Deserialize<IDictionary<string, object>>(jsonPayload)!;
     }
 
     private static string PadBase64String(string base64)

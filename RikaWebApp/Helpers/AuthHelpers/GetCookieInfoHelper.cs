@@ -1,7 +1,4 @@
-﻿using Azure.Core;
-using RikaWebApp.Models.AuthModels;
-using Microsoft.AspNetCore.Mvc;
-using RikaWebApp.Models.AuthModels;
+﻿using RikaWebApp.Models.AuthModels;
 
 namespace RikaWebApp.Helpers;
 
@@ -13,16 +10,25 @@ public static class GetCookieInfoHelper
         {
             string token = context.Request.Cookies["JwtToken"]!;
             var claims = JwtHelper.ParseJwt(token);
-            
+
             return new BasicLoggedInUser
             {
                 Id = claims.ContainsKey("sub") ? claims["sub"]?.ToString() ?? "" : "",
-                FristName = claims.ContainsKey("firstName") ? claims["firstName"]?.ToString() ?? "" : "",
+                FirstName = claims.ContainsKey("firstName") ? claims["firstName"]?.ToString() ?? "" : "",
                 LastName = claims.ContainsKey("lastName") ? claims["lastName"]?.ToString() ?? "" : "",
                 Email = claims.ContainsKey("email") ? claims["email"]?.ToString() ?? "" : "",
-                ImageUrl = claims.ContainsKey("imageUrl") ? claims["imageUrl"]?.ToString() ?? "" : ""
+                ImageUrl = claims.ContainsKey("imageUrl") ? claims["imageUrl"]?.ToString() ?? "" : "",
+                Address = claims.ContainsKey("address") ? claims["address"]?.ToString() ?? "" : "",
+                PostalCode = claims.ContainsKey("postalCode") ? claims["postalCode"]?.ToString() ?? "" : "",
+                Country = claims.ContainsKey("country") ? claims["country"].ToString() ?? "" : "",
+                City = claims.ContainsKey("city") ? claims["city"]?.ToString() ?? "" : "",
             };
         }
+
+        //if (context.Session.GetString("JwtToken") != null)
+        //{
+
+        //}
 
         return null!;
     }
