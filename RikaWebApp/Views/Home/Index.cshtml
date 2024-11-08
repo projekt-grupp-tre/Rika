@@ -1,7 +1,37 @@
-﻿@{
+﻿@using RikaWebApp.Models.AuthModels;
+
+@model BasicLoggedInUser;
+
+@{
     ViewData["Title"] = "Rika";
 }
 
 <a asp-action="SignUpView" asp-controller="SignUp">Sign Up</a>
+
 <a asp-action="SignInView" asp-controller="SignIn">Sign in</a>
+
+@if (TempData["LogOut"] != null)
+{
+    <div>
+        <p><strong>@TempData["LogOut"]</strong></p>
+    </div>
+}
+
+@if(Model != null)
+{
+    <div>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>First Name:</strong> @Model.FirstName</p>
+        <p><strong>Last Name:</strong> @Model.LastName</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Image URL:</strong> <img src="~/images/auth/@Model.ImageUrl" style="max-width:100px; max-height:100px;" /></p>
+        <p><strong>Address:</strong> @Model.Address</p>
+        <p><strong>Postal Code:</strong> @Model.PostalCode</p>
+        <p><strong>Country:</strong> @Model.Country</p>
+        <p><strong>City:</strong> @Model.City</p>
+    </div>
+
+    <a asp-action="LogOut" asp-controller="SignOut">Logout</a>
+}
+
 

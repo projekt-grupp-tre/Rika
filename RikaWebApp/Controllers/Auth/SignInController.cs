@@ -26,8 +26,18 @@ namespace RikaWebApp.Controllers.Auth
                 {
                     case System.Net.HttpStatusCode.OK:
                         var userInfo = await result.Content.ReadAsStringAsync();
-                        var basicUserInfo = JsonConvert.DeserializeObject<BasicLoggedInUser>(userInfo);
-                        return RedirectToAction("Index", "Home", basicUserInfo);
+                        var jwtTokenString = JsonConvert.DeserializeObject<JwtTokenStringModel>(userInfo);
+                        //HttpContext.Session.SetString("JwtToken", jwtTokenString!);
+
+                        Response.Cookies.Append("JwtToken", jwtTokenString!.jwttoken, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict,
+                            Expires = DateTimeOffset.UtcNow.AddMinutes(60)
+                        });
+                        return RedirectToAction("Index", "Home");
+
                     case System.Net.HttpStatusCode.Unauthorized:
                         TempData["ErrorLogin"] = "Wrong email or password";
                         break;
@@ -38,7 +48,7 @@ namespace RikaWebApp.Controllers.Auth
                         TempData["ErrorLogin"] = "Internal Server Error";
                         break;
                     default:
-                        TempData["ErrorLogin"] = "Something wnet wrong. Please try again later";
+                        TempData["ErrorLogin"] = "Something went wrong. Please try again later";
                         break;
                 }
             }

@@ -1,6 +1,7 @@
 using Business.Services.Product;
 using Business.Interfaces.OrderInterfaces;
 using Business.Services.OrderServices;
+using RikaWebApp.Middleware;
 using Business.Services.Product.Backoffice;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,8 @@ builder.Services.AddHttpClient("AzureFunctionClient", client =>
 });
 
 builder.Services.AddScoped<ProductService>();
-
+builder.Services.AddSingleton<IDictionary<string, object>>(new Dictionary<string, object>());
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -33,6 +35,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+app.UseMiddleware<JwtSlidingExpirationMiddleware>();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
