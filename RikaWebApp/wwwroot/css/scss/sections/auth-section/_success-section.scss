@@ -1,0 +1,29 @@
+#success {
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+
+        .check-mark {
+            padding-top: 7rem;
+            font-size: 50px;
+            color: green;
+        }
+
+        .title {
+            padding-top: 3rem;
+            text-align: center;
+        }
+
+        .btn-round {
+            margin-top: 10rem;
+            width: 100%;
+            background-color: black;
+            text-decoration: none;
+            color: white;
+        }
+    }
+}

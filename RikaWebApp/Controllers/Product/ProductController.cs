@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RikaWebApp.ViewModels;
 
 namespace RikaWebApp.Controllers;
-
+[Route("products")]
 public class ProductsController : Controller
 {
     private readonly ProductService _productService;
@@ -12,27 +12,21 @@ public class ProductsController : Controller
     {
         _productService = productService;
     }
-
-    [Route("products")]
+    [HttpGet("")]
     public async Task<IActionResult> Index()
     {
         // Hämta alla produkter, returnerar en lista av produker
         var productDto = await _productService.GetAllProductsAsync();
         //Console.WriteLine($"hittade {productDto.Count} produkter");
 
+        ViewData["Title"] = "All produkter";
+        var Products = productDto.Select(ProductViewModel.FromDto).ToList();
 
-        //instans för att föra vidare data till vyn
-        var viewModel = new ProductsPageViewModel
-        {
-            Title = "Alla Produkter",
-            Products = productDto.Select(ProductViewModel.FromDto).ToList(),
-        };
 
-        return View("Partials/Product/Products", viewModel); 
+        return View("Partials/Product/Products", Products); 
     }
-
-    [Route("products/{id}")]
-    public async Task<IActionResult> ProductDetails(Guid id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> ProductDetails(string categoryName, Guid id)
     {
         var productDto = await _productService.GetProductById(id);
 
@@ -42,6 +36,9 @@ public class ProductsController : Controller
         }
 
         var productViewModel = ProductViewModel.FromDto(productDto);
+
+        ViewData["CategoryName"] = categoryName;
+        ViewData["ProductId"] = id;
 
         return View("Partials/Product/ProductDetails", productViewModel);
     }

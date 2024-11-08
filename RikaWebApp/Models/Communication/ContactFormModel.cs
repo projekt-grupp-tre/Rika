@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using RikaWebApp.Helpers;
+using RikaWebApp.Helpers.AuthHelpers;
 
 namespace RikaWebApp.Models.Communication;
 

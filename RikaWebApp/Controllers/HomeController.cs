@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RikaWebApp.Helpers;
 
 
 namespace RikaWebApp.Controllers
@@ -14,8 +15,9 @@ namespace RikaWebApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
+            var user = GetCookieInfoHelper.JwtTokenToBasicLoggedInUserModel(HttpContext);
 
+            return View(user);
+        }
     }
 }

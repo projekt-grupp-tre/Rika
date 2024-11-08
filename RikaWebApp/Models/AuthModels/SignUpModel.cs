@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace RikaWebApp.Models
+namespace RikaWebApp.Models.AuthModels
 {
     public class SignUpModel
     {

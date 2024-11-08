@@ -7,6 +7,7 @@ namespace Business.Services.Product
     public interface IProductServiceCategory
     {
         Task<IEnumerable<ProductDTO>> GetProductsByCategoryAsync(string categoryName);
+        Task<IEnumerable<ProductDTO>> GetAllProductsAsync();
 
     }
 }
