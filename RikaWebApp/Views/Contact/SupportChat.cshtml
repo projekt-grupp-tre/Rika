@@ -8,7 +8,7 @@
     </div>
         @*Logik för att visa Support agentens namn/id i kundtjäsnt chatt och användares namn i community-chatt*@
         <ul id="chatlist">
-            @foreach (var message in messages)
+            @* @foreach (var message in messages)
             {
                 <li class="@(message.IsSentFromThisClient ? "outgoing-message" : "incoming-message")">
                     <div class="message-text">
@@ -18,21 +18,11 @@
                         @message.MessageSentAt.ToString("HH:mm")
                     </div>
                 </li>
-            }
-            <li class="outgoing-message">
-                <div class="message-wrapper">
-                    <div class="message-text">
-                        Hej!
-                    </div>
-                    <div class="message-timestamp">
-                        @DateTime.Now.ToString("HH:mm")
-                    </div>
-                </div>
-            </li>
+            } *@
             <li class="incoming-message">
                 <div class="message-wrapper">
                     <div class="message-text">
-                        Hej!
+                        Hi, what can we help you with?
                     </div>
                     <div class="message-timestamp">
                         @DateTime.Now.ToString("HH:mm")
@@ -48,9 +38,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 <script>
     const inputObj = document.getElementById('chat-input')
-
-    // const messagesElement = document.getElementById('messages')
-    // const messageBox = document.getElementById('message')
     let inputValue = '';
     let groupId
 
@@ -58,11 +45,12 @@
         inputValue = e.target.value;
     });
 
+
     const chatConnection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7255/chatHub")
+        .withUrl("http://localhost:5000/chatHub")
         .withAutomaticReconnect()
         .build();
-        
+
     chatConnection.on("MessageReceived", (message) => {
         displayMessage(message)
     })
@@ -96,13 +84,12 @@
         e.preventDefault(); // Förhindra standardbeteendet för knappen
         try {
             if (inputValue)
-                console.log(inputValue);
                 await chatConnection.invoke("SendMessage", {
                     username: "Levi",
-                    userId: null,
+                    senderUserId: chatConnection.connectionId,
                     groupId: groupId,
                     messageContent: inputValue,
-                    messageSent: null,
+                    messageSentAt: null,
                     attachmentUrls: null
                 })
         } catch (err) {
@@ -121,13 +108,14 @@
         }
     }
     function displayMessage(message) {
+        console.log(message)
         const chatList = document.getElementById('chatlist');
         const messageBlob = document.createElement('li');
-        messageBlob.className = 'outgoing-message'; 
+        messageBlob.className = message.senderUserId === chatConnection.connectionId ? 'outgoing-message' : 'incoming-message'; 
         messageBlob.innerHTML = `
             <div class="message-wrapper">
                 <div class="message-text">
-                    ${message || 'No content'} 
+                    ${message.messageContent || 'No content'} 
                 </div>
                 <div class="message-timestamp">
                     ${new Date().toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' })}
