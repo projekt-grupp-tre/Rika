@@ -5,9 +5,12 @@ VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RikaWebApp", "RikaWebApp\RikaWebApp.csproj", "{793C4D3A-644A-48BD-9A68-B04BB9BA9948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{70B91688-1A60-4D42-BC67-1FF31B867AEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Business.csproj", "{70B91688-1A60-4D42-BC67-1FF31B867AEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Tests", "WebApp.Tests\WebApp.Tests.csproj", "{D1296815-DD9C-4E58-9D08-261651BC9047}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Tests", "WebApp.Tests\WebApp.Tests.csproj", "{D1296815-DD9C-4E58-9D08-261651BC9047}"
+	ProjectSection(ProjectDependencies) = postProject
+		{70B91688-1A60-4D42-BC67-1FF31B867AEB} = {70B91688-1A60-4D42-BC67-1FF31B867AEB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

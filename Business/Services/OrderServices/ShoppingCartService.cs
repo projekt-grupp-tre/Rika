@@ -42,7 +42,7 @@ namespace Business.Services.OrderServices
         //}
 
         #region AddProductToCartItemAsync
-        public async Task<bool> AddProductToCartItemAsync(string email, int productId)
+        public async Task<bool> SendCartItemAsync(string email, string productId)
         {
             try
             {
@@ -130,7 +130,7 @@ namespace Business.Services.OrderServices
                 if (result.IsSuccessStatusCode)
                 {
                     var json = await result.Content.ReadAsStringAsync();
-                    dynamic jsonObj = JsonConvert.DeserializeObject<dynamic>(json);
+                    dynamic jsonObj = JsonConvert.DeserializeObject<dynamic>(json)!;
 
                     var productData = jsonObj?.data?.getProductById;
 
@@ -156,11 +156,11 @@ namespace Business.Services.OrderServices
         {
             try
             {
-                var response = await _httpClient.GetAsync($"https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/api/GetUser");
+                var response = await _httpClient.GetAsync($"https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/api/GetUser?email={email}");
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync();
-                    dynamic user = JsonConvert.DeserializeObject<dynamic>(json);
+                    dynamic user = JsonConvert.DeserializeObject<dynamic>(json)!;
 
                     if (user != null && user.email != null) 
                     {
@@ -179,12 +179,12 @@ namespace Business.Services.OrderServices
         #endregion
 
         #region AddProductToCartAsync
-        public async Task<ResponseDto> AddProductToCartAsync(string email, int productId)
+        public async Task<ResponseDto> AddProductToCartAsync(string email, string productId)
         {
             try
             {
                 var user = await GetUserByEmailAsync(email);
-                if (user != null)
+                if (user == null)
                 {
                     return new ResponseDto
                     {
@@ -205,7 +205,7 @@ namespace Business.Services.OrderServices
                     };
                 }
 
-                var addToCart = await AddProductToCartItemAsync(email, productId);
+                var addToCart = await SendCartItemAsync(email, productId);
                 if (addToCart)
                 {
                     return new ResponseDto
@@ -226,6 +226,17 @@ namespace Business.Services.OrderServices
                 return null!;
             }
         }
+
         #endregion
+
+        public ValidatorResult Validate(CartItemDto cartItemDto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ShoppingCartDto> GetFullShoppingCart(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
