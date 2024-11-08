@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Business\Business.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\RikaWebApp\RikaWebApp.csproj" />
   </ItemGroup>
 
