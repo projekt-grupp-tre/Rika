@@ -1,8 +1,8 @@
-
 using Business.Services.Product;
 using Business.Interfaces.OrderInterfaces;
 using Business.Services.OrderServices;
 using RikaWebApp.Middleware;
+using Business.Services.Product.Backoffice;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +12,8 @@ builder.Services.AddScoped<IShoppingCartService, ShoppingCartService>();
 // L�gg till tj�nster
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProductServiceCategory, ProductServiceCategory>();
+builder.Services.AddScoped<IProductReviewService, ProductReviewService>();
+builder.Services.AddScoped<ProductBackofficeService>();
 builder.Services.AddHttpClient(); // Registrera HttpClient
 
 
@@ -44,6 +46,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
 

@@ -1,0 +1,146 @@
+﻿.add-product-backoffice {
+    font-family: $font-stack;
+    margin-bottom: 5rem;
+    margin-top: 2rem;
+
+    form {
+        display: grid;
+        gap: 0.5rem;
+        width: 60%;
+        place-self: center;
+        border-radius: 10px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            "form-title form-title" "product-name product-category" "product-description product-description" "product-images product-images" "product-variants product-variants" "save-button save-button";
+
+        h1 {
+            grid-area: form-title;
+            margin: 0;
+        }
+
+        #product-name {
+            grid-area: product-name;
+        }
+
+        #product-description {
+            grid-area: product-description;
+        }
+
+        #product-images {
+            grid-area: product-images;
+        }
+
+        #product-category {
+            grid-area: product-category;
+        }
+
+        #product-variants {
+            grid-area: product-variants;
+        }
+
+        #save-button {
+            grid-area: save-button;
+
+            &:hover {
+                background-color: rgb(78, 188, 78);
+                cursor: pointer;
+                color: white;
+            }
+        }
+
+
+        input, select, button {
+            padding: 0.5rem;
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            font-family: $font-stack;
+        }
+    }
+
+    .form-group {
+        display: grid;
+        gap: 0.2rem;
+        background-color: #cccccc;
+        padding: 2rem;
+        border-radius: 10px;
+
+        button {
+            width: 20%;
+            background-color: #e7e7e7;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #acacac;
+            }
+        }
+    }
+
+    #imageFields, #variantFields {
+        margin-top: 0.5rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.5rem;
+    }
+
+    .image-field {
+        display: flex;
+
+        input {
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+        }
+
+        button {
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            background-color: white;
+            cursor: pointer;
+
+            i {
+                color: black;
+            }
+
+            &:hover {
+                background-color: white;
+
+                i {
+                    color: #dc3545;
+                }
+            }
+        }
+    }
+
+    .variant-field {
+        display: grid;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem 1rem 1rem;
+        background-color: #e7e7e7;
+        border-radius: 5px;
+        position: relative;
+
+        h4 {
+            margin: 0;
+            color: black;
+        }
+
+        button {
+            position: absolute;
+            padding: 0;
+            width: 0;
+            cursor: pointer;
+            right: 25px;
+            top: 10px;
+
+            i {
+                font-size: 18px;
+            }
+
+            &:hover {
+                i {
+                    color: #dc3545;
+                }
+            }
+        }
+    }
+}
