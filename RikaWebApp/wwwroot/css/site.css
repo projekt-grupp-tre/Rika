@@ -1205,6 +1205,7 @@ a.btn:hover {
 .add-product-backoffice {
   font-family: "Outfit", sans-serif;
   margin-bottom: 5rem;
+  margin-top: 2rem;
 }
 .add-product-backoffice form {
   display: grid;

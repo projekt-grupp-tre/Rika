@@ -1,63 +1,125 @@
-﻿function addImageField() {
-    const imageFields = document.getElementById('imageFields');
-    const imageDiv = document.createElement('div');
-    imageDiv.classList.add('image-field');
-    imageDiv.innerHTML = `
-      <input type="text" name="imageUrl[]" placeholder="Image URL" required>
-      <button class="trashcan" type="button" onclick="removeField(this)"><i class="fa-regular fa-trash-can"></i></button>
-    `;
-    imageFields.appendChild(imageDiv);
-}
-
-function addVariantField() {
-    const variantFields = document.getElementById('variantFields');
-    const variantDiv = document.createElement('div');
-    variantDiv.classList.add('variant-field');
-    variantDiv.innerHTML = `
-      <h5>New variant</h5>
-      <input type="text" name="variantSize[]" placeholder="Size" required>
-      <input type="text" name="variantColor[]" placeholder="Color" required>
-      <input type="text" name="variantStock[]" placeholder="Stock" required>
-      <input type="text" name="variantPrice[]" placeholder="Price" required>
-      <button type="button" onclick="removeField(this)"><i class="fa-sharp fa-solid fa-xmark"></i></button>
-    `;
-    variantFields.appendChild(variantDiv);
-}
-
-function removeField(button) {
-    button.parentElement.remove();
-}
-
-function submitNewProduct(event) {
+﻿function submitNewProduct(event) {
     event.preventDefault();
     const formData = new FormData(document.getElementById('addProductForm'));
+
     const productData = {
-        name: formData.get('name'),
-        description: formData.get('description'),
-        categoryId: parseInt(formData.get('categoryId')),
-        images: [],
-        variants: []
+        name: formData.get('Name'),
+        description: formData.get('Description'),
+        categoryId: formData.get('CategoryId'),
+        images: formData.getAll('Images[]').map(url => ({ url })),
+        variants: [],
+        review: {
+            clientName: formData.get('ProductReview.ClientName'),
+            rating: parseInt(formData.get('ProductReview.Rating'), 10),
+            comment: formData.get('ProductReview.Comment')
+        }
     };
 
-    // Get images
-    const imageUrls = formData.getAll('imageUrl[]');
-    productData.images = imageUrls;
+    const sizes = formData.getAll('Variants[]');
+    const colors = formData.getAll('VariantColors[]');
+    const stocks = formData.getAll('VariantStocks[]');
+    const prices = formData.getAll('VariantPrices[]');
 
-    // Get variants
-    const sizes = formData.getAll('variantSize[]');
-    const colors = formData.getAll('variantColor[]');
-    const stocks = formData.getAll('variantStock[]');
-    const prices = formData.getAll('variantPrice[]');
     sizes.forEach((size, index) => {
         productData.variants.push({
             size,
             color: colors[index],
-            stock: parseInt(stocks[index]),
-            price: parseInt(prices[index])
+            stock: parseInt(stocks[index], 10),
+            price: parseFloat(prices[index])
         });
     });
 
-    // Here you would send the productData to the server (e.g., using fetch or AJAX)
-    console.log('Product Data:', productData);
-    alert('Product added successfully!');
+    const graphqlQuery = {
+        query: `mutation AddClothingProduct($input: AddProductInput!) { 
+            addProduct(input: $input) { 
+                productId 
+                name 
+                description 
+                category { name } 
+                variants { size color stock price } 
+                reviews { clientName rating comment } 
+            } 
+        }`,
+        variables: { input: productData }
+    };
+
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = 'block';
+
+    fetch('https://productprovidergraphql.azurewebsites.net/api/GraphQL?code=0GQhXGiLSYJRnfNBuRrB1_csNX6zQjBWwiUQgHPZb8pPAzFuI7EMSQ%3D%3D', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(graphqlQuery)
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert('Product added successfully!');
+        })
+        .catch(() => {
+            alert('An error occurred. Please try again.');
+        })
+        .finally(() => {
+            loadingIndicator.style.display = 'none';
+        });
+}
+
+
+function getCategoryName(categoryId) {
+    const categories = { 1: "Clothes", 2: "Shoes", 3: "Bags", 4: "Electronics", 5: "Jewelry" };
+    return categories[categoryId] || "Uncategorized";
+}
+
+function addVariantField() {
+    const variantFieldsContainer = document.getElementById('variantFields');
+
+    const sizeField = document.createElement('input');
+    sizeField.type = 'text';
+    sizeField.name = 'Variants[]';
+    sizeField.placeholder = 'Variant Size';
+
+    const colorField = document.createElement('input');
+    colorField.type = 'text';
+    colorField.name = 'VariantColors[]';
+    colorField.placeholder = 'Variant Color';
+
+    const stockField = document.createElement('input');
+    stockField.type = 'number';
+    stockField.name = 'VariantStocks[]';
+    stockField.placeholder = 'Stock Quantity';
+
+    const priceField = document.createElement('input');
+    priceField.type = 'number';
+    priceField.name = 'VariantPrices[]';
+    priceField.placeholder = 'Price';
+
+    variantFieldsContainer.appendChild(sizeField);
+    variantFieldsContainer.appendChild(colorField);
+    variantFieldsContainer.appendChild(stockField);
+    variantFieldsContainer.appendChild(priceField);
+}
+
+function addImageField() {
+    const imageFieldsContainer = document.getElementById('imageFields');
+    const imageUrlField = document.createElement('input');
+    imageUrlField.type = 'text';
+    imageUrlField.name = 'Images[]';
+    imageUrlField.placeholder = 'Image URL';
+    imageFieldsContainer.appendChild(imageUrlField);
+}
+
+document.getElementById("categorySelect").addEventListener("change", function () {
+    const categoryId = this.value;
+    const categoryName = getCategoryName(categoryId);  // Få kategori namn
+    document.getElementById("categoryName").value = categoryName;  // Sätt kategori namn i det osynliga fältet
+});
+
+function getCategoryName(categoryId) {
+    const categories = {
+        "1": "Clothes",
+        "2": "Shoes",
+        "3": "Bags",
+        "4": "Electronics",
+        "5": "Jewelry"
+    };
+    return categories[categoryId] || "Uncategorized";
 }

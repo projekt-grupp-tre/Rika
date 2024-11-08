@@ -1,28 +1,26 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
+@model Business.Dto.Product.ProductInputDTO
 
 <section class="add-product-backoffice">
     <div class="container">
-        <form id="addProductForm" onsubmit="submitNewProduct(event)">
+        <div id="loadingIndicator" style="display: none;">Loading...</div>
 
+        <form id="addProductForm" method="post" action="/backoffice/addproduct">
             <h1>Add New Product</h1>
 
             <div id="product-name" class="form-group">
                 <label for="productName">Product Name</label>
-                <input type="text" id="productName" name="name" required>
+                <input type="text" id="productName" name="Name" required>
             </div>
 
             <div id="product-description" class="form-group">
                 <label for="productDescription">Description</label>
-                <input type="text" id="productDescription" name="description" required></textarea>
+                <input type="text" id="productDescription" name="Description" required>
             </div>
 
             <div id="product-category" class="form-group">
                 <label for="categorySelect">Category</label>
-                <select id="categorySelect" name="categoryId" required>
+                <select id="categorySelect" name="CategoryId" required>
                     <option value="">Select a category</option>
                     <option value="1">Clothes</option>
                     <option value="2">Shoes</option>
@@ -30,6 +28,16 @@
                     <option value="4">Electronics</option>
                     <option value="5">Jewelry</option>
                 </select>
+            </div>
+
+            <input type="hidden" id="categoryName" name="CategoryName">
+
+            <div id="product-variants" class="form-group">
+                <label>Product Variants</label>
+                <button type="button" onclick="addVariantField()">Add Variant</button>
+                <div id="variantFields">
+                    <!-- Variant input fields will be added here dynamically -->
+                </div>
             </div>
 
             <div id="product-images" class="form-group">
@@ -40,13 +48,8 @@
                 </div>
             </div>
 
-            <div id="product-variants" class="form-group">
-                <label>Product Variants</label>
-                <button type="button" onclick="addVariantField()">Add Variant</button>
-                <div id="variantFields">
-                    <!-- Variant input fields will be added here dynamically -->
-                </div>
-            </div>
+ 
+
 
             <button id="save-button" type="submit" class="btn-primary">Save Product</button>
         </form>
