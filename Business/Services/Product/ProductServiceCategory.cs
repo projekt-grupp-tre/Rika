@@ -54,15 +54,65 @@ namespace Business.Services.Product
                 return new List<ProductDTO>();
             }
         }
+
+        public async Task<IEnumerable<ProductDTO>> GetAllProductsAsync()
+        {
+            var query = new
+            {
+                query = @"query GetAllProducts {
+                getProducts {
+                    productId
+                    name
+                    description
+                    images
+                    category { name }
+                    variants { size color stock price }
+                    reviews { clientName rating comment }
+                }
+            }"
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(query), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(_apiUrl, content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Request failed with status code: {response.StatusCode}");
+            }
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var result = JsonConvert.DeserializeObject<GraphQLProductListResponse>(responseString);
+                return result?.Data?.GetProducts ?? new List<ProductDTO>();
+            }
+            catch (JsonException)
+            {
+                return new List<ProductDTO>();
+            }
+        }
     }
 
-    public class ProductResponse
-    {
-        public ProductData? Data { get; set; }
-    }
+}
 
-    public class ProductData
-    {
-        public IEnumerable<ProductDTO> GetProductsByCategory { get; set; } = null!;
-    }
+public class AllProductsResponse
+{
+    public AllProductsData? Data { get; set; }
+}
+
+public class AllProductsData
+{
+    public IEnumerable<ProductDTO> GetAllProducts { get; set; } = null!;
+}
+
+
+
+public class ProductResponse
+{
+    public ProductData? Data { get; set; }
+}
+
+public class ProductData
+{
+    public IEnumerable<ProductDTO> GetProductsByCategory { get; set; } = null!;
 }

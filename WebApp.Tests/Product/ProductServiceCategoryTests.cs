@@ -114,4 +114,69 @@ public class ProductServiceCategoryTests
         Assert.Contains("Request failed with status code", exception.Message);
     }
 
+
+    [Fact]
+
+    public async Task GetAllProductsAsync_Should_ReturnAllProducts()
+    {
+        // Arrange
+        var mockResponse = new HttpResponseMessage
+        {
+            StatusCode = HttpStatusCode.OK,
+            Content = new StringContent(JsonConvert.SerializeObject(new
+            {
+                data = new
+                {
+                    getProducts = new[]
+                    {
+                            new
+                            {
+                                productId = Guid.NewGuid().ToString(),
+                                name = "Laptop",
+                                description = "A high-performance laptop",
+                                images = new[] { "image1.jpg", "image2.jpg" },
+                                category = new { name = "Electronics" },
+                                variants = new[]
+                                {
+                                    new { size = "15 inch", color = "Black", stock = 10, price = 999.99m }
+                                },
+                                reviews = new[]
+                                {
+                                    new { clientName = "John Doe", rating = 5, comment = "Excellent product!" }
+                                }
+                            }
+                        }
+                }
+            }), Encoding.UTF8, "application/json")
+        };
+
+        var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+        handlerMock
+           .Protected()
+           .Setup<Task<HttpResponseMessage>>(
+              "SendAsync",
+              ItExpr.IsAny<HttpRequestMessage>(),
+              ItExpr.IsAny<CancellationToken>()
+           )
+           .ReturnsAsync(mockResponse);
+
+        var httpClient = new HttpClient(handlerMock.Object);
+        _mockHttpClientFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+
+        var productService = new ProductServiceCategory(_mockHttpClientFactory.Object);
+
+        // Act
+        var result = await productService.GetAllProductsAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Single(result);
+        var product = result.First();
+        Assert.Equal("Laptop", product.Name);
+        Assert.Equal("A high-performance laptop", product.Description);
+        Assert.Equal("Electronics", product.Category.Name);
+        Assert.NotEmpty(product.Variants);
+        Assert.NotEmpty(product.Reviews);
+    }
+
 }
