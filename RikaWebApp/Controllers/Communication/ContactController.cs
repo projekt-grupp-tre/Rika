@@ -11,57 +11,74 @@ namespace RikaWebApp.Controllers
     public class ContactController(ILogger<ContactController> logger, IConfiguration configuration) : Controller
     {
         private readonly ILogger<ContactController> _logger = logger;
-		private readonly IConfiguration _configuration = configuration;
+				private readonly IConfiguration _configuration = configuration;
 
 
 
-		[HttpGet]
-		[Route("/contact")]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-		[HttpPost]
-		[Route("/contact/submit")]
-		public async Task<IActionResult> ContactSubmit([Bind(Prefix = "ContactForm")] ContactFormModel contactForm)
-		{
-			
-			if (TryValidateModel(contactForm))
-			{
-				var emailRequest = new ContactEmailRequest() 
+				[HttpGet]
+				[Route("/contact")]
+    		    public async Task<IActionResult> Index()
+    		    {
+    		        return View();
+    		    }
+		
+				[HttpPost]
+				[Route("/contact/submit")]
+				public async Task<IActionResult> ContactSubmit([Bind(Prefix = "ContactForm")] ContactFormModel contactForm)
 				{
-					To = contactForm.Email,
-					Subject = $"Thank you {contactForm.FullName} for contacting us regarding {contactForm.ContactService}",
-					HtmlBody = "",
-					PlainText = $"We will get back to you in 24hrs regarding your question {contactForm.Message}"
-				};
-
-				using var httpClient = new HttpClient();
-				var jsonContent = JsonConvert.SerializeObject(emailRequest);
-
-				// --> Spara ner mejl-adressen till databas
-				// using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-				// var response = await httpClient.PostAsync($"https://localhost:1234/api/contact?key={_configuration["ApiKey"]}", content);
-								
-				try
+					
+					if (TryValidateModel(contactForm))
+					{
+						// Creating temporary support ticket id
+						var caseId = Guid.NewGuid();
+						
+						var emailRequest = new ContactEmailRequest() 
+						{
+							To = contactForm.Email,
+							Subject = $"Thank you {contactForm.FullName} for contacting us regarding {contactForm.ContactService} || Support ticket number: {caseId}",
+							HtmlBody = "",
+							PlainText = $"We will get back to you in 24hrs regarding your question {contactForm.Message}"
+						};
+		
+						using var httpClient = new HttpClient();
+						var jsonContent = JsonConvert.SerializeObject(emailRequest);
+		
+						// SEND REQUEST TO CasesProvider HERE TO CREATE A NEW CASE AND TO GET A CASE ID
+						// using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+						// var response = await httpClient.PostAsync($"https://localhost:1234/create", content);
+										
+						try
+						{
+								await using var sbClient = new ServiceBusClient("Endpoint=sb://sb-emailprovider.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=QjQqQwMnKcdPepvC5Xh5Kc7ohPzEF/7hx+ASbAbHsVo=");
+								ServiceBusSender sender = sbClient.CreateSender("email_request");
+								await sender.SendMessageAsync(new ServiceBusMessage(jsonContent));                                                                              
+								TempData["Success"] = "Thank you for your email";                                     
+								TempData["Failed"] = null;
+								Console.WriteLine(TempData["Success"]);
+						}
+						catch (Exception ex) 
+						{ 
+								Debug.WriteLine(ex); 
+								TempData["Failed"] = "Error sending email, please try again soon";
+								TempData["Success"] = null;
+								Console.WriteLine(TempData["Failed"]);
+						}
+					}
+					return RedirectToAction("Index", "Contact");
+				}
+		
+				[HttpGet]
+				[Route("/contact/support-chat")]
+				public ActionResult SupportChat()
 				{
-						await using var sbClient = new ServiceBusClient(_configuration.GetConnectionString("ServiceBusConnection"));
-						ServiceBusSender sender = sbClient.CreateSender("email_request");
-						await sender.SendMessageAsync(new ServiceBusMessage(jsonContent));                                                                              
-						TempData["Success"] = "Thank you for your email";                                     
-						TempData["Failed"] = null;
-						Console.WriteLine(TempData["Success"]);
+					return View("SupportChat");
 				}
-				catch (Exception ex) 
-				{ 
-						Debug.WriteLine(ex.Message); 
-						TempData["Failed"] = "Error sending email, please try again soon";
-						TempData["Success"] = null;
-						Console.WriteLine(TempData["Failed"]);
+		
+				[HttpGet]
+				[Route("/contact/agent-chat")]
+				public ActionResult AgentChat()
+				{
+						return View("AgentChat");
 				}
-			}
-			return RedirectToAction("Index", "Contact");
-		}
-    }
+	}
 }
