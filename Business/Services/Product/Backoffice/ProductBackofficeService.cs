@@ -40,34 +40,34 @@ public class ProductBackofficeService
         }) ?? new List<ProductBackofficeDTO>();
     }
 
-    public async Task<ProductBackofficeDTO> AddBackofficeProductAsync(ProductInputDTO productInput)
+    public async Task AddBackofficeProductAsync(ProductInputDTO productInput)
     {
         try
         {
             var mutation = new
             {
                 query = @"
-                mutation AddClothingProduct($input: AddProductInput!) {
-                    addProduct(input: $input) {
-                        productId
+            mutation AddClothingProduct($input: AddProductInput!) {
+                addProduct(input: $input) {
+                    productId
+                    name
+                    description
+                    category {
                         name
-                        description
-                        category {
-                            name
-                        }
-                        variants {
-                            size
-                            color
-                            stock
-                            price
-                        }
-                        reviews {
-                            clientName
-                            rating
-                            comment
-                        }
                     }
-                }",
+                    variants {
+                        size
+                        color
+                        stock
+                        price
+                    }
+                    reviews {
+                        clientName
+                        rating
+                        comment
+                    }
+                }
+            }",
                 variables = new
                 {
                     input = new
@@ -75,16 +75,12 @@ public class ProductBackofficeService
                         name = productInput.Name,
                         description = productInput.Description,
                         images = productInput.Images,
-                        category = new { name = "Kläder" },
+                        categoryName = productInput.CategoryName,
                         variants = productInput.Variants,
-                        reviews = new[]
-                        {
-                        new { clientName = "John Doe", rating = 5, comment = "Excellent product!" }
-                    }
+                        reviews = new string[] { }
                     }
                 }
             };
-
 
             var jsonContent = JsonConvert.SerializeObject(mutation);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -104,31 +100,16 @@ public class ProductBackofficeService
                 throw new HttpRequestException($"Failed to add product to GraphQL server. StatusCode: {response.StatusCode}, Error: {responseContent}");
             }
 
-            var result = JsonConvert.DeserializeObject<GraphQLResponse<ProductAddResponse>>(responseContent);
-            var addedProduct = result?.Data?.AddProduct;
+          
 
-            if (addedProduct == null)
-                throw new Exception("Failed to parse product response");
-
-            return new ProductBackofficeDTO
-            {
-                ProductId = addedProduct.ProductId,
-                Name = addedProduct.Name,
-                CreatedAt = addedProduct.CreatedAt,
-                Category = new CategoryDTO { Name = addedProduct.Category.Name }
-            };
+            // Här kan du logga eller hantera svaret om det behövs.
+            // Eftersom vi inte behöver något objekt kan vi sluta här.
         }
         catch (Exception ex)
         {
             throw new Exception("Error occurred while adding product", ex);
         }
     }
-
-
-
-
-
-
 }
 
 public class GraphQLResponse<T>

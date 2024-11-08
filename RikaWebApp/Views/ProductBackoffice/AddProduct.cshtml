@@ -1,5 +1,4 @@
-﻿
-@model Business.Dto.Product.ProductInputDTO
+﻿@model Business.Dto.Product.ProductInputDTO
 
 <section class="add-product-backoffice">
     <div class="container">
@@ -8,52 +7,61 @@
         <form id="addProductForm" method="post" action="/backoffice/addproduct">
             <h1>Add New Product</h1>
 
+            <!-- Product Name -->
             <div id="product-name" class="form-group">
                 <label for="productName">Product Name</label>
                 <input type="text" id="productName" name="Name" required>
             </div>
 
+            <!-- Product Description -->
             <div id="product-description" class="form-group">
                 <label for="productDescription">Description</label>
                 <input type="text" id="productDescription" name="Description" required>
             </div>
 
+            <!-- Product Category -->
             <div id="product-category" class="form-group">
                 <label for="categorySelect">Category</label>
-                <select id="categorySelect" name="CategoryId" required>
+                <select id="categorySelect" name="CategoryName" required>
                     <option value="">Select a category</option>
-                    <option value="1">Clothes</option>
-                    <option value="2">Shoes</option>
-                    <option value="3">Bags</option>
-                    <option value="4">Electronics</option>
-                    <option value="5">Jewelry</option>
+                    <option value="Clothes">Clothes</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="Bags">Bags</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Jewelry">Jewelry</option>
                 </select>
             </div>
 
+
+            <!-- Hidden Category Name Field -->
             <input type="hidden" id="categoryName" name="CategoryName">
 
+            <!-- Product Variants -->
             <div id="product-variants" class="form-group">
                 <label>Product Variants</label>
-                <button type="button" onclick="addVariantField()">Add Variant</button>
+                <!-- Variant Fields -->
                 <div id="variantFields">
-                    <!-- Variant input fields will be added here dynamically -->
+                    <div class="variant-field">
+                        <input type="text" name="Variants[]" placeholder="Variant Size" required>
+                        <input type="text" name="VariantColors[]" placeholder="Variant Color" required>
+                        <input type="number" name="VariantStocks[]" placeholder="Stock Quantity" required>
+                        <input type="number" name="VariantPrices[]" placeholder="Price" required>
+                    </div>
+                    <!-- Add more variants as needed -->
                 </div>
             </div>
 
+            <!-- Product Images -->
             <div id="product-images" class="form-group">
                 <label for="productImages">Product Images</label>
-                <button type="button" onclick="addImageField()">Add Image</button>
                 <div id="imageFields">
-                    <!-- Image input fields will be added here dynamically -->
+                    <input type="text" name="Images[]" placeholder="Image URL" required>
+                    <!-- Add more image fields as needed -->
                 </div>
             </div>
 
- 
-
-
+            <!-- Save Button -->
             <button id="save-button" type="submit" class="btn-primary">Save Product</button>
         </form>
     </div>
 </section>
-
-<script src="~/js/product/addProductForm.js"></script>

@@ -38,8 +38,10 @@ namespace RikaWebApp.Controllers.Product
         {
             try
             {
-                // Se till att CategoryName nu är korrekt i produktInput
-                var addedProduct = await _productBackofficeService.AddBackofficeProductAsync(productInput);
+                // Anropa tjänsten utan att tilldela resultat till en variabel
+                await _productBackofficeService.AddBackofficeProductAsync(productInput);
+
+                // Omdirigera till "Index"-sidan efter att produkten har lagts till
                 return RedirectToAction("Index");
             }
             catch (ArgumentNullException)
@@ -55,6 +57,7 @@ namespace RikaWebApp.Controllers.Product
                 return StatusCode(500, "An error occurred while adding the product. Please try again.");
             }
         }
+
 
     }
 }

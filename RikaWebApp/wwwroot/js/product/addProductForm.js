@@ -1,67 +1,67 @@
-﻿function submitNewProduct(event) {
-    event.preventDefault();
-    const formData = new FormData(document.getElementById('addProductForm'));
+﻿//function submitNewProduct(event) {
+//    event.preventDefault();
+//    const formData = new FormData(document.getElementById('addProductForm'));
 
-    const productData = {
-        name: formData.get('Name'),
-        description: formData.get('Description'),
-        categoryId: formData.get('CategoryId'),
-        images: formData.getAll('Images[]').map(url => ({ url })),
-        variants: [],
-        review: {
-            clientName: formData.get('ProductReview.ClientName'),
-            rating: parseInt(formData.get('ProductReview.Rating'), 10),
-            comment: formData.get('ProductReview.Comment')
-        }
-    };
+//    const productData = {
+//        name: formData.get('Name'),
+//        description: formData.get('Description'),
+//        categoryId: formData.get('CategoryId'),
+//        images: formData.getAll('Images[]').map(url => ({ url })),
+//        variants: [],
+//        review: {
+//            clientName: formData.get('ProductReview.ClientName'),
+//            rating: parseInt(formData.get('ProductReview.Rating'), 10),
+//            comment: formData.get('ProductReview.Comment')
+//        }
+//    };
 
-    const sizes = formData.getAll('Variants[]');
-    const colors = formData.getAll('VariantColors[]');
-    const stocks = formData.getAll('VariantStocks[]');
-    const prices = formData.getAll('VariantPrices[]');
+//    const sizes = formData.getAll('Variants[]');
+//    const colors = formData.getAll('VariantColors[]');
+//    const stocks = formData.getAll('VariantStocks[]');
+//    const prices = formData.getAll('VariantPrices[]');
 
-    sizes.forEach((size, index) => {
-        productData.variants.push({
-            size,
-            color: colors[index],
-            stock: parseInt(stocks[index], 10),
-            price: parseFloat(prices[index])
-        });
-    });
+//    sizes.forEach((size, index) => {
+//        productData.variants.push({
+//            size,
+//            color: colors[index],
+//            stock: parseInt(stocks[index], 10),
+//            price: parseFloat(prices[index])
+//        });
+//    });
 
-    const graphqlQuery = {
-        query: `mutation AddClothingProduct($input: AddProductInput!) { 
-            addProduct(input: $input) { 
-                productId 
-                name 
-                description 
-                category { name } 
-                variants { size color stock price } 
-                reviews { clientName rating comment } 
-            } 
-        }`,
-        variables: { input: productData }
-    };
+//    const graphqlQuery = {
+//        query: `mutation AddClothingProduct($input: AddProductInput!) { 
+//            addProduct(input: $input) { 
+//                productId 
+//                name 
+//                description 
+//                category { name } 
+//                variants { size color stock price } 
+//                reviews { clientName rating comment } 
+//            } 
+//        }`,
+//        variables: { input: productData }
+//    };
 
-    const loadingIndicator = document.getElementById('loadingIndicator');
-    loadingIndicator.style.display = 'block';
+//    const loadingIndicator = document.getElementById('loadingIndicator');
+//    loadingIndicator.style.display = 'block';
 
-    fetch('https://productprovidergraphql.azurewebsites.net/api/GraphQL?code=0GQhXGiLSYJRnfNBuRrB1_csNX6zQjBWwiUQgHPZb8pPAzFuI7EMSQ%3D%3D', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(graphqlQuery)
-    })
-        .then(response => response.json())
-        .then(data => {
-            alert('Product added successfully!');
-        })
-        .catch(() => {
-            alert('An error occurred. Please try again.');
-        })
-        .finally(() => {
-            loadingIndicator.style.display = 'none';
-        });
-}
+//    fetch('https://productprovidergraphql.azurewebsites.net/api/GraphQL?code=0GQhXGiLSYJRnfNBuRrB1_csNX6zQjBWwiUQgHPZb8pPAzFuI7EMSQ%3D%3D', {
+//        method: 'POST',
+//        headers: { 'Content-Type': 'application/json' },
+//        body: JSON.stringify(graphqlQuery)
+//    })
+//        .then(response => response.json())
+//        .then(data => {
+//            alert('Product added successfully!');
+//        })
+//        .catch(() => {
+//            alert('An error occurred. Please try again.');
+//        })
+//        .finally(() => {
+//            loadingIndicator.style.display = 'none';
+//        });
+//}
 
 
 function getCategoryName(categoryId) {
