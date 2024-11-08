@@ -1,0 +1,59 @@
+﻿@using RikaWebApp.ViewModels
+@model IEnumerable<ReviewViewModel>
+@{
+    ViewData["Title"] = ViewData["Title"] ?? "reviews";
+}
+<div class="reviews-container">
+    <div class="back-icon">
+        <a asp-controller="Products" asp-action="ProductDetails" asp-route-categoryName="@ViewData["CategoryName"]" asp-route-id="@ViewData["ProductId"]">
+            <i class="fa-regular fa-arrow-left"></i>
+        </a>
+    </div>
+    <div class="search-glass">
+        <i class="fa-regular fa-magnifying-glass" id="search-toggle"></i>
+    </div>
+
+    <div class="search-bar" id="search-bar">
+        <input type="text" id="search-bar" placeholder="Search Categories">
+    </div>
+    <h2>@ViewData["Title"]</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (!Model.Any())
+    {
+        <p>Inga recensioner hittades för denna produkt.</p>
+    }
+    else
+    {
+        <div class="reviews-list">
+            @foreach (var review in Model)
+            {
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-info">
+                            <strong class="review-client">@review.ClientName</strong>
+                            <span class="review-date">@review.CreatedAt.ToString("dd MMMM, yyyy")</span>
+                        </div>
+                        <div class="review-rating">
+                            @for (int i = 0; i < review.Rating; i++)
+                            {
+                                <span class="star">&#9733;</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="review-comment">
+                        <p>@review.Comment</p>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    <div class="add-review-btn mt-4">
+        <a class="btn btn-primary" asp-action="AddReviewForm" asp-controller="Reviews" asp-route-categoryName="@ViewData["CategoryName"]" asp-route-productId="@ViewData["ProductId"]">Add Review</a>
+    </div>
+</div>
