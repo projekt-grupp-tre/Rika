@@ -1944,6 +1944,82 @@ form .input-group textarea:hover {
   text-align: center;
 }
 
+footer {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  position: fixed;
+  bottom: 0;
+  color: white;
+  width: 100%;
+  z-index: 3;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+footer .container {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+footer #nav-menu {
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  display: flex;
+}
+footer #nav-menu nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+footer #nav-menu nav .link {
+  text-decoration: none;
+}
+footer #nav-menu nav .home {
+  border-radius: 20px;
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  background-color: #c0c1c2;
+}
+footer #nav-menu nav .home i {
+  padding: 0.8rem;
+  border-radius: 50%;
+  color: white;
+  background-color: black;
+}
+footer #nav-menu nav .home i:hover {
+  background-color: #4e4f4f;
+  transition: 0.2s ease-in;
+}
+footer #nav-menu nav .home span {
+  background-color: black;
+  margin-left: 0.4rem;
+  padding-right: 1rem;
+}
+footer #nav-menu nav .home .menu-link {
+  text-decoration: none;
+}
+footer #nav-menu nav .nav-icons {
+  display: flex;
+  padding-left: 2rem;
+  margin-right: 1rem;
+  color: black;
+}
+footer #nav-menu nav .nav-icons .link {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding-right: 2rem;
+}
+footer #nav-menu nav .nav-icons .link:hover {
+  color: #AEAEAE;
+  transition: 0.2s ease-in;
+}
+footer #nav-menu nav .nav-icons .link i {
+  margin-right: 0.5rem;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;

@@ -1,0 +1,96 @@
+﻿
+footer {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    position: fixed;
+    bottom: 0;
+    color: $secondary-color;
+    width: 100%;
+    z-index: 3;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    .container {
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+    }
+
+    #nav-menu {
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        display: flex;
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .link {
+                text-decoration: none;
+            }
+
+            .home {
+                border-radius: 20px;
+                margin-left: 1rem;
+                display: flex;
+                align-items: center;
+                background-color: #c0c1c2;
+
+
+
+                i {
+                    padding: 0.8rem;
+                    border-radius: 50%;
+                    color: $secondary-color;
+                    background-color: $primary-color;
+
+
+                    &:hover {
+                        background-color: #4e4f4f;
+                        transition: 0.2s ease-in;
+                    }
+                }
+
+                span {
+                    background-color: $primary-color;
+                    margin-left: 0.4rem;
+                    padding-right: 1rem;
+                }
+
+                .menu-link {
+                    text-decoration: none;
+                }
+            }
+
+            .nav-icons {
+                display: flex;
+                padding-left: 2rem;
+                margin-right: 1rem;
+                color: black;
+
+
+
+                .link {
+                    text-decoration: none;
+                    color: $secondary-color;
+                    display: flex;
+                    align-items: center;
+                    padding-right: 2rem;
+
+
+
+                    &:hover {
+                        color: #AEAEAE;
+                        transition: 0.2s ease-in;
+                    }
+
+                    i {
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+}
