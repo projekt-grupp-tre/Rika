@@ -1542,7 +1542,7 @@ footer #nav-menu nav .home i:hover {
   transition: 0.2s ease-in;
 }
 footer #nav-menu nav .home span {
-  background-color: transparent;
+  background-color: transparent !important;
   margin-left: 0.4rem;
   padding-right: 1rem;
 }
