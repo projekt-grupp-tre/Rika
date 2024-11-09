@@ -1,0 +1,104 @@
+﻿.welcome {
+    background-color: $light-grey;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+
+        .content {
+            color: $secondary-color;
+            display: none; 
+            flex-direction: column;
+            text-align: center;
+            justify-content: center; 
+            align-items: center; 
+            width: 100%; 
+        }
+
+
+        .a-content {
+            color: $secondary-color;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .text-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+        }
+
+        #onboarding {
+            height: 60vh;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+
+            &.active,
+            &:hover {
+                background-color: #717171;
+            }
+        }
+
+        .logo-content {
+            margin-bottom: 28rem;
+        }
+
+
+        form {
+            button.btn-sign-in {
+                font-size: 20px;
+                font-weight: 700;
+                font-family: $font-stack;
+                width: 100% !important;
+                margin: 2rem 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px 20px;
+                cursor: pointer;
+                background-color: $secondary-color;
+                color: $primary-color;
+            }
+
+
+
+            button.btn-sign-up {
+                font-size: 20px;
+                font-weight: 700;
+                font-family: $font-stack;
+                width: 100% !important;
+                margin: 2rem 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px 20px;
+                cursor: pointer;
+                background-color: $light-grey;
+                color: $secondary-color;
+                border: 2px solid $secondary-color;
+            }
+        }
+    }
+}
