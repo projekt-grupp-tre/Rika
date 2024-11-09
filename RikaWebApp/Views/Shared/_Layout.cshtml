@@ -30,9 +30,7 @@
             </main>
         </div>
 
-        <footer>
-
-        </footer>
+        @await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_minePageFooterPartial.cshtml")
     </div>
     @await RenderSectionAsync("Scripts", required: false)
     <script src="~/js/auth/auth.js"></script>
