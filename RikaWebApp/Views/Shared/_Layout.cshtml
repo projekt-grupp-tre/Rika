@@ -22,6 +22,8 @@
 <body>
     <div class="wrapper">
         <header>
+           
+
         </header>
 
         <div class="container">
@@ -30,9 +32,11 @@
             </main>
         </div>
 
-        <footer>
-
-        </footer>
+        @* <footer>
+            @await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_FooterMinePage.cshtml")
+        </footer> *@
+             @await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_FooterMinePage.cshtml")
+        
     </div>
     @await RenderSectionAsync("Scripts", required: false)
     <script src="~/js/auth/auth.js"></script>
