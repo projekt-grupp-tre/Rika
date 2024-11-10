@@ -79,6 +79,7 @@
             cursor: pointer;
             background-color: $secondary-color;
             color: $primary-color;
+            text-decoration: none;
         }
 
 
@@ -97,6 +98,7 @@
             background-color: $light-grey;
             color: $secondary-color;
             border: 2px solid $secondary-color;
+            text-decoration: none;
         }
 
         button.btn-galery {
@@ -111,7 +113,6 @@
             padding: 10px 20px;
             cursor: pointer;
             background-color: $primary-color;
-            
             color: $secondary-color;
             //border: 2px solid $secondary-color;
         }
