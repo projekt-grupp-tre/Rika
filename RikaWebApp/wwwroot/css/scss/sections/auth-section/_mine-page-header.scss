@@ -1,0 +1,21 @@
+﻿.header-content {
+    background-color: antiquewhite;
+    display: flex;
+    align-items: center;
+    width:70%;
+
+    .nav-btn {
+        display: flex;
+        gap: 1rem;
+       // background-color: palevioletred;
+    }
+
+    .profile-image {
+        margin-left: auto;
+    }
+
+    .nav-btn .auth-nav {
+        text-decoration: none;
+        color: $primary-color;
+    }    
+}

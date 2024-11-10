@@ -7,12 +7,15 @@
     ViewData["Title"] = "Rika";
 }
 
-<a asp-action="SignUpView" asp-controller="SignUp">Sign Up</a>
+<header class="container header-content"  >
+<div class="nav-btn">
+        <a class="auth-nav" asp-action="SignUpView" asp-controller="SignUp">Sign Up</a>
 
-<a asp-action="SignInView" asp-controller="SignIn">Sign in</a>
+        <a class="auth-nav" asp-action="SignInView" asp-controller="SignIn">Sign in</a>
 
-<a asp-action="LogOut" asp-controller="SignOut">Sign out</a>
+       
 
+</div>
 
 <a class="profile-image"  asp-action="Index" asp-controller="Onboarding">
     <img src="https://storagerika.blob.core.windows.net/files/user.png" alt="onboarding">
@@ -48,8 +51,9 @@
     <a asp-action="LogOut" asp-controller="SignOut">Logout</a>
 }
 
+</header>
 
    
-       
+
 
 @await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_CategoriesPartial.cshtml")
