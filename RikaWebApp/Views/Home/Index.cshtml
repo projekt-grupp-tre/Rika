@@ -1,4 +1,5 @@
 ﻿@using RikaWebApp.Models.AuthModels;
+@using RikaWebApp.ViewModels
 
 @model BasicLoggedInUser;
 
@@ -35,3 +36,6 @@
 }
 
 
+   
+            @await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_CategoriesPartial.cshtml")
+       
