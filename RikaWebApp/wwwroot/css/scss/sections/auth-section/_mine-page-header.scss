@@ -1,13 +1,14 @@
 ﻿.header-content {
-    background-color: antiquewhite;
+    //background-color: antiquewhite;
     display: flex;
     align-items: center;
-    width:70%;
+    justify-content: space-between; 
+    width: 70%;
+    margin: 0 auto; 
 
     .nav-btn {
         display: flex;
         gap: 1rem;
-       // background-color: palevioletred;
     }
 
     .profile-image {
@@ -17,5 +18,5 @@
     .nav-btn .auth-nav {
         text-decoration: none;
         color: $primary-color;
-    }    
+    }
 }

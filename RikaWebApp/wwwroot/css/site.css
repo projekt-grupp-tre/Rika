@@ -1674,10 +1674,11 @@ footer #nav-menu nav .nav-icons .nav-link i {
 }
 
 .header-content {
-  background-color: antiquewhite;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 70%;
+  margin: 0 auto;
 }
 .header-content .nav-btn {
   display: flex;
