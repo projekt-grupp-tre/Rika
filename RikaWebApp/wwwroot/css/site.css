@@ -1570,6 +1570,107 @@ footer #nav-menu nav .nav-icons .nav-link i {
   margin-right: 0.5rem;
 }
 
+.welcome {
+  background-color: #CCCCCC;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.welcome .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.welcome .container .content {
+  color: white;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.welcome .container .a-content {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.welcome .container .text-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+.welcome .container #onboarding {
+  height: 60vh;
+}
+.welcome .container .dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+.welcome .container .dot.active, .welcome .container .dot:hover {
+  background-color: #717171;
+}
+.welcome .container .logo-content {
+  margin-bottom: 10rem;
+}
+.welcome .container a.btn-sign-in {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Outfit", sans-serif;
+  width: 100% !important;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+}
+.welcome .container a.btn-sign-up {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Outfit", sans-serif;
+  width: 100% !important;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: #CCCCCC;
+  color: white;
+  border: 2px solid white;
+}
+.welcome .container button.btn-galery {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: "Outfit", sans-serif;
+  width: 100% !important;
+  margin: 2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}
+
 :root {
   --danger: rgb(231, 99, 37);
 }

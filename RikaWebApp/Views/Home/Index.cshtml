@@ -11,7 +11,13 @@
 
 <a asp-action="SignInView" asp-controller="SignIn">Sign in</a>
 
-<a asp-action="SignOut" asp-controller="LogOut">Sign out</a>
+<a asp-action="LogOut" asp-controller="SignOut">Sign out</a>
+
+
+<a class="profile-image"  asp-action="Index" asp-controller="Onboarding">
+    <img src="https://storagerika.blob.core.windows.net/files/user.png" alt="onboarding">
+
+</a>
 
 
 
@@ -21,6 +27,9 @@
         <p><strong>@TempData["LogOut"]</strong></p>
     </div>
 }
+
+
+
 
 @if(Model != null)
 {
