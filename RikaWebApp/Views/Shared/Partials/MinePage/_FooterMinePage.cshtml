@@ -5,7 +5,7 @@
 
 
 
-@if (currentController != "SignIn" && currentController != "SignUp" && currentController != "Profile" && currentController != "Success" && currentController != "SignOut" && currentController != "Verification")
+@if (currentController != "SignIn" && currentController != "SignUp" && currentController != "Profile" && currentController != "Success" && currentController != "SignOut" && currentController != "Verification" && currentController != "Contact" && currentController != "ShoppingCart" )
 {
     <footer >
         <div class="container">
@@ -16,7 +16,7 @@
                         <span>Home</span>
                     </a>
                     <div class="nav-icons ">
-                        <a class="cart-icon nav-link" asp-controller="Cart" asp-action="Index">
+                        <a class="cart-icon nav-link" asp-controller="ShoppingCart" asp-action="Index">
                             <i class="fa-solid fa-cart-shopping"></i>
                             <span>Cart</span>
                         </a>
