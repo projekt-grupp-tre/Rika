@@ -64,62 +64,62 @@
 //}
 
 
-function getCategoryName(categoryId) {
-    const categories = { 1: "Clothes", 2: "Shoes", 3: "Bags", 4: "Electronics", 5: "Jewelry" };
-    return categories[categoryId] || "Uncategorized";
-}
+//function getCategoryName(categoryId) {
+//    const categories = { 1: "Clothes", 2: "Shoes", 3: "Bags", 4: "Electronics", 5: "Jewelry" };
+//    return categories[categoryId] || "Uncategorized";
+//}
 
-function addVariantField() {
-    const variantFieldsContainer = document.getElementById('variantFields');
+//function addVariantField() {
+//    const variantFieldsContainer = document.getElementById('variantFields');
 
-    const sizeField = document.createElement('input');
-    sizeField.type = 'text';
-    sizeField.name = 'Variants[]';
-    sizeField.placeholder = 'Variant Size';
+//    const sizeField = document.createElement('input');
+//    sizeField.type = 'text';
+//    sizeField.name = 'Variants[]';
+//    sizeField.placeholder = 'Variant Size';
 
-    const colorField = document.createElement('input');
-    colorField.type = 'text';
-    colorField.name = 'VariantColors[]';
-    colorField.placeholder = 'Variant Color';
+//    const colorField = document.createElement('input');
+//    colorField.type = 'text';
+//    colorField.name = 'VariantColors[]';
+//    colorField.placeholder = 'Variant Color';
 
-    const stockField = document.createElement('input');
-    stockField.type = 'number';
-    stockField.name = 'VariantStocks[]';
-    stockField.placeholder = 'Stock Quantity';
+//    const stockField = document.createElement('input');
+//    stockField.type = 'number';
+//    stockField.name = 'VariantStocks[]';
+//    stockField.placeholder = 'Stock Quantity';
 
-    const priceField = document.createElement('input');
-    priceField.type = 'number';
-    priceField.name = 'VariantPrices[]';
-    priceField.placeholder = 'Price';
+//    const priceField = document.createElement('input');
+//    priceField.type = 'number';
+//    priceField.name = 'VariantPrices[]';
+//    priceField.placeholder = 'Price';
 
-    variantFieldsContainer.appendChild(sizeField);
-    variantFieldsContainer.appendChild(colorField);
-    variantFieldsContainer.appendChild(stockField);
-    variantFieldsContainer.appendChild(priceField);
-}
+//    variantFieldsContainer.appendChild(sizeField);
+//    variantFieldsContainer.appendChild(colorField);
+//    variantFieldsContainer.appendChild(stockField);
+//    variantFieldsContainer.appendChild(priceField);
+//}
 
-function addImageField() {
-    const imageFieldsContainer = document.getElementById('imageFields');
-    const imageUrlField = document.createElement('input');
-    imageUrlField.type = 'text';
-    imageUrlField.name = 'Images[]';
-    imageUrlField.placeholder = 'Image URL';
-    imageFieldsContainer.appendChild(imageUrlField);
-}
+//function addImageField() {
+//    const imageFieldsContainer = document.getElementById('imageFields');
+//    const imageUrlField = document.createElement('input');
+//    imageUrlField.type = 'text';
+//    imageUrlField.name = 'Images[]';
+//    imageUrlField.placeholder = 'Image URL';
+//    imageFieldsContainer.appendChild(imageUrlField);
+//}
 
-document.getElementById("categorySelect").addEventListener("change", function () {
-    const categoryId = this.value;
-    const categoryName = getCategoryName(categoryId);  // Få kategori namn
-    document.getElementById("categoryName").value = categoryName;  // Sätt kategori namn i det osynliga fältet
-});
+//document.getElementById("categorySelect").addEventListener("change", function () {
+//    const categoryId = this.value;
+//    const categoryName = getCategoryName(categoryId);  // Få kategori namn
+//    document.getElementById("categoryName").value = categoryName;  // Sätt kategori namn i det osynliga fältet
+//});
 
-function getCategoryName(categoryId) {
-    const categories = {
-        "1": "Clothes",
-        "2": "Shoes",
-        "3": "Bags",
-        "4": "Electronics",
-        "5": "Jewelry"
-    };
-    return categories[categoryId] || "Uncategorized";
-}
+//function getCategoryName(categoryId) {
+//    const categories = {
+//        "1": "Clothes",
+//        "2": "Shoes",
+//        "3": "Bags",
+//        "4": "Electronics",
+//        "5": "Jewelry"
+//    };
+//    return categories[categoryId] || "Uncategorized";
+//}
