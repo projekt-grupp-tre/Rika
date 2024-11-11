@@ -21,11 +21,17 @@ public class VerificationController : Controller
 
             using HttpClient http = new HttpClient();
             var content = new StringContent(JsonConvert.SerializeObject(new {Email = email, Code = model.VerificationCode}), Encoding.UTF8, "application/json");
-            var response = await http.PostAsync("https://verificationprovider-group3.azurewebsites.net/api/verify?code=ye61aXEds-iuSA3YG7OPCbMbLpU5B6-awY7TKB88oBacAzFud3pmkQ%3D%3D", content);
+            var response = await http.PostAsync("https://verification-rika.azurewebsites.net/api/verify?code=0mQbf3eCNmaWk7YjezTtO2DZNsI0gDN6QD9p7Cd10z11AzFuY415IA%3D%3D", content);
             
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("SuccessView", "Success");
+                var emailContent = new StringContent(JsonConvert.SerializeObject(new { Email = email }), Encoding.UTF8, "application/json");
+                var emailConfirmedResponse = await http.PostAsync("https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/Api/Verification", emailContent);
+
+                if (emailConfirmedResponse.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("SuccessView", "Success");
+                }
             }
         }
 
