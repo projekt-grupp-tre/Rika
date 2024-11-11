@@ -16,7 +16,6 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Controllers\Product\" />
     <Folder Include="Views\Shared\Partials\Auth\" />
-
     <Folder Include="Views\Shared\Partials\Communication\" />
     <Folder Include="Views\Shared\Partials\Order\" />
   </ItemGroup>
@@ -26,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
@@ -35,6 +35,14 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.18.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Contact\AgentChat.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Contact\AgentChat.cshtml" />
   </ItemGroup>
 
 </Project>

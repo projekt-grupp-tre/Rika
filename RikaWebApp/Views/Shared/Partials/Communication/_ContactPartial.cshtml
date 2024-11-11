@@ -53,12 +53,13 @@
             <span asp-validation-for="@Model.ContactForm.Message"></span>
         </div>
         <div class="checkbox-group">
-            <input class="checkbox-input" asp-for="@Model.ContactForm.TermsAndConditions" type="checkbox" id="termsAndConditions">
-            <label class="checkbox-label" for="daily-newsletter" asp-for="@Model.ContactForm.TermsAndConditions"></label>
+            <input class="checkbox-input" id="termsAndConditions" asp-for="@Model.ContactForm.TermsAndConditions" type="checkbox" id="termsAndConditions">
+            <label class="checkbox-label" for="termsAndConditions" asp-for="@Model.ContactForm.TermsAndConditions"></label>
+            <span asp-validation-for="@Model.ContactForm.TermsAndConditions"></span>
         </div>
         <button type="submit" id="contactSubmitBtn" disabled class="btn-round btn-disabled">Send Contact Request</button>
     </form>
-    
+    <a class="chat-btn btn" href="/contact/support-chat">Chat with us</a>
 </section>
 @await Html.PartialAsync("_ContactValidationPartial.cshtml")
 
