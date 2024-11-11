@@ -1,25 +1,15 @@
-﻿
-using Business.Dto.OrderDtos;
-using Business.Dto.Product;
+﻿using Business.Dto.OrderDtos;
 using Business.Interfaces.OrderInterfaces;
 using Business.Services.Product;
 using Newtonsoft.Json;
-using System.Net.NetworkInformation;
+using System.Diagnostics;
 using System.Text;
-using System.Text.Json;
-using static System.Net.WebRequestMethods;
-
-
 
 namespace Business.Services.OrderServices
 {
     public class ShoppingCartService : IShoppingCartService
     {
-
         private readonly HttpClient _httpClient;
-
-
-        
 
         public ShoppingCartService(HttpClient httpClient)
         {
@@ -92,7 +82,7 @@ namespace Business.Services.OrderServices
                     var json = await result.Content.ReadAsStringAsync();
                     dynamic jsonObj = JsonConvert.DeserializeObject<dynamic>(json);
 
-                    
+
                     var productData = jsonObj?.data?.getProductById;
 
                     if (productData == null)
@@ -100,20 +90,20 @@ namespace Business.Services.OrderServices
                         return null;
                     }
 
-                    
+
                     return new ProductDto
                     {
                         Id = productData.productId?.ToString() ?? "Unknown",
                         Name = productData.name ?? "Unnamed Product",
                         Description = productData.description ?? "No Description",
-                        Quantity = productData.quantity != null ? Convert.ToInt32(productData.quantity) : 0, 
+                        Quantity = productData.quantity != null ? Convert.ToInt32(productData.quantity) : 0,
                         Category = productData.category?.name ?? "No Category",
-                        Price = productData.variants?[0]?.price != null ? (double?)productData.variants[0].price : null, 
-                        Images = productData.images?.ToObject<List<string>>() ?? new List<string>() 
+                        Price = productData.variants?[0]?.price != null ? (double?)productData.variants[0].price : null,
+                        Images = productData.images?.ToObject<List<string>>() ?? new List<string>()
                     };
                 }
 
-                return null; 
+                return null;
             }
             catch (Exception ex) { }
             return null;
@@ -171,7 +161,7 @@ namespace Business.Services.OrderServices
         //            if (user != null && user.email != null) 
         //            {
         //                return user.email.ToString();
-                   
+
         //            }else {  return null!; }
         //        }
         //        return null!;
@@ -191,7 +181,7 @@ namespace Business.Services.OrderServices
         /// <param name="email"></param>
         /// <param name="productId"></param>
         /// <returns></returns>
-        public async Task<ResponseDto> AddProductToCartAsync(string email, string productId) 
+        public async Task<ResponseDto> AddProductToCartAsync(string email, string productId)
         {
             try
             {
@@ -208,7 +198,7 @@ namespace Business.Services.OrderServices
                 }
 
                 var product = await GetOneProductAsync();
-                if (product == null || product?.Quantity <= 0) 
+                if (product == null || product?.Quantity <= 0)
                 {
                     return new ResponseDto
                     {
@@ -241,29 +231,85 @@ namespace Business.Services.OrderServices
 
         #endregion
 
-
-        //public async Task<IEnumerable<ShoppingCartDto>> GetAllShoppingCartItems()
-        //{
-        //    try
-        //    {
-             
-
-        //    }
-        //    catch (Exception)
-        //    {
-
-        //        throw;
-        //    }
-        //}
-
         public ValidatorResult Validate(CartItemDto cartItemDto)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ShoppingCartDto> GetFullShoppingCart(string email)
+        public async Task<ShoppingCartDto> GetFullShoppingCart(string email)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _httpClient.GetAsync($"https://shoppingcartprovider-d9dcbqe8d7gnc6a3.westeurope-01.azurewebsites.net/cart?userEmail={email}");
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var json = await result.Content.ReadAsStringAsync();
+                    ShoppingCartDto shoppingcart = JsonConvert.DeserializeObject<ShoppingCartDto>(json)!;
+
+                    if (shoppingcart != null)
+                        return shoppingcart;
+                }
+            }
+            catch (Exception e) { Debug.Write("ERRORR ::: GetFullShoppingCart {0}", e.Message); }
+            return null!;
+        }
+
+        public async Task<GraphQLProductListResponse> GetAllCartItemsFromCart(List<string> ids)
+        {
+            var queryObject = new
+            {
+                query = @"
+                         query GetProductsByIds($productIds: [UUID!]!) {
+                           getProductsByIds(productIds: $productIds) {
+                             productId
+                             name
+                             description
+                             images
+                             category {
+                               name
+                             }
+                             variants {
+                               size
+                               color
+                               stock
+                               price
+                             }
+                           }
+                         }",
+                variables = new
+                {
+                    productIds = ids
+                }
+            };
+
+            try
+            {
+                var jsonContent = JsonConvert.SerializeObject(queryObject);
+                using var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                var result = await _httpClient.PostAsync("https://productprovidergraphql.azurewebsites.net/api/GraphQL?code=0GQhXGiLSYJRnfNBuRrB1_csNX6zQjBWwiUQgHPZb8pPAzFuI7EMSQ%3D%3D", content);
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var json = await result.Content.ReadAsStringAsync();
+                    Console.WriteLine("JSON Response: " + json);
+                    var products = JsonConvert.DeserializeObject<GraphQLProductListResponse>(json);
+
+                    //List<string> strings = new List<string>();
+                    //foreach(var item in products)
+                    //{
+
+                    //    strings.Add(item.ToString());
+                    //}
+
+
+                    var asdfg = products?.Data?.GetProducts!;
+                    var asdf = "asdf";
+                    return products;
+                }
+            }
+            catch (Exception e) { Debug.Write("ERRORR ::: GetAllCartItemsFromCart {0}", e.Message); }
+            return null!;
         }
     }
 }

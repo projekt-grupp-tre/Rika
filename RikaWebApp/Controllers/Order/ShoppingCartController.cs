@@ -12,8 +12,6 @@ namespace RikaWebApp.Controllers.Order
     public class ShoppingCartController : Controller
     {
         private readonly IShoppingCartService _shoppingCartService;
-     
-        
 
         public ShoppingCartController(IShoppingCartService shoppingCartService)
         {
@@ -62,19 +60,30 @@ namespace RikaWebApp.Controllers.Order
 
         public async Task<IActionResult> Index()
         {
-            var context = 
-            
-            var currentUser = GetCookieInfoHelper.JwtTokenToBasicLoggedInUserModel(_httpContext);
+            var currentUser = GetCookieInfoHelper.JwtTokenToBasicLoggedInUserModel(HttpContext);
 
-            //var  = await _shoppingCartService.GetUserByEmailAsync(currentUser.Email.ToString());
+            var shoppingcart = await _shoppingCartService.GetFullShoppingCart(currentUser.Email);
 
 
-            //var viewModel = new ShoppingCartViewModel
-            //{
-            //    Email = currentUser.Email.ToString(),
-            //};
+            List<string> ids = new List<string>();   
 
-            return View(/*viewModel*/);
+            foreach (var item in shoppingcart.CartItems!) 
+                ids.Add(item.ProductId);
+
+            var listOfProducts = await _shoppingCartService.GetAllCartItemsFromCart(ids);
+
+
+
+
+            //var = await _shoppingcartservice.getuserbyemailasync(currentuser.email.tostring());
+
+
+            var viewModel = new ShoppingCartViewModel
+            {
+                Email = currentUser.Email.ToString(),
+            };
+
+            return View(viewModel);
         }
 
 

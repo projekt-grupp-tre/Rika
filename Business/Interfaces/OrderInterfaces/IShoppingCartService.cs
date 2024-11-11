@@ -1,4 +1,6 @@
 ﻿using Business.Dto.OrderDtos;
+using Business.Dto.Product;
+using Business.Services.Product;
 
 namespace Business.Interfaces.OrderInterfaces
 {
@@ -17,5 +19,7 @@ namespace Business.Interfaces.OrderInterfaces
         ValidatorResult Validate(CartItemDto cartItemDto);
 
         Task<ShoppingCartDto> GetFullShoppingCart(string email);
+
+        Task<GraphQLProductListResponse> GetAllCartItemsFromCart(List<string> ids);
     }
 }
