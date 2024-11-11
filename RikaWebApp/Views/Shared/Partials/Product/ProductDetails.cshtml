@@ -1,6 +1,12 @@
-﻿@using RikaWebApp.ViewModels
+﻿@using RikaWebApp.Helpers
+@using RikaWebApp.ViewModels
 @model ProductViewModel
 
+@{
+
+    var currentUser = GetCookieInfoHelper.JwtTokenToBasicLoggedInUserModel(Context);
+
+}
 
 <section class="product-details" data-variants='@Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Variants))' data-product-id="@Model.ProductId">
     <div class="container">
@@ -361,7 +367,7 @@
 
 
         //lägg till i kundvagn
-        document.getElementById('addToCartButton').addEventListener('click', () => {
+        document.getElementById('addToCartButton').addEventListener('click', () => {            
             const productId = "@Model.ProductId";
             const selectedSize = document.querySelector('.size-btn.selected')?.getAttribute('data-size');
             const selectedColor = document.querySelector('.color-btn.selected')?.getAttribute('data-color');
@@ -371,14 +377,38 @@
                 alert('You have to chose a size and color');
                 return;
             } else {
-                // skriv ut valda alternativ
-                console.log("produkt id:", productId);
-                console.log("vald storlek:", selectedSize);
-                console.log("vald färg:", selectedColor);
-                console.log("antal:", quantity);
-            }
-            console.log(`Produkt id: ${productId} attribut (${selectedSize}, ${selectedColor}, ${quantity} st) har lagts till i kundvagnen.`);
+                // skriv ut valda alternativ                
+                // Prepare the data object
+                const data = {
+                    UserEmail: "@currentUser.Email",
+                    ProductId: productId,
+                    Quantity: quantity,
+                    Size: selectedSize, // Include selected size
+                    Color: selectedColor // Include selected color
+                };
 
+                // Send the POST request
+                fetch('https://shoppingcartprovider-d9dcbqe8d7gnc6a3.westeurope-01.azurewebsites.net/add', {
+                    method: 'POST', // Specify the request method
+                    headers: {
+                        'Content-Type': 'application/json' // Specify the content type
+                    },
+                    body: JSON.stringify(data) // Convert the data to JSON
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json(); // Parse the JSON from the response
+                    })
+                    .then(data => {
+                        console.log('Success:', data); // Handle success
+                    })
+                    .catch((error) => {
+                        console.error('Error:', error); // Handle error
+
+                    });
+            }
 
         });
 

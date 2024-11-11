@@ -4,9 +4,12 @@ using Business.Dto.Product;
 using Business.Interfaces.OrderInterfaces;
 using Business.Services.Product;
 using Newtonsoft.Json;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Text.Json;
 using static System.Net.WebRequestMethods;
+
+
 
 namespace Business.Services.OrderServices
 {
@@ -14,6 +17,9 @@ namespace Business.Services.OrderServices
     {
 
         private readonly HttpClient _httpClient;
+
+
+        
 
         public ShoppingCartService(HttpClient httpClient)
         {
@@ -151,40 +157,46 @@ namespace Business.Services.OrderServices
         }
         #endregion
 
-        #region GetOneUserByEmailAsync
-        public async Task<string> GetUserByEmailAsync(string email)
-        {
-            try
-            {
-                var response = await _httpClient.GetAsync($"https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/api/GetUser?email={email}");
-                if (response.IsSuccessStatusCode)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    dynamic user = JsonConvert.DeserializeObject<dynamic>(json)!;
+        //#region GetOneUserByEmailAsync
+        //public async Task<string> GetUserByEmailAsync(string email)
+        //{
+        //    try
+        //    {
+        //        var response = await _httpClient.GetAsync($"https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/api/GetUser?email={email}");
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var json = await response.Content.ReadAsStringAsync();
+        //            dynamic user = JsonConvert.DeserializeObject<dynamic>(json)!;
 
-                    if (user != null && user.email != null) 
-                    {
-                        return user.email.ToString();
+        //            if (user != null && user.email != null) 
+        //            {
+        //                return user.email.ToString();
                    
-                    }else {  return null!; }
-                }
-                return null!;
-            }
-            catch (Exception)
-            {
-                return null!;
-            }
+        //            }else {  return null!; }
+        //        }
+        //        return null!;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return null!;
+        //    }
 
-        }
-        #endregion
+        //}
+        //#endregion
 
         #region AddProductToCartAsync
-        public async Task<ResponseDto> AddProductToCartAsync(string email, string productId)
+        /// <summary>
+        /// Check if user is authenticated?
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="productId"></param>
+        /// <returns></returns>
+        public async Task<ResponseDto> AddProductToCartAsync(string email, string productId) 
         {
             try
             {
-                var user = await GetUserByEmailAsync(email);
-                if (user == null)
+                //var user = await GetUserByEmailAsync(email);
+                if (email == null)
                 {
                     return new ResponseDto
                     {
@@ -228,6 +240,21 @@ namespace Business.Services.OrderServices
         }
 
         #endregion
+
+
+        //public async Task<IEnumerable<ShoppingCartDto>> GetAllShoppingCartItems()
+        //{
+        //    try
+        //    {
+             
+
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
 
         public ValidatorResult Validate(CartItemDto cartItemDto)
         {

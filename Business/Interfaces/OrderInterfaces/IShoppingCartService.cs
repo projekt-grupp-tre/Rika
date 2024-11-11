@@ -10,7 +10,7 @@ namespace Business.Interfaces.OrderInterfaces
 
         Task<string?> GetOneProductByIdAsync(int productId);
 
-        Task<string> GetUserByEmailAsync(string email);
+        //Task<string> GetUserByEmailAsync(string email);
 
         Task<bool> SendCartItemAsync(string email, string productId);
 

@@ -1,15 +1,19 @@
 ﻿using Business.Interfaces.OrderInterfaces;
 using Business.Services.OrderServices;
 using Microsoft.AspNetCore.Mvc;
+using RikaWebApp.Helpers;
 using RikaWebApp.Models.OrderModels;
 using RikaWebApp.ViewModels;
 using System.Diagnostics;
+
 
 namespace RikaWebApp.Controllers.Order
 {
     public class ShoppingCartController : Controller
     {
         private readonly IShoppingCartService _shoppingCartService;
+     
+        
 
         public ShoppingCartController(IShoppingCartService shoppingCartService)
         {
@@ -56,16 +60,21 @@ namespace RikaWebApp.Controllers.Order
         //}
 
 
-        public async Task<IActionResult> Index(string email)
+        public async Task<IActionResult> Index()
         {
-            var product = await _shoppingCartService.GetUserByEmailAsync(email);
+            var context = 
+            
+            var currentUser = GetCookieInfoHelper.JwtTokenToBasicLoggedInUserModel(_httpContext);
 
-            var viewModel = new ShoppingCartViewModel
-            {
-                Email = email
-            };
+            //var  = await _shoppingCartService.GetUserByEmailAsync(currentUser.Email.ToString());
 
-            return View(viewModel);
+
+            //var viewModel = new ShoppingCartViewModel
+            //{
+            //    Email = currentUser.Email.ToString(),
+            //};
+
+            return View(/*viewModel*/);
         }
 
 
