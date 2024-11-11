@@ -1,6 +1,9 @@
-﻿using Business.Dto.OrderDtos;
+﻿using Azure;
+using Business.Dto.OrderDtos;
+using Business.Dto.Product;
 using Business.Interfaces.OrderInterfaces;
 using Business.Services.Product;
+using Business.Services.Product.Backoffice;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Text;
@@ -255,7 +258,7 @@ namespace Business.Services.OrderServices
             return null!;
         }
 
-        public async Task<GraphQLProductListResponse> GetAllCartItemsFromCart(List<string> ids)
+        public async Task<GraphQLResponse> GetAllCartItemsFromCart(List<string> ids)
         {
             var queryObject = new
             {
@@ -275,8 +278,14 @@ namespace Business.Services.OrderServices
                                stock
                                price
                              }
+                            reviews {
+                               clientName
+                               rating
+                               comment
+                            }
                            }
                          }",
+
                 variables = new
                 {
                     productIds = ids
@@ -291,21 +300,13 @@ namespace Business.Services.OrderServices
 
                 if (result.IsSuccessStatusCode)
                 {
-                    var json = await result.Content.ReadAsStringAsync();
-                    Console.WriteLine("JSON Response: " + json);
-                    var products = JsonConvert.DeserializeObject<GraphQLProductListResponse>(json);
+                    var responseContent = await result.Content.ReadAsStringAsync();
+                    Console.WriteLine("GraphQL Response: " + responseContent);
 
-                    //List<string> strings = new List<string>();
-                    //foreach(var item in products)
-                    //{
+                    //var graphQLResponse = JsonConvert.DeserializeObject<GraphQLResponse<List<ProductDto>>>(responseContent);
+                    var graphQLResponse = JsonConvert.DeserializeObject<GraphQLResponse>(responseContent);
 
-                    //    strings.Add(item.ToString());
-                    //}
-
-
-                    var asdfg = products?.Data?.GetProducts!;
-                    var asdf = "asdf";
-                    return products;
+                    return graphQLResponse ?? new GraphQLResponse();
                 }
             }
             catch (Exception e) { Debug.Write("ERRORR ::: GetAllCartItemsFromCart {0}", e.Message); }

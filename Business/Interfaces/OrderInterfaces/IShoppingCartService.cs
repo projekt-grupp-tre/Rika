@@ -20,6 +20,6 @@ namespace Business.Interfaces.OrderInterfaces
 
         Task<ShoppingCartDto> GetFullShoppingCart(string email);
 
-        Task<GraphQLProductListResponse> GetAllCartItemsFromCart(List<string> ids);
+        Task<GraphQLResponse> GetAllCartItemsFromCart(List<string> ids);
     }
 }
