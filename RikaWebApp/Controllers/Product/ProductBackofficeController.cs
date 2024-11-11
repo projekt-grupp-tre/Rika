@@ -29,7 +29,7 @@ namespace RikaWebApp.Controllers.Product
         [Route("/backoffice/addproduct")]
         public IActionResult AddProduct()
         {
-            return View("AddProduct");
+            return View();
         }
 
         [HttpPost]
