@@ -17,7 +17,7 @@ namespace RikaWebApp.Controllers
 
 		[HttpGet]
 		[Route("/contact")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }

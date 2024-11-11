@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using RikaWebApp.Models;
+using RikaWebApp.Models.AuthModels;
+using System.Diagnostics;
 using System.Text;
 
-namespace RikaWebApp.Controllers
+namespace RikaWebApp.Controllers.Auth
 {
     public class SignUpController : Controller
     {
@@ -24,7 +24,7 @@ namespace RikaWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(SignUpModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 using HttpClient http = new HttpClient();
                 var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
@@ -45,13 +45,38 @@ namespace RikaWebApp.Controllers
                         break;
 
                     case System.Net.HttpStatusCode.Created:
-                        return RedirectToAction("Index", "Home");
+                        SetEmailCookie(model.Email);
+                        return RedirectToAction("VerificationView", "Verification");
                 }
 
                 return View("SignUpView", model);
             }
 
             return View("SignUpView", model);
+        }
+
+
+        public void SetEmailCookie(string email)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(email))
+                {
+                    CookieOptions cookieOptions = new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        Expires = DateTime.UtcNow.AddMinutes(15),
+                        SameSite = SameSiteMode.Strict
+                    };
+
+                    Response.Cookies.Append("UserEmail", email, cookieOptions);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }
