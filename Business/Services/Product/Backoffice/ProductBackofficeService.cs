@@ -121,7 +121,6 @@ public class ProductBackofficeService
             throw new Exception("An error occurred while adding the product", ex);
         }
     }
-}
     public async Task<ProductDTO?> GetProductByIdAsync(Guid productId)
     {
         var query = new
@@ -193,7 +192,7 @@ public class ProductBackofficeService
         return response.IsSuccessStatusCode;
     }
 }
-
+   
 
 public class GraphQLResponse<T>
 {
