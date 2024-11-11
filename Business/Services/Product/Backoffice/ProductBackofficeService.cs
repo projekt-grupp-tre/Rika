@@ -68,7 +68,7 @@ public class ProductBackofficeService
                     {
                         name = productInput.Name,
                         description = productInput.Description,
-                        images = productInput.Images,
+                        images = productInput.Images.ToList(),
                         categoryName = productInput.CategoryName,
                         variants = productInput.Variants.Select(v => new
                         {
@@ -141,21 +141,100 @@ public class ProductBackofficeService
         return result?.Data?.GetProductById;
     }
 
+    //public async Task<bool> UpdateProductAsync(Guid productId, ProductDTO updatedProduct)
+    //{
+    //    var queryObject = new
+    //    {
+    //        query = @"mutation UpdateProduct($productId: UUID!, $input: UpdateProductInput!) {
+    //                        updateProduct(productId: $productId, input: $input) {
+    //                            productId
+    //                            name
+    //                            description
+    //                            images
+    //                            category { name }
+    //                            variants { productVariantId size color stock price }
+    //                            reviews { reviewId clientName rating comment createdAt }
+    //                        }
+    //                    }",
+    //        variables = new
+    //        {
+    //            productId,
+    //            input = new
+    //            {
+    //                productId = productId,
+    //                name = updatedProduct.Name,
+    //                description = updatedProduct.Description,
+    //                images = updatedProduct.Images,
+    //                categoryName = updatedProduct.Category.Name,
+    //                variants = (updatedProduct.Variants ?? new List<VariantDTO>()).Select(v => new
+    //                {
+    //                    productVariantId = v.ProductVariantId.ToString(),
+    //                    size = v.Size,
+    //                    color = v.Color,
+    //                    stock = v.Stock,
+    //                    price = v.Price
+    //                }).ToList(),
+    //                reviews = (updatedProduct.Reviews ?? new List<ReviewDTO>()).Select(r => new
+    //                {
+    //                    reviewId = r.ReviewId,
+    //                    clientName = r.ClientName,
+    //                    rating = r.Rating,
+    //                    comment = r.Comment,
+    //                    createdAt = r.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")
+    //                }).ToList()
+    //            }
+    //        }
+    //    };
+
+    //    var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
+    //    var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
+    //    return response.IsSuccessStatusCode;
+    //}
+
     public async Task<bool> UpdateProductAsync(Guid productId, ProductDTO updatedProduct)
     {
+        // Förbered en lista för varianter
+        var variants = new List<object>();
+        foreach (var v in updatedProduct.Variants ?? new List<VariantDTO>())
+        {
+            variants.Add(new
+            {
+                productVariantId = v.ProductVariantId.ToString(),
+                size = v.Size,
+                color = v.Color,
+                stock = v.Stock,
+                price = v.Price
+            });
+        }
+
+        // Förbered en lista för recensioner
+        var reviews = new List<object>();
+        foreach (var r in updatedProduct.Reviews ?? new List<ReviewDTO>())
+        {
+            reviews.Add(new
+            {
+                reviewId = r.ReviewId,
+                clientName = r.ClientName,
+                rating = r.Rating,
+                comment = r.Comment,
+                createdAt = r.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")
+            });
+        }
+
+        // Skapa queryObject för GraphQL-förfrågan
         var queryObject = new
         {
             query = @"mutation UpdateProduct($productId: UUID!, $input: UpdateProductInput!) {
-                            updateProduct(productId: $productId, input: $input) {
-                                productId
-                                name
-                                description
-                                images
-                                category { name }
-                                variants { productVariantId size color stock price }
-                                reviews { reviewId clientName rating comment createdAt }
-                            }
-                        }",
+                        updateProduct(productId: $productId, input: $input) {
+                            productId
+                            name
+                            description
+                            images
+                            category { name }
+                            variants { productVariantId size color stock price }
+                            reviews { reviewId clientName rating comment createdAt }
+                        }
+                    }",
             variables = new
             {
                 productId,
@@ -166,31 +245,18 @@ public class ProductBackofficeService
                     description = updatedProduct.Description,
                     images = updatedProduct.Images,
                     categoryName = updatedProduct.Category.Name,
-                    variants = (updatedProduct.Variants ?? new List<VariantDTO>()).Select(v => new
-                    {
-                        productVariantId = v.ProductVariantId,
-                        size = v.Size,
-                        color = v.Color,
-                        stock = v.Stock,
-                        price = v.Price
-                    }).ToList(),
-                    reviews = (updatedProduct.Reviews ?? new List<ReviewDTO>()).Select(r => new
-                    {
-                        reviewId = r.ReviewId,
-                        clientName = r.ClientName,
-                        rating = r.Rating,
-                        comment = r.Comment,
-                        createdAt = r.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")
-                    }).ToList()
+                    variants,  // Använd den förberedda listan för varianter
+                    reviews    // Använd den förberedda listan för recensioner
                 }
             }
         };
 
         var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
-        await GetProductByIdAsync(productId);
+
         return response.IsSuccessStatusCode;
     }
+
     public async Task<bool> DeleteProductAsync(Guid productId)
     {
         var queryObject = new

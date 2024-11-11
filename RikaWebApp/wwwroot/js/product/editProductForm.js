@@ -1,5 +1,5 @@
-﻿let variantIndex = document.querySelectorAll('[name^="Variants["]').length / 5 || 0;
-let reviewIndex = document.querySelectorAll('[name^="Reviews["]').length / 3 || 0;
+﻿let variantIndex = document.querySelectorAll('[name^="Variants["]') || 0;
+let reviewIndex = document.querySelectorAll('[name^="Reviews["]') || 0;
 
 function addImageField() {
     const container = document.getElementById('imageFields');
