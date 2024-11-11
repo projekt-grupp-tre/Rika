@@ -49,7 +49,7 @@
                             <td>@product.CreatedAt.ToString("yyyy-MM-dd")</td>
                             <td class="btn-column">
                                 <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@product.ProductId" class="btn-primary">View Product</a>
-                                <a class="btn-info">Edit</a>
+                                <a asp-controller="ProductBackoffice" asp-action="EditProduct" asp-route-productId="@product.ProductId" class="btn-info">Edit</a>
                                 <a class="btn-danger">Delete</a>
                             </td>
                         </tr>

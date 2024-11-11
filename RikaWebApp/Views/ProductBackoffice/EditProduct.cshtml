@@ -1,0 +1,121 @@
+﻿@model Business.Dto.Product.ProductDTO
+
+<section class="edit-product-backoffice">
+     <div class="back-icon">
+            <a asp-controller="ProductBackoffice" asp-action="Index">
+                <i class="fa-regular fa-arrow-left"></i>
+            </a>
+        </div>
+    <div class="container">
+       
+
+        <h1>Edit Product</h1>
+
+        @if (ViewBag.ErrorMessage != null)
+
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+        @if (ViewBag.SuccessMessage != null)
+
+        {
+            <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+        }
+
+        <form asp-action="UpdateProduct" asp-controller="ProductBackoffice" asp-route-productId="@Model.ProductId" method="post">
+            <input type="hidden" asp-for="ProductId" />
+
+            <div class="form-group">
+                <label for="productName">Product Name</label>
+                <input type="text" class="form-control" id="productName" asp-for="Name" required />
+            </div>
+
+            <div class="form-group">
+                <label for="productDescription">Description</label>
+                <textarea class="form-control" id="productDescription" asp-for="Description" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="categoryName">Category</label>
+                <select class="form-control" id="categorySelect" asp-for="Category.Name" required>
+                    <option value="Clothes">Clothes</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="Bags">Bags</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Jewelry">Jewelry</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Images</label>
+                <div id="imageFields">
+                    @for (var i = 0; i < Model.Images?.Count; i++)
+
+                    {
+                        <div class="mb-2 d-flex align-items-center">
+                            <input type="text" class="form-control me-2" asp-for="Images[i]" />
+                            <button type="button" class="btn btn-danger" onclick="removeImageField(this)">Remove</button>
+                        </div>
+                    }
+                </div>
+                <button type="button" class="btn btn-secondary mt-2" onclick="addImageField()">Add Image</button>
+            </div>
+
+            <div class="form-group mt-4">
+                <label class="h4">Variants</label>
+                <div id="variantFields">
+                    @if (Model.Variants != null && Model.Variants.Count > 0)
+
+                    {
+                        @for (var i = 0; i < Model.Variants.Count; i++)
+
+                        {
+                            <div class="variant-item mb-3">
+                                <input type="hidden" asp-for="Variants[i].ProductVariantId" />
+                                <label>Size</label>
+                                <input type="text" class="form-control mb-2" asp-for="Variants[i].Size" />
+                                <label>Color</label>
+                                <input type="text" class="form-control mb-2" asp-for="Variants[i].Color" />
+                                <label>Stock</label>
+                                <input type="number" class="form-control mb-2" asp-for="Variants[i].Stock" />
+                                <label>Price</label>
+                                <input type="number" class="form-control mb-2" asp-for="Variants[i].Price" step="0.01"  />
+                                <button type="button" class="btn btn-danger mt-2" onclick="removeVariantField(this)">Remove Variant</button>
+                            </div>
+                        }
+                    }
+                </div>
+                <button type="button" class="btn btn-secondary mt-2" onclick="addVariantField()">Add Variant</button>
+            </div>
+
+            <div class="form-group mt-4">
+                <label class="h4">Reviews</label>
+                <div id="reviewFields">
+                    @if (Model.Reviews != null && Model.Reviews.Count > 0)
+
+                    {
+                        @for (var i = 0; i < Model.Reviews.Count; i++)
+
+                        {
+                            <div class="review-item mb-3">
+                                <input type="hidden" asp-for="Reviews[i].ReviewId" />
+                                <label>Client Name</label>
+                                <input type="text" class="form-control mb-2" asp-for="Reviews[i].ClientName"/>
+                                <label>Rating</label>
+                                <input type="number" class="form-control mb-2" asp-for="Reviews[i].Rating" min="1" max="5"/>
+                                <label>Comment</label>
+                                <textarea class="form-control mb-2" asp-for="Reviews[i].Comment" rows="2" required></textarea>
+                                <button type="button" class="btn btn-danger mt-2" onclick="removeReviewField(this)">Remove Review</button>
+                            </div>
+                        }
+                    }
+                </div>
+                <button type="button" class="btn btn-secondary mt-2" onclick="addReviewField()">Add Review</button>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-4 mb-5">Save Product</button>
+        </form>
+    </div>
+</section>
+
+<script src="~/js/product/editProductForm.js"></script>
