@@ -22,13 +22,10 @@ public static class GetCookieInfoHelper
                 PostalCode = claims.ContainsKey("postalCode") ? claims["postalCode"]?.ToString() ?? "" : "",
                 Country = claims.ContainsKey("country") ? claims["country"].ToString() ?? "" : "",
                 City = claims.ContainsKey("city") ? claims["city"]?.ToString() ?? "" : "",
+                Age = claims.ContainsKey("age") ? claims["age"]?.ToString() ?? "" : "",
+                Gender = claims.ContainsKey("gender") ? claims["gender"]?.ToString() ?? "" : "",
             };
         }
-
-        //if (context.Session.GetString("JwtToken") != null)
-        //{
-
-        //}
 
         return null!;
     }

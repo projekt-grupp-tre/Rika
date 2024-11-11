@@ -1,59 +1,34 @@
-﻿@* @using RikaWebApp.Models.AuthModels;
-@using RikaWebApp.ViewModels
-
-@model BasicLoggedInUser;
-
+﻿@using RikaWebApp.Helpers
+@using RikaWebApp.Models.AuthModels
 
 @{
-    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    ViewData["Title"] = "Rika";
+    var token = GetCookieInfoHelper.JwtTokenToBasicLoggedInUserModel(Context);
 }
 
+<header class="container ">
+    <div class=" header-content">
+        @if (token != null)
+        {
+            <div class="nav-btn">
+                <a class="auth-nav" asp-action="LogOut" asp-controller="SignOut">Sign Out</a>
+            </div>
 
-
-@if (currentController == "Home" || currentController == "MinePage")
+            <a class="profile-image" asp-action="Details" asp-controller="ProfileMinePage">
+                <img style="max-width: 40px; margin-top: 1rem;" src="@token.ImageUrl" alt="onboarding">
+            </a>
+        }
+        else
+        {
+            <a class="profile-image" asp-action="Index" asp-controller="Onboarding">
+                <i style="font-size: 2rem; color: black; margin-top: 1rem;" class="fa-solid fa-right-to-bracket"></i>
+            </a>
+        }
+    </div>
+</header>
+@if (TempData["LogOut"] != null)
 {
-    <heade class=" container">
-        <a asp-action="SignUpView" asp-controller="SignUp">Sign Up</a>
-
-        <a asp-action="SignInView" asp-controller="SignIn">Sign in</a>
-
-        <a asp-action="LogOut" asp-controller="SignOut">Sign out</a>
-
-
-        <a class="profile-image" asp-action="Index" asp-controller="Onboarding">
-            <img src="https://storagerika.blob.core.windows.net/files/user.png" alt="onboarding">
-
-        </a>
-
-
-
-        @if (TempData["LogOut"] != null)
-        {
-            <div>
-                <p><strong>@TempData["LogOut"]</strong></p>
-            </div>
-        }
-
-
-
-
-        @if (Model != null)
-        {
-            <div>
-                <p><strong>Id:</strong> @Model.Id</p>
-                <p><strong>First Name:</strong> @Model.FirstName</p>
-                <p><strong>Last Name:</strong> @Model.LastName</p>
-                <p><strong>Email:</strong> @Model.Email</p>
-                <p><strong>Image URL:</strong> <img src="~/images/auth/@Model.ImageUrl" style="max-width:100px; max-height:100px;" /></p>
-                <p><strong>Address:</strong> @Model.Address</p>
-                <p><strong>Postal Code:</strong> @Model.PostalCode</p>
-                <p><strong>Country:</strong> @Model.Country</p>
-                <p><strong>City:</strong> @Model.City</p>
-            </div>
-
-            <a asp-action="LogOut" asp-controller="SignOut">Logout</a>
-        }
-    </heade>
+    <div style="text-align: center;">
+        <p><strong>@TempData["LogOut"]</strong></p>
+    </div>
 }
- *@

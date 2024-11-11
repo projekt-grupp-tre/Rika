@@ -1800,6 +1800,7 @@ form .input-group textarea:hover {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  padding-bottom: 140px;
 }
 #contact-us-page main #contact-us-section h1 {
   text-align: center;

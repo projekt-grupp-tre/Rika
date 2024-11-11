@@ -18,5 +18,7 @@
         public string? PostalCode { get; set; }
 
         public string? ImageUrl { get; set; }
+        public string? Age { get; set; }
+        public string? Gender { get; set; }
     }
 }

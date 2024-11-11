@@ -21,8 +21,8 @@
 </head>
 <body>
     <div class="wrapper">
-        
-       
+
+        @await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_HeaderMinePage.cshtml")
 
         <div class="container">
             <main>
@@ -30,15 +30,8 @@
             </main>
         </div>
 
-       
-             @await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_FooterMinePage.cshtml")
-        
+        @await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_FooterMinePage.cshtml") 
     </div>
     @await RenderSectionAsync("Scripts", required: false)
-
-    
-  
-
-
 </body>
 </html>
