@@ -1,9 +1,19 @@
 ﻿@model IEnumerable<Business.Dto.Product.ProductBackofficeDTO>
 
 <section class="product-backoffice">
+   
     <div class="container">
         <h1>Product Management</h1>
+        @if (ViewBag.ErrorMessage != null)
 
+        {
+            <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+        }
+        @if (ViewBag.SuccessMessage != null)
+
+        {
+            <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+        }
         @if (TempData["SuccessMessage"] != null)
         {
             <div class="alert alert-success">
@@ -16,6 +26,7 @@
                 @TempData["ErrorMessage"]
             </div>
         }
+        
         <div class="header">
             <h2>Products</h2>
             <a class="btn-primary" asp-controller="ProductBackoffice" asp-action="AddProduct">Add New Product</a>
@@ -63,7 +74,7 @@
                             <td class="btn-column">
                                 <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@product.ProductId" class="btn-primary">View Product</a>
                                 <a asp-controller="ProductBackoffice" asp-action="EditProduct" asp-route-productId="@product.ProductId" class="btn-info">Edit</a>
-                                <a class="btn-danger">Delete</a>
+                                <a asp-controller="ProductBackoffice" asp-action="DeleteProduct" asp-route-productId="@product.ProductId" class="btn-danger">Delete</a>
                             </td>
                         </tr>
                     }

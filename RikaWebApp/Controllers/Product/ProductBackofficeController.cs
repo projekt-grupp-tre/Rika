@@ -96,5 +96,24 @@ namespace RikaWebApp.Controllers.Product
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DeleteProduct(Guid productId)
+        {
+
+
+            var success = await _productBackofficeService.DeleteProductAsync(productId);
+
+            if (!success)
+            {
+                TempData["ErrorMessage"] = "Failed to delete product. Please try again later.";
+                return RedirectToAction("index");
+
+            }
+
+            TempData["SuccessMessage"] = "Product has been successfully deleted.";
+            return RedirectToAction("index");
+
+        }
+
     }
 }

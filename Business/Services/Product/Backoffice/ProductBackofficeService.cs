@@ -188,7 +188,25 @@ public class ProductBackofficeService
 
         var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
-        GetProductByIdAsync(productId);
+        await GetProductByIdAsync(productId);
+        return response.IsSuccessStatusCode;
+    }
+    public async Task<bool> DeleteProductAsync(Guid productId)
+    {
+        var queryObject = new
+        {
+            query = @"mutation DeleteProduct($productId: UUID!) {
+                                deleteProduct(productId: $productId)
+                            }",
+            variables = new
+            {
+                productId
+            }
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
+
         return response.IsSuccessStatusCode;
     }
 }
