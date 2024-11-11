@@ -188,7 +188,7 @@ public class ProductBackofficeService
 
         var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
-
+        GetProductByIdAsync(productId);
         return response.IsSuccessStatusCode;
     }
 }
