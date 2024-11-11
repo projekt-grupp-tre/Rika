@@ -3,7 +3,7 @@ let inputValue = '';
 let groupId
 
 const chatConnection = new signalR.HubConnectionBuilder()
-    .withUrl("http://localhost:5000/chatHub")
+    .withUrl("https://signalprovider-ekadbcdaavg7eyfg.northeurope-01.azurewebsites.net/chatHub")
     .withAutomaticReconnect()
     .build();
 
@@ -36,7 +36,18 @@ class TypingNotifier {
     }
 }
 
+const chatList = document.getElementById('chatlist');
 const typingNotifier = new TypingNotifier(chatConnection);
+const indicatorHtml = `
+    <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+`
+const indicator = document.createElement('li')
+indicator.classList.add('writing-indicator')
+indicator.innerHTML = indicatorHtml
 
 inputObj.addEventListener('keyup',(e) => {
     inputValue = e.target.value;
@@ -55,13 +66,11 @@ chatConnection.on("UserIsTyping", isTyping => handleWritingIndicator(isTyping))
 chatConnection.on("UserStoppedTyping", isTyping => handleWritingIndicator(isTyping))
 
 function handleWritingIndicator(isTyping) {
-    const indicator = document.querySelector('.writing-indicator')
-    if (isTyping) {
-        indicator.classList.add('d-block')
-        indicator.classList.remove('d-none')            
-    } else {
-        indicator.classList.remove('d-block')
-        indicator.classList.add('d-none')
+    const allIndicators = document.getElementsByClassName('writing-indicator')
+    Array.from(allIndicators).forEach(el => chatList.removeChild(el))
+
+    if (isTyping) {   
+        chatList.appendChild(indicator)
     }
 }
 
@@ -115,7 +124,6 @@ async function sendMessage() {
 }
 
 function displayMessage(message) {
-    const chatList = document.getElementById('chatlist');
     const messageBlob = document.createElement('li');
     messageBlob.className = message.senderUserId === chatConnection.connectionId ? 'outgoing-message' : 'incoming-message'; 
     messageBlob.innerHTML = `
