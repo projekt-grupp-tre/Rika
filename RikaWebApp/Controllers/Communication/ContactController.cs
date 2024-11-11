@@ -49,7 +49,7 @@ namespace RikaWebApp.Controllers
 										
 						try
 						{
-								await using var sbClient = new ServiceBusClient("Endpoint=sb://sb-emailprovider.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=QjQqQwMnKcdPepvC5Xh5Kc7ohPzEF/7hx+ASbAbHsVo=");
+								await using var sbClient = new ServiceBusClient("Endpoint=sb://sb-emailprovider-v2.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=sBIcy5Zaw85JUZSKVh07clpqUEGvjXDoh+ASbFhN8eg=");
 								ServiceBusSender sender = sbClient.CreateSender("email_request");
 								await sender.SendMessageAsync(new ServiceBusMessage(jsonContent));                                                                              
 								TempData["Success"] = "Thank you for your email";                                     

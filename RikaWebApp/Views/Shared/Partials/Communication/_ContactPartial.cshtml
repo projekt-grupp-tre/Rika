@@ -57,11 +57,11 @@
             <label class="checkbox-label" for="termsAndConditions" asp-for="@Model.ContactForm.TermsAndConditions"></label>
             <span asp-validation-for="@Model.ContactForm.TermsAndConditions"></span>
         </div>
-        <button type="submit" id="contactSubmitBtn" disabled class="btn-round btn-disabled">Send Contact Request</button>
+        <button type="submit" id="contactSubmitBtn" class="btn-round btn-disabled">Send Contact Request</button>
     </form>
     <a class="chat-btn btn" href="/contact/support-chat">Chat with us</a>
 </section>
-@await Html.PartialAsync("_ContactValidationPartial.cshtml")
+@* @await Html.PartialAsync("_ContactValidationPartial.cshtml") *@
 
 
 <script>
