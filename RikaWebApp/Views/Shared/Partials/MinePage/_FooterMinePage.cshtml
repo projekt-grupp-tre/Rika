@@ -1,0 +1,36 @@
+﻿@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+
+
+@if (currentController != "SignIn" && currentController != "SignUp" && currentController != "Profile" && currentController != "Success" && currentController != "SignOut" && currentController != "Verification" && currentController != "Contact" && currentController != "ShoppingCart" && currentController != "Onboarding")
+{
+    <footer >
+        <div class="container">
+            <div id="nav-menu">
+                <nav>
+                    <a class="home nav-link" asp-controller="Home" asp-action="Index">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </a>
+                    <div class="nav-icons ">
+                        <a class="cart-icon nav-link" asp-controller="ShoppingCart" asp-action="Index">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span>Cart</span>
+                        </a>
+                        <a class="nav-link" asp-controller="Notification" asp-action="Index">
+                            <i class="fa-solid fa-bell"></i>
+                            <span>Notifications</span>
+                        </a>
+                        <a class="nav-link" asp-controller="Contact" asp-action="Index">
+                            <i class="fa-regular fa-user"></i>
+                            <span>Contact Us</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </footer>
+}

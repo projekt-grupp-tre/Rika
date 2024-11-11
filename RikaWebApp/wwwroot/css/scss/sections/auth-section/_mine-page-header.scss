@@ -1,0 +1,22 @@
+﻿.header-content {
+    //background-color: antiquewhite;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+    width: 70%;
+    margin: 0 auto; 
+
+    .nav-btn {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .profile-image {
+        margin-left: auto;
+    }
+
+    .nav-btn .auth-nav {
+        text-decoration: none;
+        color: $primary-color;
+    }
+}

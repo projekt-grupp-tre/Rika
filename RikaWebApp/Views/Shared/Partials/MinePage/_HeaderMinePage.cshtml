@@ -1,22 +1,25 @@
-
+﻿@* @using RikaWebApp.Models.AuthModels;
 @using RikaWebApp.ViewModels
 
 @model BasicLoggedInUser;
 
+
 @{
-    ViewData["Title"] = "Rika";
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
 }
 
-<header class="container "  >
-    <div class=" header-content">
-        <div class="nav-btn">
-            <a class="auth-nav" asp-action="SignUpView" asp-controller="SignUp">Sign Up</a>
-
-            <a class="auth-nav" asp-action="SignInView" asp-controller="SignIn">Sign in</a>
 
 
+@if (currentController == "Home" || currentController == "MinePage")
+{
+    <heade class=" container">
+        <a asp-action="SignUpView" asp-controller="SignUp">Sign Up</a>
 
-        </div>
+        <a asp-action="SignInView" asp-controller="SignIn">Sign in</a>
+
+        <a asp-action="LogOut" asp-controller="SignOut">Sign out</a>
+
 
         <a class="profile-image" asp-action="Index" asp-controller="Onboarding">
             <img src="https://storagerika.blob.core.windows.net/files/user.png" alt="onboarding">
@@ -51,12 +54,6 @@
 
             <a asp-action="LogOut" asp-controller="SignOut">Logout</a>
         }
-    </div>
-
-</header>
-
-   
-
-
-
-@await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_CategoriesPartial.cshtml")
+    </heade>
+}
+ *@
