@@ -1,0 +1,69 @@
+﻿<section class="category-selection">
+    <div class="container">
+
+        <div class="back-icon">
+            <a>
+                <i class="fa-regular fa-arrow-left"></i>
+            </a>
+        </div>
+        <div class="search-glass">
+            <i class="fa-regular fa-magnifying-glass" id="search-toggle"></i>
+        </div>
+
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-bar" placeholder="Search Categories">
+        </div>
+
+        <div class="grid">
+            <a asp-controller="ProductByCategory" asp-action="AllProducts">
+
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>New Arrivals</h4>
+                        <p>208 Products</p>
+                    </div>
+                </div>
+            </a>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="clothes">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Clothes</h4>
+                        <p>208 Products</p>
+                    </div>
+                </div>
+            </a>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="Bags">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Bags</h4>
+                        <p>208 Products</p>
+                    </div>
+                </div>
+            </a>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="shoes">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Shoes</h4>
+                        <p>208 Products</p>
+                    </div>
+                </div>
+            </a>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="Electronics">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Electronics</h4>
+                        <p>208 Products</p>
+                    </div>
+                </div>
+            </a>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="Jewelry">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Jewelry</h4>
+                        <p>208 Products</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>

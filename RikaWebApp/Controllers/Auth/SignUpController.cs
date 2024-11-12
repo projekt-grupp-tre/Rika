@@ -8,13 +8,6 @@ namespace RikaWebApp.Controllers.Auth
 {
     public class SignUpController : Controller
     {
-        private readonly HttpClient _httpClient;
-
-        public SignUpController(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
         [HttpGet]
         public IActionResult SignUpView()
         {

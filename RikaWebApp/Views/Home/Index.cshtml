@@ -1,7 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Rika";
+@if (TempData["LogOut"] != null)
+{
+    <div style="text-align: center; max-height: 24px;">
+        <p><strong>@TempData["LogOut"]</strong></p>
+    </div>
 }
-
-<a asp-action="SignUpView" asp-controller="SignUp">Sign Up</a>
-<a asp-action="SignInView" asp-controller="SignIn">Sign in</a>
-
+@await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_CategoriesPartial.cshtml")

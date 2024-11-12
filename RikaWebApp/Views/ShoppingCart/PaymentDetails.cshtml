@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Payment Confirm";
+}
+
+
+<section id="payment">
+    <div class="container">
+        <h2>Payment</h2>
+        <img src="~/images/order/card-image.svg" />
+
+        <h5>Card Details</h5>
+
+        <form method="post" asp-action="Index" asp-controller="Payment" novalidate>
+            <div class="form-content">
+                <div id="form-card-number" class="input-group">
+                    <label></label>
+                    <input />
+                    <span></span>
+                </div>
+                <div id="form-expiry-date" class="input-group">
+                    <label></label>
+                    <input />
+                    <span></span>
+                </div>
+                <div id="form-cvv" class="input-group">
+                    <label></label>
+                    <input />
+                    <span></span>
+                </div>
+
+
+                <div class="form-button">
+                    <button class="cancel">Cancel</button>
+                    <button class="confirm">Confirm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</section>

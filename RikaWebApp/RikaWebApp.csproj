@@ -7,15 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Ordeer\**" />
+    <Content Remove="Controllers\Ordeer\**" />
+    <EmbeddedResource Remove="Controllers\Ordeer\**" />
+    <None Remove="Controllers\Ordeer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\Communication\" />
-    <Folder Include="Controllers\Ordeer\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Controllers\Product\" />
     <Folder Include="Views\Shared\Partials\Auth\" />
+
     <Folder Include="Views\Shared\Partials\Communication\" />
     <Folder Include="Views\Shared\Partials\Order\" />
   </ItemGroup>
