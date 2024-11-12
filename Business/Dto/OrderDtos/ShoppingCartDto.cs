@@ -17,6 +17,6 @@ namespace Business.Dto.OrderDtos
 
         public List<CartItemDto>? CartItems { get; set; } = new List<CartItemDto>();
 
-        public int PromoCode { get; set; }
+        public string? PromoCode { get; set; }
     }
 }
