@@ -1,5 +1,4 @@
-﻿
-using Business.Dto.Product;
+﻿using Business.Dto.Product;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -40,7 +39,7 @@ public class ProductBackofficeService
         }) ?? new List<ProductBackofficeDTO>();
     }
 
-    public async Task<ProductBackofficeDTO> AddBackofficeProductAsync(ProductInputDTO productInput)
+    public async Task AddBackofficeProductAsync(ProductInputDTO productInput)
     {
         try
         {
@@ -61,11 +60,6 @@ public class ProductBackofficeService
                             stock
                             price
                         }
-                        reviews {
-                            clientName
-                            rating
-                            comment
-                        }
                     }
                 }",
                 variables = new
@@ -74,17 +68,19 @@ public class ProductBackofficeService
                     {
                         name = productInput.Name,
                         description = productInput.Description,
-                        images = productInput.Images,
-                        category = new { name = "Kläder" },
-                        variants = productInput.Variants,
-                        reviews = new[]
+                        images = productInput.Images.ToList(),
+                        categoryName = productInput.CategoryName,
+                        variants = productInput.Variants.Select(v => new
                         {
-                        new { clientName = "John Doe", rating = 5, comment = "Excellent product!" }
-                    }
+                            size = v.Size,
+                            color = v.Color,
+                            stock = v.Stock,
+                            price = v.Price
+                        }).ToList(),
+                        reviews = new string[] { }
                     }
                 }
             };
-
 
             var jsonContent = JsonConvert.SerializeObject(mutation);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -99,37 +95,246 @@ public class ProductBackofficeService
             var response = await _httpClient.SendAsync(requestMessage);
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
+            Console.WriteLine($"Status code from GraphQL server: {response.StatusCode}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Deserialize the response and check if the product was added
+                var result = JsonConvert.DeserializeObject<GraphQLResponse<ProductAddResponse>>(responseContent);
+                if (result?.Data?.AddProduct != null)
+                {
+                    Console.WriteLine("Product has been added successfully.");
+                    return;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Product creation failed: no product returned.");
+                }
+            }
+            else
             {
                 throw new HttpRequestException($"Failed to add product to GraphQL server. StatusCode: {response.StatusCode}, Error: {responseContent}");
             }
-
-            var result = JsonConvert.DeserializeObject<GraphQLResponse<ProductAddResponse>>(responseContent);
-            var addedProduct = result?.Data?.AddProduct;
-
-            if (addedProduct == null)
-                throw new Exception("Failed to parse product response");
-
-            return new ProductBackofficeDTO
-            {
-                ProductId = addedProduct.ProductId,
-                Name = addedProduct.Name,
-                CreatedAt = addedProduct.CreatedAt,
-                Category = new CategoryDTO { Name = addedProduct.Category.Name }
-            };
         }
         catch (Exception ex)
         {
-            throw new Exception("Error occurred while adding product", ex);
+            throw new Exception("An error occurred while adding the product", ex);
         }
     }
+    public async Task<ProductDTO?> GetProductByIdAsync(Guid productId)
+    {
+        var query = new
+        {
+            query = BackofficeQueries.GetProductByIdQuery,
+            variables = new { productId }
+        };
 
+        var content = new StringContent(JsonConvert.SerializeObject(query), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
 
+        if (!response.IsSuccessStatusCode)
+            throw new HttpRequestException("Failed to fetch product details from GraphQL server");
 
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<GraphQLResponse<ProductDetailResponse>>(jsonResponse);
 
+        return result?.Data?.GetProductById;
+    }
+    //public async Task<bool> UpdateProductAsync(Guid productId, ProductDTO updatedProduct)
+    //{
+    //    // Hämta befintliga produktbilder innan uppdatering
+    //    var existingProduct = await GetProductByIdAsync(productId);
+    //    if (existingProduct == null)
+    //    {
+    //        throw new Exception("Produkt med angivet ID hittades inte.");
+    //    }
+    //    var existingImages = existingProduct.Images ?? new List<string>();
 
+    //    // Kombinera befintliga bilder med de nya bilderna
+    //    var combinedImages = existingImages.Concat(updatedProduct.Images ?? new List<string>()).Distinct().ToList();
 
+    //    // Skapar GraphQL-frågan och variabler
+    //    var queryObject = new
+    //    {
+    //        query = @"mutation UpdateProduct($productId: UUID!, $input: UpdateProductInput!) {
+    //                updateProduct(productId: $productId, input: $input) {
+    //                    productId
+    //                    name
+    //                    description
+    //                    images
+    //                    category { name }
+    //                    variants { productVariantId size color stock price }
+    //                    reviews { reviewId clientName rating comment createdAt }
+    //                }
+    //            }",
+    //        variables = new
+    //        {
+    //            productId,
+    //            input = new
+    //            {
+    //                productId = productId,
+    //                name = updatedProduct.Name,
+    //                description = updatedProduct.Description,
+    //                images = combinedImages,
+    //                categoryName = updatedProduct.Category?.Name ?? "",
+    //                variants = (updatedProduct.Variants ?? new List<VariantDTO>()).Select(v => new
+    //                {
+    //                    productVariantId = v.ProductVariantId.ToString(),
+    //                    size = v.Size,
+    //                    color = v.Color,
+    //                    stock = v.Stock,
+    //                    price = v.Price
+    //                }).ToList(),
+    //                reviews = (updatedProduct.Reviews ?? new List<ReviewDTO>()).Select(r => new
+    //                {
+    //                    reviewId = r.ReviewId,
+    //                    clientName = r.ClientName,
+    //                    rating = r.Rating,
+    //                    comment = r.Comment,
+    //                    createdAt = r.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")
+    //                }).ToList()
+    //            }
+    //        }
+    //    };
+
+    //    var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
+    //    var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
+    //    return response.IsSuccessStatusCode;
+    //}
+    //public async Task<bool> UpdateProductAsync(Guid productId, ProductDTO updatedProduct)
+    //{
+    //    var queryObject = new
+    //    {
+    //        query = @"mutation UpdateProduct($productId: UUID!, $input: UpdateProductInput!) {
+    //                        updateProduct(productId: $productId, input: $input) {
+    //                            productId
+    //                            name
+    //                            description
+    //                            images
+    //                            category { name }
+    //                            variants { productVariantId size color stock price }
+    //                            reviews { reviewId clientName rating comment createdAt }
+    //                        }
+    //                    }",
+    //        variables = new
+    //        {
+    //            productId,
+    //            input = new
+    //            {
+    //                productId = productId,
+    //                name = updatedProduct.Name,
+    //                description = updatedProduct.Description,
+    //                images = updatedProduct.Images.ToList(),
+    //                categoryName = updatedProduct.Category.Name,
+    //                variants = (updatedProduct.Variants ?? new List<VariantDTO>()).Select(v => new
+    //                {
+    //                    productVariantId = v.ProductVariantId.ToString(),
+    //                    size = v.Size,
+    //                    color = v.Color,
+    //                    stock = v.Stock,
+    //                    price = v.Price
+    //                }).ToList(),
+    //                reviews = (updatedProduct.Reviews ?? new List<ReviewDTO>()).Select(r => new
+    //                {
+    //                    reviewId = r.ReviewId,
+    //                    clientName = r.ClientName,
+    //                    rating = r.Rating,
+    //                    comment = r.Comment,
+    //                    createdAt = r.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")
+    //                }).ToList()
+    //            }
+    //        }
+    //    };
+
+    //    var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
+    //    var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
+    //    return response.IsSuccessStatusCode;
+    //}
+
+    public async Task<bool> UpdateProductAsync(Guid productId, ProductDTO updatedProduct)
+    {
+
+        var variants = new List<object>();
+        foreach (var v in updatedProduct.Variants ?? new List<VariantDTO>())
+        {
+            variants.Add(new
+            {
+                productVariantId = v.ProductVariantId.ToString(),
+                size = v.Size,
+                color = v.Color,
+                stock = v.Stock,
+                price = v.Price
+            });
+        }
+
+        var reviews = new List<object>();
+        foreach (var r in updatedProduct.Reviews ?? new List<ReviewDTO>())
+        {
+            reviews.Add(new
+            {
+                reviewId = r.ReviewId,
+                clientName = r.ClientName,
+                rating = r.Rating,
+                comment = r.Comment,
+                createdAt = r.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")
+            });
+        }
+
+        var queryObject = new
+        {
+            query = @"mutation UpdateProduct($productId: UUID!, $input: UpdateProductInput!) {
+                        updateProduct(productId: $productId, input: $input) {
+                            productId
+                            name
+                            description
+                            images
+                            category { name }
+                            variants { productVariantId size color stock price }
+                            reviews { reviewId clientName rating comment createdAt }
+                        }
+                    }",
+            variables = new
+            {
+                productId,
+                input = new
+                {
+                    productId = productId,
+                    name = updatedProduct.Name,
+                    description = updatedProduct.Description,
+                    images = updatedProduct.Images,
+                    categoryName = updatedProduct.Category.Name,
+                    variants,
+                    reviews
+                }
+            }
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
+
+        return response.IsSuccessStatusCode;
+    }
+
+    public async Task<bool> DeleteProductAsync(Guid productId)
+    {
+        var queryObject = new
+        {
+            query = @"mutation DeleteProduct($productId: UUID!) {
+                                deleteProduct(productId: $productId)
+                            }",
+            variables = new
+            {
+                productId
+            }
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
+
+        return response.IsSuccessStatusCode;
+    }
 }
+   
 
 public class GraphQLResponse<T>
 {
@@ -144,4 +349,8 @@ public class ProductResponse
 public class ProductAddResponse
 {
     public ProductBackofficeDTO? AddProduct { get; set; }
+}
+public class ProductDetailResponse
+{
+    public ProductDTO? GetProductById { get; set; }
 }

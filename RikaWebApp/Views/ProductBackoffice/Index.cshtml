@@ -1,18 +1,33 @@
 ﻿@model IEnumerable<Business.Dto.Product.ProductBackofficeDTO>
 
 <section class="product-backoffice">
+
     <div class="container">
         <h1>Product Management</h1>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
         <div class="header">
             <h2>Products</h2>
             <a class="btn-primary" asp-controller="ProductBackoffice" asp-action="AddProduct">Add New Product</a>
         </div>
 
-        <div class="form-group">
-            <label for="searchInput">Search for product (ID or Name):</label>
-            <input type="text" id="searchInput" placeholder="Enter ID or Name">
+        <div id="search-bar" class="form-group">
+            <label for="searchInput">Search for product (ID or Name or Category):</label>
+            <input type="text" id="searchInput" placeholder="Enter ID or Name or Category">
         </div>
-        
+
         <form>
             <div class="form-group">
                 <label for="categoryFilter">Filter by category:</label>
@@ -24,7 +39,7 @@
                     <option value="Electronics">Electronics</option>
                     <option value="Jewelry">Jewelry</option>
                 </select>
-                <button type="submit">Update</button>
+                <button type="submit" class="btn btn-dark">Update</button>
             </div>
         </form>
 
@@ -32,25 +47,25 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Created</th>
-                        <th>Actions</th>
+                        <th class="productId">ID</th>
+                        <th class="name">Name</th>
+                        <th class="category">Category</th>
+                        <th class="created">Created</th>
+                        <th class="actions">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="productList">
                     @foreach (var product in Model)
                     {
                         <tr data-id="@product.ProductId" data-name="@product.Name" data-category="@product.Category.Name">
-                            <td>@product.ProductId</td>
-                            <td>@product.Name</td>
-                            <td>@product.Category.Name</td>
-                            <td>@product.CreatedAt.ToString("yyyy-MM-dd")</td>
-                            <td class="btn-column">
+                            <td class="productId">@product.ProductId</td>
+                            <td class="name">@product.Name</td>
+                            <td class="category">@product.Category.Name</td>
+                            <td class="created">@product.CreatedAt.ToString("yyyy-MM-dd")</td>
+                            <td class="btn-column actions">
                                 <a asp-controller="Products" asp-action="ProductDetails" asp-route-id="@product.ProductId" class="btn-primary">View Product</a>
-                                <a class="btn-info">Edit</a>
-                                <a class="btn-danger">Delete</a>
+                                <a asp-controller="ProductBackoffice" asp-action="EditProduct" asp-route-productId="@product.ProductId" class="btn-info">Edit</a>
+                                <a asp-controller="ProductBackoffice" asp-action="DeleteProduct" asp-route-productId="@product.ProductId" class="btn-danger">Delete</a>
                             </td>
                         </tr>
                     }
@@ -59,3 +74,5 @@
         </div>
     </div>
 </section>
+
+<script src="~/js/product/productSearch.js"></script>

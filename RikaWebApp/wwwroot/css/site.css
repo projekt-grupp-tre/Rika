@@ -173,6 +173,7 @@ a.btn:hover {
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
+
 .product-category {
   margin-top: 2rem;
   padding: 2rem 0;
@@ -181,6 +182,7 @@ a.btn:hover {
 .product-category .container {
   padding: 1rem;
 }
+
 .product-category .container h3 {
   font-size: 2rem;
   text-align: start;
@@ -539,6 +541,7 @@ form .input-group textarea:hover {
   padding: 1rem;
 }
 
+
 .product-category .container .back-icon a {
   display: flex;
   align-items: center;
@@ -574,6 +577,7 @@ form .input-group textarea:hover {
   font-family: "Outfit", sans-serif;
   width: 100%;
 
+
 }
 
 .product-category .container .search-bar {
@@ -595,6 +599,7 @@ form .input-group textarea:hover {
 .cart-item-h4 {
   font-size: 10px;
   font-weight: bold;
+
 }
 
 #payment-method .container {
@@ -1067,27 +1072,6 @@ form .input-group textarea:hover {
 .product-details .container .product-image .carousel .carousel-indicators {
   border: none;
 }
-@media (min-width: 992px) {
-  .product-details .container .product-image .carousel .carousel-indicators {
-    width: 70%;
-    display: flex;
-    justify-content: end;
-    align-content: end;
-    align-items: end;
-    text-align: right;
-  }
-}
-@media (min-width: 1600px) {
-  .product-details .container .product-image .carousel .carousel-indicators {
-    justify-content: center;
-  }
-}
-@media (min-width: 2200px) {
-  .product-details .container .product-image .carousel .carousel-indicators {
-    justify-content: start;
-    margin-left: 8rem;
-  }
-}
 .product-details .container .product-image .carousel .carousel-indicators li {
   list-style: none;
   border-radius: 50%;
@@ -1107,43 +1091,35 @@ form .input-group textarea:hover {
 }
 @media (min-width: 992px) {
   .product-details .container .product-image .carousel .carousel-inner {
-    width: 50vw;
+    max-width: 450px;
     min-height: 500px;
-    max-height: 500px;
-    margin-left: calc(50% - 25vw);
+    width: 100%;
+    margin: 0 auto;
   }
+}
+@media (min-width: 1200px) {
+  .product-details .container .product-image .carousel .carousel-inner {
+    max-width: 500px;
+  }
+}
+.product-details .container .product-image .carousel .carousel-inner .carousel-item img {
+  object-fit: cover;
+  width: 100%;
+  height: 300px;
 }
 @media (min-width: 768px) {
   .product-details .container .product-image .carousel .carousel-inner .carousel-item img {
-    position: absolute;
-    top: -150px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
+    transform: translateY(-25%);
+    height: 100%;
+    object-fit: cover;
   }
 }
 @media (min-width: 992px) {
   .product-details .container .product-image .carousel .carousel-inner .carousel-item img {
-    top: 0;
-    left: 75%;
-  }
-}
-@media (min-width: 1600px) {
-  .product-details .container .product-image .carousel .carousel-inner .carousel-item img {
-    max-width: 40vw;
-    left: 50%;
-  }
-}
-@media (min-width: 1900px) {
-  .product-details .container .product-image .carousel .carousel-inner .carousel-item img {
-    max-width: 30vw;
-    left: 50%;
-  }
-}
-@media (min-width: 2200px) {
-  .product-details .container .product-image .carousel .carousel-inner .carousel-item img {
-    max-width: 22vw;
-    left: 40%;
+    height: 700px;
+    width: 600px;
+    transform: translateY(-5%);
+    transform: translateX(-5%);
   }
 }
 .product-details .container .product-image .carousel .carousel-control-prev, .product-details .container .product-image .carousel .carousel-control-next {
@@ -1151,7 +1127,6 @@ form .input-group textarea:hover {
   height: 40px;
   border-radius: 50%;
   top: 50%;
-  color: black;
   filter: invert(0);
 }
 .product-details .container .product-image .carousel .carousel-control-prev .carousel-control-prev-icon, .product-details .container .product-image .carousel .carousel-control-prev .carousel-control-next-icon, .product-details .container .product-image .carousel .carousel-control-next .carousel-control-prev-icon, .product-details .container .product-image .carousel .carousel-control-next .carousel-control-next-icon {
@@ -1162,47 +1137,12 @@ form .input-group textarea:hover {
     left: 5%;
   }
 }
-@media (min-width: 1600px) {
-  .product-details .container .product-image .carousel .carousel-control-prev {
-    left: -25%;
-  }
-}
-@media (min-width: 1900px) {
-  .product-details .container .product-image .carousel .carousel-control-prev {
-    left: -8%;
-  }
-}
-@media (min-width: 2200px) {
-  .product-details .container .product-image .carousel .carousel-control-prev {
-    left: -5%;
+@media (min-width: 992px) {
+  .product-details .container .product-image .carousel .carousel-control-next {
+    right: 5%;
   }
 }
 @media (min-width: 992px) {
-  .product-details .container .product-image .carousel .carousel-control-next {
-    right: -45%;
-  }
-}
-@media (min-width: 1600px) {
-  .product-details .container .product-image .carousel .carousel-control-next {
-    left: 115%;
-  }
-}
-@media (min-width: 1900px) {
-  .product-details .container .product-image .carousel .carousel-control-next {
-    left: 100%;
-  }
-}
-@media (min-width: 2200px) {
-  .product-details .container .product-image .carousel .carousel-control-next {
-    left: 100%;
-  }
-}
-@media (min-width: 2200px) {
-  .product-details .container .product-image .carousel .carousel-control-next {
-    left: 60%;
-  }
-}
-@media (min-width: 1024px) {
   .product-details .container .product-detail-content {
     display: flex;
     flex-direction: column;
@@ -1358,22 +1298,18 @@ form .input-group textarea:hover {
 @media (min-width: 992px) {
   .product-details .container .product-detail-content .header .heart-icon .favorite-btn {
     top: 28rem;
-    left: -10rem;
+    left: -7rem;
   }
 }
-@media (min-width: 2200px) {
+@media (min-width: 1400px) {
   .product-details .container .product-detail-content .header .heart-icon .favorite-btn {
     top: 28rem;
-    left: -18rem;
+    left: -15rem;
   }
 }
 .product-details .container .product-detail-content .mid-content {
   margin-top: 1rem;
   position: relative;
-}
-.product-details .container .product-detail-content .mid-content h6 {
-  /*margin: 0;
-  padding: 0;*/
 }
 @media (min-width: 375px) {
   .product-details .container .product-detail-content .mid-content h6 {
@@ -1391,13 +1327,19 @@ form .input-group textarea:hover {
   align-content: center;
   margin-bottom: 1rem;
 }
+@media (min-width: 768px) {
+  .product-details .container .product-detail-content .mid-content .size-container .size-selection {
+    width: 100%;
+  }
+}
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel {
   display: flex;
   align-items: center;
 }
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .carousel-btn {
-  margin-left: 0.2rem;
-  margin-right: 0.2rem;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+  font-size: 1.2rem;
   text-decoration: none;
   color: black;
 }
@@ -1407,7 +1349,12 @@ form .input-group textarea:hover {
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-list-container {
   background-color: white;
   overflow: hidden;
-  max-width: 10.5rem;
+  max-width: 8.4rem;
+}
+@media (min-width: 992px) {
+  .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-list-container {
+    max-width: 13.8rem;
+  }
 }
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-list {
   display: flex;
@@ -1421,20 +1368,18 @@ form .input-group textarea:hover {
   background-color: white;
   border: solid gray 1px;
   color: gray;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
 }
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn:hover {
   color: white;
   background-color: black;
 }
-@media (min-width: 768px) {
-  .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn {
-    font-size: 0.9rem;
-    min-width: 35px;
-  }
-}
 @media (min-width: 992px) {
   .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn {
     font-size: 1rem;
+    min-width: 40px;
   }
 }
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn.selected {
@@ -1457,15 +1402,6 @@ form .input-group textarea:hover {
   padding: 0.5rem;
   border-radius: 1rem;
   display: none;
-  /*                    .color-btn.selected {
-      border-color: $secondary-color;
-      border: solid $primary-color 1px;
-  }
-
-  .color-btn.selected .checkmark {
-      display: block;
-      border-color: $secondary-color;
-  }*/
 }
 @media (min-width: 992px) {
   .product-details .container .product-detail-content .mid-content .color-selection {
@@ -1482,7 +1418,6 @@ form .input-group textarea:hover {
   display: none;
   padding: 0;
   margin: 0;
-  /*color: white !important;*/
 }
 @media (min-width: 992px) {
   .product-details .container .product-detail-content .mid-content .color-selection .checkmark {
@@ -1497,8 +1432,6 @@ form .input-group textarea:hover {
   outline: none;
   padding: 0.5rem;
   border: solid black 1px;
-  /*width: .5rem;
-  height: .5rem;*/
 }
 .product-details .container .product-detail-content .mid-content .color-selection .color-btn.selected {
   border-color: white;
@@ -1992,6 +1925,59 @@ form .input-group textarea:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+
+}
+#verification .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+#verification .container .title {
+  padding-top: 0;
+  text-align: center;
+}
+#verification .container .input-group {
+  padding-top: 2rem;
+}
+#verification .container .input-group input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+#verification .container .input-group button {
+  margin-top: 3rem;
+  width: 100%;
+}
+
+#success .container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+#success .container .check-mark {
+  padding-top: 7rem;
+  font-size: 50px;
+  color: green;
+}
+#success .container .title {
+  padding-top: 3rem;
+  text-align: center;
+}
+#success .container .btn-round {
+  margin-top: 10rem;
+  width: 100%;
+  background-color: black;
+  text-decoration: none;
+  color: white;
+}
+
+:root {
+  --danger: rgb(231, 99, 37);
+
 }
 #verification .container {
   display: flex;
@@ -2564,6 +2550,7 @@ form .input-group textarea:hover {
 #contact-us-page main #contact-us-section form .checkbox-group {
   display: flex;
   gap: 1rem;
+
 }
 #contact-us-page main #contact-us-section .chat-btn {
   background-color: rgb(213, 213, 213);
@@ -2694,6 +2681,7 @@ form .input-group textarea:hover {
 }
 #chat-wrapper #chat-form #chat-submit-btn {
   border-radius: 10px;
+
 }
 
 #shopping-cart .container {
