@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using RikaWebApp.Helpers;
 using RikaWebApp.ViewModels;
 using System.Diagnostics;
+using System.Net.Http;
 using System.Text;
 
 namespace RikaWebApp.Controllers.Auth;
@@ -33,7 +34,7 @@ public class ProfileMinePageController(HttpClient http, IConfiguration configura
                 viewModel.Country = basicUser.Country;
                 viewModel.City = basicUser.City;
                 viewModel.ImageUrl = basicUser.ImageUrl;
-                viewModel.Age = (basicUser.Age == "0") ? "" : basicUser.Age;
+               // viewModel.Age = (basicUser.Age == "0") ? "" : basicUser.Age; 
             }
             
 
@@ -52,101 +53,86 @@ public class ProfileMinePageController(HttpClient http, IConfiguration configura
 
 
     [HttpPost]
+    [HttpPost]
+    [Route("profile/details")]
     public async Task<IActionResult> Details(ProfileUpdateViewModel detailsViewModel)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            try
-            {
-                // en  userId av UsersProvider_Rika
-                string userId = "00000000-f85d-429c-96f9-736696f6b190";
-
-                
-                var updateModel = new ProfileUpdateViewModel
-                {
-                    FirstName = detailsViewModel.FirstName,
-                    LastName = detailsViewModel.LastName,
-                    Email = detailsViewModel.Email,
-                    Address = detailsViewModel.Address,
-                    City = detailsViewModel.City,
-                    PostalCode = detailsViewModel.PostalCode,
-                    Country = detailsViewModel.Country,
-                    ImageUrl = detailsViewModel.ImageUrl
-                };
-
-               
-                var json = new StringContent(JsonConvert.SerializeObject(updateModel), Encoding.UTF8, "application/json");
-
-              
-                var requestUrl = $"http://localhost:7074/api/users/{userId}";
-                var response = await _http.PostAsync(requestUrl, json);
-
-               
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("Details");
-                }
-                else
-                {
-                    Debug.WriteLine("ERROR :: Request failed - " + response.StatusCode);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("ERROR :: " + ex.Message);
-            }
+            return View(detailsViewModel);
         }
 
-       
-        return View(detailsViewModel);
-    }
-
-
-
-
-    // delete
-
-    public async Task<IActionResult> DeleteAccount()
-    {
         try
         {
+            var jwtToken = Request.Cookies["JwtToken"];
+            if (jwtToken == null)
+            {
+                TempData["Error"] = "User is not authenticated";
+                return RedirectToAction("SignIn", "SignIn");
+            }
 
-            // en  userId av UsersProvider_Rika
-            // string userId = "aaaaaaaa-2dbf-4f6d-aa18-2fff495a9c1c";
+            _http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwtToken);
 
+            var response = await _http.PostAsJsonAsync("https://localhost:7259/api/Profile/details/Update", detailsViewModel);
 
-            // string userId = "dddddddd-a9e1-4694-9a5d-3c8a4b58fdba";
-            // string userId = "eeeeeeee-61b0-4210-bdb5-ccda889c832d";
-
-
-
-            //tests
-            string userId = "00000000-f85d-429c-96f9-736696f6b190";
-            // string userId = "cccccccc-abb5-4421-ad64-3635f31a6233";
-            // string userId = "ffffffff-4663-b8e9-e2accb5ce188";
-
-
-            var requestUrl = $"http://localhost:7074/api/users/{userId}";
-
-          
-            var response = await _http.DeleteAsync(requestUrl);
 
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("Index", "Home"); 
+                TempData["Success"] = "Profile updated successfully";
+                return RedirectToAction("Details");
             }
             else
             {
-                Debug.WriteLine("ERROR :: Bad request - " + response.StatusCode);
+                TempData["Error"] = "Profile update failed - " + response.ReasonPhrase;
+                Debug.WriteLine("ERROR :: Profile update failed - " + response.ReasonPhrase);
             }
         }
         catch (Exception ex)
         {
+            TempData["Error"] = "An error occurred while updating profile.";
             Debug.WriteLine("ERROR :: " + ex.Message);
         }
 
-        return RedirectToAction("Index");
+        return View(detailsViewModel);
     }
 
-    
+    [HttpPost]
+    [Route("profile/delete")]
+    public async Task<IActionResult> DeleteAccount()
+    {
+        try
+        {
+            var jwtToken = Request.Cookies["JwtToken"];
+            if (jwtToken == null)
+            {
+                TempData["Error"] = "User is not authenticated";
+                return RedirectToAction("SignIn", "SignIn");
+            }
+
+            _http.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", jwtToken);
+
+            var response = await _http.DeleteAsync("https://localhost:7259/api/Profile/details/Delete");
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["Success"] = "Account deleted successfully";
+                Response.Cookies.Delete("JwtToken");
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                TempData["Error"] = "Failed to delete account - " + response.ReasonPhrase;
+                Debug.WriteLine("ERROR :: Account deletion failed - " + response.ReasonPhrase);
+            }
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = "An error occurred while deleting the account.";
+            Debug.WriteLine("ERROR :: " + ex.Message);
+        }
+
+        return RedirectToAction("Details");
+    }
+
+
 }
