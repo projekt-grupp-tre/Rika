@@ -3,7 +3,7 @@ let inputValue = '';
 let groupId
 
 const chatConnection = new signalR.HubConnectionBuilder()
-    .withUrl("http://localhost:5000/chatHub")
+    .withUrl("https://signalprovider-ekadbcdaavg7eyfg.northeurope-01.azurewebsites.net/chatHub")
     .withAutomaticReconnect()
     .build();
 
@@ -91,7 +91,7 @@ submitButton.addEventListener('click', async (e) => {
     try {
         if (inputValue)
             await chatConnection.invoke("SendMessage", {
-                username: "Levi",
+                username: "Guest",
                 senderUserId: chatConnection.connectionId,
                 groupId: groupId,
                 messageContent: inputValue,
