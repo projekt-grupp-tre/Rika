@@ -22,20 +22,25 @@ namespace RikaWebApp.Controllers.Order
         public async Task<IActionResult> Index()
         {
             var currentUser = GetCookieInfoHelper.JwtTokenToBasicLoggedInUserModel(HttpContext);
-            var shoppingcart = await _shoppingCartService.GetFullShoppingCart(currentUser.Email);
-            List<CartItemDto> cartItems = shoppingcart.CartItems!;
-            List<string> ids = shoppingcart.CartItems!.Select(item => item.ProductId.ToString()).ToList();   
 
-            var listOfProducts = await _shoppingCartService.GetAllCartItemsFromCart(ids);
-
-            var viewModel = new ShoppingCartViewModel
+            if(currentUser != null)
             {
-                ProductResponse = listOfProducts,
-                CartItemDtos = cartItems,
-                Email = currentUser.Email
-            };
+                var shoppingcart = await _shoppingCartService.GetFullShoppingCart(currentUser.Email);
+                List<CartItemDto> cartItems = shoppingcart.CartItems!;
+                List<string> ids = shoppingcart.CartItems!.Select(item => item.ProductId.ToString()).ToList();
 
-            return View(viewModel);
+                var listOfProducts = await _shoppingCartService.GetAllCartItemsFromCart(ids);
+
+                var viewModel = new ShoppingCartViewModel
+                {
+                    ProductResponse = listOfProducts,
+                    CartItemDtos = cartItems,
+                    Email = currentUser.Email
+                };
+
+                return View(viewModel);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
 

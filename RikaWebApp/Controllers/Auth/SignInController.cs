@@ -35,7 +35,6 @@ namespace RikaWebApp.Controllers.Auth
                     case System.Net.HttpStatusCode.OK:
                         var userInfo = await result.Content.ReadAsStringAsync();
                         var jwtTokenString = JsonConvert.DeserializeObject<JwtTokenStringModel>(userInfo);
-                        //HttpContext.Session.SetString("JwtToken", jwtTokenString!);
 
                         Response.Cookies.Append("JwtToken", jwtTokenString!.jwttoken, new CookieOptions
                         {
