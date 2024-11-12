@@ -4,25 +4,30 @@
 @{
     ViewData["Title"] = "Rika";
     var token = GetCookieInfoHelper.JwtTokenToBasicLoggedInUserModel(Context);
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
 }
 
-<header class="container ">
-    <div class=" header-content">
-        @if (token != null)
-        {
-            <div class="nav-btn">
-                <a class="auth-nav" asp-action="LogOut" asp-controller="SignOut">Sign Out</a>
-            </div>
+@if (currentController != "SignIn" && currentController != "SignUp" && currentController != "Success" && currentController != "SignOut" && currentController != "Verification" && currentController != "Onboarding")
+{
+    <header class="container ">
+        <div class=" header-content">
+            @if (token != null)
+            {
+                <div class="nav-btn">
+                    <a class="auth-nav" asp-action="LogOut" asp-controller="SignOut">Sign Out</a>
+                </div>
 
-            <a class="profile-image" asp-action="Details" asp-controller="ProfileMinePage">
-                <img style="max-width: 40px; margin-top: 1rem;" src="@token.ImageUrl" alt="onboarding">
-            </a>
-        }
-        else
-        {
-            <a class="profile-image" asp-action="Index" asp-controller="Onboarding">
-                <i style="font-size: 2rem; color: black; margin-top: 1rem;" class="fa-solid fa-right-to-bracket"></i>
-            </a>
-        }
-    </div>
-</header>
+                <a class="profile-image" asp-action="Details" asp-controller="ProfileMinePage">
+                    <img style="max-width: 40px; margin-top: 1rem;" src="@token.ImageUrl" alt="onboarding">
+                </a>
+            }
+            else
+            {
+                <a class="profile-image" asp-action="Index" asp-controller="Onboarding">
+                    <i style="font-size: 2rem; color: black; margin-top: 1rem;" class="fa-solid fa-right-to-bracket"></i>
+                </a>
+            }
+        </div>
+    </header>
+}
+
