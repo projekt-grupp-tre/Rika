@@ -133,7 +133,8 @@
                         {
                             <a class="btn-round color-btn
                               @(variant.Color.ToLower() == "multicolor" || variant.Color.ToLower() == "rainbow" ? "rainbow" : "")
-                              @(variant.Color.ToLower() == "black" ? "black-bg" : "")"
+                              @(variant.Color.ToLower() == "black" ? "black-bg" : "")
+                              @(variant.Color.ToLower() == "blue" ? "black-bg" : "")"
                                data-color="@variant.Color" title="@variant.Color"
                                style="@(variant.Color.ToLower() == "rainbow" ? "" : $"background-color: {variant.Color};")">
                                 <span class="checkmark">✔</span>
@@ -177,7 +178,7 @@
         const variantsData = productDetails.getAttribute('data-variants'); // hämta JSON-strängen
         const variants = JSON.parse(variantsData); // ovandla till JavaScript-objekt
 
-        console.log("Produktvarianter:", variants);
+        // console.log("Produktvarianter:", variants);
 
 
         // funktion för att uppdatera lagerstatus och visa produktens lagerinfo

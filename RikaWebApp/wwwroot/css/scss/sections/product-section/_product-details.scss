@@ -376,13 +376,20 @@
                     margin-bottom: 1rem;
 
                     .size-selection {
+
+                        @media(min-width: 768px) {
+                            width: 100%;
+                        }
+
                         .size-carousel {
                             display: flex;
                             align-items: center;
 
+
                             .carousel-btn {
-                                margin-left: .2rem;
-                                margin-right: .2rem;
+                                margin-left: .3rem;
+                                margin-right: .3rem;
+                                font-size: 1.2rem;
                                 text-decoration: none;
                                 color: $primary-color;
 
@@ -394,7 +401,11 @@
                             .size-list-container {
                                 background-color: $secondary-color;
                                 overflow: hidden;
-                                max-width: calc(5 * 2.1rem);
+                                max-width: calc(4 * 2.1rem);
+
+                                @media(min-width: 992px) {
+                                    max-width: calc(6 * 2.3rem);
+                                }
                             }
 
                             .size-list {
@@ -410,6 +421,9 @@
                                 background-color: $secondary-color;
                                 border: solid gray 1px;
                                 color: gray;
+                                text-transform: uppercase;
+                                display: flex;
+                                justify-content: center;
 
                                 &:hover {
                                     color: $secondary-color;
@@ -417,12 +431,12 @@
                                 }
 
                                 @media(min-width: 768px) {
-                                    font-size: .9rem;
-                                    min-width: 35px;
+                                    
                                 }
 
                                 @media(min-width: 992px) {
                                     font-size: 1rem;
+                                    min-width: 40px;
                                 }
                             }
 

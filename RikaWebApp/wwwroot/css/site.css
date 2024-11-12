@@ -715,13 +715,19 @@ a.btn:hover {
   align-content: center;
   margin-bottom: 1rem;
 }
+@media (min-width: 768px) {
+  .product-details .container .product-detail-content .mid-content .size-container .size-selection {
+    width: 100%;
+  }
+}
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel {
   display: flex;
   align-items: center;
 }
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .carousel-btn {
-  margin-left: 0.2rem;
-  margin-right: 0.2rem;
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+  font-size: 1.2rem;
   text-decoration: none;
   color: black;
 }
@@ -731,7 +737,12 @@ a.btn:hover {
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-list-container {
   background-color: white;
   overflow: hidden;
-  max-width: 10.5rem;
+  max-width: 8.4rem;
+}
+@media (min-width: 992px) {
+  .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-list-container {
+    max-width: 13.8rem;
+  }
 }
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-list {
   display: flex;
@@ -745,20 +756,18 @@ a.btn:hover {
   background-color: white;
   border: solid gray 1px;
   color: gray;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
 }
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn:hover {
   color: white;
   background-color: black;
 }
-@media (min-width: 768px) {
-  .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn {
-    font-size: 0.9rem;
-    min-width: 35px;
-  }
-}
 @media (min-width: 992px) {
   .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn {
     font-size: 1rem;
+    min-width: 40px;
   }
 }
 .product-details .container .product-detail-content .mid-content .size-container .size-selection .size-carousel .size-btn.selected {
