@@ -1,36 +1,51 @@
-﻿@using RikaWebApp.ViewModels
+﻿@using Business.Dto.OrderDtos
+@using RikaWebApp.ViewModels
 @model ShoppingCartViewModel
 
 @{
     ViewData["Title"] = "My Cart";
+    int bagTotal = 0;
 }
 
 <section id="shopping-cart">
     <div class="container">
         <h2>My Cart</h2>
 
-        @if (Model.ProductResponse?.GetProductsByIds != null)
+        @if (Model.ProductResponse?.Data!.GetProductsByIds != null)
         {
-            @foreach (var product in Model.ProductResponse.GetProductsByIds)
+            @foreach (var product in Model.ProductResponse.Data.GetProductsByIds)
             {
+
                 <div class="cart-item-object">
                     <div class="cart-product-image">
-                    @* <img src="@(Model.Product.Images?.FirstOrDefault() ?? "")" alt="Product Image" /> *@
-                        <img src="@(product.Images?.FirstOrDefault() ?? "")" alt="Product Image" />
-                    @* <img class="cart-product" src="~/images/product/alex.jpg" /> *@
-                </div>
-                <div class="cart-item-object-specifications">
-                    <h4 class="cart-item-h4">@product.Name</h4>
-                    <p class="cart-item-description">@product.Description</p>
-                    <h4 class="cart-item-h4" data-base-price="@product.Variants?FirstOrDefault()?.Price">$@product.Variants.FirstOrDefault()?.Price</h4>
-                </div>
+                        <img class="cart-product" src="@(product.Images?.FirstOrDefault() ?? "")" alt="Product Image" />
+                    </div>
+                    <div class="cart-item-object-specifications">
+                        <h4 class="cart-item-name">@product.Name</h4>
+                        <p class="cart-item-description">@product.Description</p>
+                        @foreach (var item in Model.CartItemDtos!)
+                        {
+                            @if (item.ProductId == product.ProductId.ToString())
+                            {
+                                <h4 class="cart-item-price" data-base-price="@product.Variants?FirstOrDefault()?.Price">$@((product.Variants.FirstOrDefault()?.Price * item.Quantity))</h4>
+                                bagTotal += item.Quantity;
+                            }
+                        }
+                    </div>
 
-                <div class="cart-product-quantity">
-                    <button type="button" onclick="updateQuantity(false)">-</button>
-                    <span id="quantity">1</span>
-                    <button type="button" onclick="updateQuantity(true)">+</button>
+                    <div class="cart-product-quantity">
+                        <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity(false)">-</button>
+                        @foreach (var item in Model.CartItemDtos!)
+                        {
+
+                            @if (item.ProductId == product.ProductId.ToString())
+                            {
+                                <span id="quantity">@item.Quantity</span>
+                            }
+                        }
+                        <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity(true)">+</button>
+                    </div>
                 </div>
-             </div>
             }
         }
         else
@@ -43,7 +58,7 @@
                 <h4 class="cart-item-h4">Subtotal:</h4>
                 <h4 class="cart-item-h4" id="subtotal">
                     $@{
-                        decimal subtotal = Model.ProductResponse?.GetProductsByIds?.Sum(p => p.Variants?.FirstOrDefault()?.Price ?? 0) ?? 0;
+                        decimal subtotal = Model.ProductResponse?.Data!.GetProductsByIds?.Sum(p => p.Variants?.FirstOrDefault()?.Price ?? 0) ?? 0;
                     }
                     @subtotal.ToString("F2")
                 </h4>
@@ -58,14 +73,13 @@
                 <h4 class="cart-item-h4">BagTotal:</h4>
                 <div class="cart-bag-total">
                     <h4 class="cart-item-h4" id="bag-total">
-                        <span id="item-count">(1 Item)</span>
+                        <span id="item-count">(@(bagTotal)items)</span>
                         <span id="total-price">
-                            $@(subtotal + 17).ToString("F2");
+                            @((subtotal + 17).ToString("F2"))
                         </span>
                     </h4>
                 </div>
             </div>
-
         </div>
 
         <div class="cart-promo-code">
@@ -74,7 +88,6 @@
         </div>
         <p id="promocode-message"></p>
 
-        @* Controller att produkter finns i shopping cart *@
         <div class="proceed-to-checkout">
             <a asp-controller="ShoppingCart" asp-action="PaymentMethod" class="btn">Proceed to Checkout</a>
         </div>
@@ -88,35 +101,29 @@
             const quantityElement = document.getElementById("quantity");
             const priceElement = document.querySelector(".cart-item-price");
             const subtotalElement = document.getElementById("subtotal");
-            const itemCountElement = document.getElementById("item-count"); 
-            const totalPriceElement = document.getElementById("total-price"); 
+            const itemCountElement = document.getElementById("item-count");
+            const totalPriceElement = document.getElementById("total-price");
 
-            const basePrice = parseFloat(priceElement.dataset.basePrice); 
-            const shippingCost = 17.0; 
+            const basePrice = parseFloat(priceElement.dataset.basePrice);
+            const shippingCost = 17.0;
 
             let quantity = parseInt(quantityElement.innerText);
 
-            
             if (isIncrease) {
                 quantity++;
             } else if (quantity > 1) {
                 quantity--;
             }
 
-            
             quantityElement.innerText = quantity;
-
-            
             const subtotal = basePrice * quantity;
             const bagTotal = subtotal + shippingCost;
 
-            
             priceElement.innerText = `$${subtotal.toFixed(2)}`;
             subtotalElement.innerText = `$${subtotal.toFixed(2)}`;
-            totalPriceElement.innerText = `$${bagTotal.toFixed(2)}`; 
+            totalPriceElement.innerText = `$${bagTotal.toFixed(2)}`;
 
-            
-            itemCountElement.innerText = `(${quantity} Item${quantity > 1 ? 's' : ''})`; 
+            itemCountElement.innerText = `(${quantity} Item${quantity > 1 ? 's' : ''})`;
         }
     </script>
 }

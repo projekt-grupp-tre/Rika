@@ -1,13 +1,8 @@
-﻿using Business.Dto.Product;
-using Newtonsoft.Json;
+﻿using Business.Services.Product;
 
 namespace Business.Dto.OrderDtos;
 
 public class GraphQLResponse
 {
-    [JsonProperty("getProducts")]
-    public List<ProductDTO>? GetProducts { get; set; }
-
-    [JsonProperty("getProductsByIds")]
-    public List<ProductDTO>? GetProductsByIds { get; set; }
+    public GraphQLItems? Data { get; set; }
 }

@@ -7,7 +7,7 @@ namespace RikaWebApp.ViewModels
 {
     public class ShoppingCartViewModel
     {
-        //public IEnumerable<ProductDTO>? Products { get; set; } = new List<ProductDTO>();
+        public List<CartItemDto>? CartItemDtos { get; set; } = new List<CartItemDto>();
         public GraphQLResponse ProductResponse { get; set; } = new GraphQLResponse();
 
         public ProductDTO? Product { get; set; }
