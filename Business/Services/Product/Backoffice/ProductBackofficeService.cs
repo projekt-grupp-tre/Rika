@@ -140,7 +140,67 @@ public class ProductBackofficeService
 
         return result?.Data?.GetProductById;
     }
+    //public async Task<bool> UpdateProductAsync(Guid productId, ProductDTO updatedProduct)
+    //{
+    //    // Hämta befintliga produktbilder innan uppdatering
+    //    var existingProduct = await GetProductByIdAsync(productId);
+    //    if (existingProduct == null)
+    //    {
+    //        throw new Exception("Produkt med angivet ID hittades inte.");
+    //    }
+    //    var existingImages = existingProduct.Images ?? new List<string>();
 
+    //    // Kombinera befintliga bilder med de nya bilderna
+    //    var combinedImages = existingImages.Concat(updatedProduct.Images ?? new List<string>()).Distinct().ToList();
+
+    //    // Skapar GraphQL-frågan och variabler
+    //    var queryObject = new
+    //    {
+    //        query = @"mutation UpdateProduct($productId: UUID!, $input: UpdateProductInput!) {
+    //                updateProduct(productId: $productId, input: $input) {
+    //                    productId
+    //                    name
+    //                    description
+    //                    images
+    //                    category { name }
+    //                    variants { productVariantId size color stock price }
+    //                    reviews { reviewId clientName rating comment createdAt }
+    //                }
+    //            }",
+    //        variables = new
+    //        {
+    //            productId,
+    //            input = new
+    //            {
+    //                productId = productId,
+    //                name = updatedProduct.Name,
+    //                description = updatedProduct.Description,
+    //                images = combinedImages,
+    //                categoryName = updatedProduct.Category?.Name ?? "",
+    //                variants = (updatedProduct.Variants ?? new List<VariantDTO>()).Select(v => new
+    //                {
+    //                    productVariantId = v.ProductVariantId.ToString(),
+    //                    size = v.Size,
+    //                    color = v.Color,
+    //                    stock = v.Stock,
+    //                    price = v.Price
+    //                }).ToList(),
+    //                reviews = (updatedProduct.Reviews ?? new List<ReviewDTO>()).Select(r => new
+    //                {
+    //                    reviewId = r.ReviewId,
+    //                    clientName = r.ClientName,
+    //                    rating = r.Rating,
+    //                    comment = r.Comment,
+    //                    createdAt = r.CreatedAt.ToString("yyyy-MM-ddTHH:mm:ssZ")
+    //                }).ToList()
+    //            }
+    //        }
+    //    };
+
+    //    var content = new StringContent(JsonConvert.SerializeObject(queryObject), Encoding.UTF8, "application/json");
+    //    var response = await _httpClient.PostAsync(GraphQlServerUrl, content);
+    //    return response.IsSuccessStatusCode;
+    //}
     //public async Task<bool> UpdateProductAsync(Guid productId, ProductDTO updatedProduct)
     //{
     //    var queryObject = new
@@ -164,7 +224,7 @@ public class ProductBackofficeService
     //                productId = productId,
     //                name = updatedProduct.Name,
     //                description = updatedProduct.Description,
-    //                images = updatedProduct.Images,
+    //                images = updatedProduct.Images.ToList(),
     //                categoryName = updatedProduct.Category.Name,
     //                variants = (updatedProduct.Variants ?? new List<VariantDTO>()).Select(v => new
     //                {
@@ -193,7 +253,7 @@ public class ProductBackofficeService
 
     public async Task<bool> UpdateProductAsync(Guid productId, ProductDTO updatedProduct)
     {
-        // Förbered en lista för varianter
+
         var variants = new List<object>();
         foreach (var v in updatedProduct.Variants ?? new List<VariantDTO>())
         {
@@ -207,7 +267,6 @@ public class ProductBackofficeService
             });
         }
 
-        // Förbered en lista för recensioner
         var reviews = new List<object>();
         foreach (var r in updatedProduct.Reviews ?? new List<ReviewDTO>())
         {
@@ -221,7 +280,6 @@ public class ProductBackofficeService
             });
         }
 
-        // Skapa queryObject för GraphQL-förfrågan
         var queryObject = new
         {
             query = @"mutation UpdateProduct($productId: UUID!, $input: UpdateProductInput!) {
@@ -245,8 +303,8 @@ public class ProductBackofficeService
                     description = updatedProduct.Description,
                     images = updatedProduct.Images,
                     categoryName = updatedProduct.Category.Name,
-                    variants,  // Använd den förberedda listan för varianter
-                    reviews    // Använd den förberedda listan för recensioner
+                    variants,
+                    reviews
                 }
             }
         };
