@@ -1,7 +1,7 @@
 ﻿@using RikaWebApp.ViewModels
 @model ProfileUpdateViewModel
 
-<section id="profile-details">
+<section id="profile-details" style="margin-bottom:6rem">
     <div class="container">
         <div class="user-info">
             <form method="post" asp-controller="ProfileMinePage" asp-action="Details" class="mt-4" novalidate>
@@ -64,9 +64,9 @@
                 </div>
             </form>
 
-            <form asp-action="DeleteAccount" asp-controller="ProfileMinePage" method="post" style="margin-bottom:5rem">
+           @*  <form asp-action="DeleteAccount" asp-controller="ProfileMinePage" method="post" style="margin-bottom:5rem">
                 <button type="submit" class="btn btn-danger mb-5">Delete Account</button>
-            </form>
+            </form> *@
         </div>
     </div>
 </section>
