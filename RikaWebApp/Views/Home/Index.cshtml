@@ -1,1 +1,7 @@
+@if (TempData["LogOut"] != null)
+{
+    <div style="text-align: center; max-height: 24px;">
+        <p><strong>@TempData["LogOut"]</strong></p>
+    </div>
+}
 @await Html.PartialAsync("~/Views/Shared/Partials/MinePage/_CategoriesPartial.cshtml")
