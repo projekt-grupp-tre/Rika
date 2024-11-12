@@ -16,6 +16,9 @@ namespace RikaWebApp.Controllers.Product
             _productServiceCategory = productServiceCategory;
         }
 
+
+      
+
         [Route("categories")]
         public async Task<IActionResult> Index()
         {

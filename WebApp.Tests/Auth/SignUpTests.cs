@@ -22,7 +22,7 @@ public class SignUpTests
 
         // Mock TempData och sätt in det i kontrollern
         var tempData = new Mock<Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataDictionary>();
-        _controller = new SignUpController(_mockHttpClient) { TempData = tempData.Object };
+        _controller = new SignUpController() { TempData = tempData.Object };
 
         var _controllerMock = new Mock<SignUpController>();
     }
