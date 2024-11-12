@@ -4,6 +4,14 @@ namespace Business.Interfaces.OrderInterfaces
 {
     public interface IShoppingCartService
     {
-        public IEnumerable<ProductDto> GetProctsFromApi();
+        //Task<ProductDto> GetOneProductAsync();
+
+        //Task<string?> GetOneProductByIdAsync(int productId);
+
+        ValidatorResult Validate(CartItemDto cartItemDto);
+
+        Task<ShoppingCartDto> GetFullShoppingCart(string email);
+
+        Task<GraphQLResponse> GetAllCartItemsFromCart(List<string> ids);
     }
 }

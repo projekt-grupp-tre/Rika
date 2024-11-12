@@ -1,23 +1,81 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@using RikaWebApp.ViewModels
+
+@model List<CategoryProductCountViewModel>
+
 
 <section class="category-selection">
     <div class="container">
-        <button class="btn-arrow"><i class="fa-solid fa-left"></i></button>
-        <div class="search-bar-container">
-            <i class="fa-regular fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search Categories">
+        <div class="back-icon">
+            <a>
+                <i class="fa-regular fa-arrow-left"></i>
+            </a>
         </div>
+        <div class="search-glass">
+            <i class="fa-regular fa-magnifying-glass" id="search-toggle"></i>
+        </div>
+
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-bar" placeholder="Search Categories">
+        </div>
+
         <div class="grid">
-            <div class="category-card">
-                <div class="card-information">
-                    <h4>New Arrivals</h4>
-                    <p>208 Products</p>
+
+            <a asp-controller="ProductByCategory" asp-action="AllProducts">
+
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>New Arrivals</h4>
+                        <p>Explore Our Latest Products</p>
+
+                    </div>
                 </div>
-            </div>
+            </a>
+
+            @foreach (var category in Model)
+            {
+                <a asp-controller="ProductByCategory" asp-route-categoryName="@category.CategoryName">
+                    <div class="category-card">
+                        <div class="card-information">
+                            <h4>@category.CategoryName</h4>
+                            <p>@category.ProductCount Products</p>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+</section>
+
+
+
+@* 
+
+<section class="category-selection">
+    <div class="container">
+   
+        <div class="back-icon">
+            <a>
+                <i class="fa-regular fa-arrow-left"></i>
+            </a>
+        </div>
+        <div class="search-glass">
+            <i class="fa-regular fa-magnifying-glass" id="search-toggle"></i>
+        </div>
+
+        <div class="search-bar" id="search-bar">
+            <input type="text" id="search-bar" placeholder="Search Categories">
+        </div>
+
+        <div class="grid">
+            <a asp-controller="ProductByCategory" asp-action="AllProducts">
+
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>New Arrivals</h4>
+                        <p>208 Products</p>
+                    </div>
+                </div>
+            </a>
             <a asp-controller="ProductByCategory" asp-route-categoryName="clothes">
                 <div class="category-card">
                     <div class="card-information">
@@ -26,12 +84,14 @@
                     </div>
                 </div>
             </a>
-            <div class="category-card">
-                <div class="card-information">
-                    <h4>Bags</h4>
-                    <p>208 Products</p>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="Bags">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Bags</h4>
+                        <p>208 Products</p>
+                    </div>
                 </div>
-            </div>
+            </a>
             <a asp-controller="ProductByCategory" asp-route-categoryName="shoes">
                 <div class="category-card">
                     <div class="card-information">
@@ -40,18 +100,22 @@
                     </div>
                 </div>
             </a>
-            <div class="category-card">
-                <div class="card-information">
-                    <h4>Electronics</h4>
-                    <p>208 Products</p>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="Electronics">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Electronics</h4>
+                        <p>208 Products</p>
+                    </div>
                 </div>
-            </div>
-            <div class="category-card">
-                <div class="card-information">
-                    <h4>Jewelry</h4>
-                    <p>208 Products</p>
+            </a>
+            <a asp-controller="ProductByCategory" asp-route-categoryName="Jewelry">
+                <div class="category-card">
+                    <div class="card-information">
+                        <h4>Jewelry</h4>
+                        <p>208 Products</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
-</section>
+</section> *@

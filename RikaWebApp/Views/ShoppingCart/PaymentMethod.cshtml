@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "Payment Method";
+}
+
+
+<section id="payment-method">
+    <div class="container">
+        <h2>Payment</h2>
+        <div class="payment-item-object">
+            <div class="payment-image">
+                @* <img src="@(Model.Product.Images?.FirstOrDefault() ?? "")" alt="Product Image" /> *@
+                
+            </div>
+            <img class="payment-image-creditcard" src="~/images/order/mastercard-icon.svg" />
+            <div class="payment-item-specifications" data-item="creditcard">
+                <h4 class="payment-item-h4">Credit Card</h4>
+            </div>
+            <label>
+                <input type="radio" name="option" class="custom-radio" onclick="toggleActive(this)" />
+                <span class="custom-radio-label"></span>
+            </label>
+        </div>
+        <div class="payment-item-object" data-item="paypal">
+            <div class="payment-image">
+                @* <img src="@(Model.Product.Images?.FirstOrDefault() ?? "")" alt="Product Image" /> *@
+                
+            </div>
+            <img class="payment-image-paypal" src="~/images/order/paypal-icon.svg" />
+            <div class="payment-item-specifications">
+                <h4 class="payment-item-h4">Paypal</h4>
+            </div>
+            <label>
+                <input type="radio" name="option" class="custom-radio" onclick="toggleActive(this)" />
+                <span class="custom-radio-label"></span>
+            </label>
+        </div>
+        <div class="payment-item-object" data-item="visa">
+            <div class="payment-image">
+                @* <img src="@(Model.Product.Images?.FirstOrDefault() ?? "")" alt="Product Image" /> *@
+                
+            </div>
+            <img class="payment-image-visa" src="~/images/order/visa-icon.svg" />
+            <div class="payment-item-specifications">
+                <h4 class="payment-item-h4">Visa</h4>
+            </div>
+            <label>
+                <input type="radio" name="option" class="custom-radio" onclick="toggleActive(this)" />
+                <span class="custom-radio-label"></span>
+            </label>
+        </div>
+        <div class="payment-item-object" data-item="googlepay">
+            <div class="payment-image">
+                @* <img src="@(Model.Product.Images?.FirstOrDefault() ?? "")" alt="Product Image" /> *@
+                
+            </div>
+            <img class="payment-image-googlepay" src="~/images/order/google-pay-icon.svg" />
+            <div class="payment-item-specifications">
+                <h4 class="payment-item-h4">Google Pay</h4>
+            </div>
+            <label class="label-button">
+                <input type="radio" name="option" class="custom-radio" onclick="toggleActive(this)" />
+                <span class="custom-radio-label"></span>
+            </label>
+        </div>
+
+       @*  OBS! Controller valt kort alternativ innan routing sker *@ 
+        <div class="payment-add-card">
+            <a asp-controller="ShoppingCart" asp-action="PaymentDetails" class="btn-round">+</a>
+            <h4 class="payment-item-h4">Add Card</h4>
+        </div>
+
+        <h2>History</h2>
+
+        <div class="payment-history-object">
+            <div class="payment-history-image">
+                @* <img src="@(Model.Product.Images?.FirstOrDefault() ?? "")" alt="Product Image" /> *@
+                <img class="payment-product-image" src="~/images/product/alex.jpg" />
+            </div>
+            <div class="payment-history-specifications">
+                <h4 class="cart-item-h4">Name</h4>
+                <p class="payment-history-description">Description</p>
+                <div class="payment-history-send">
+                    <img src="~/images/order/send-icon.svg" />
+                    <p class="payment-history-send-text">Send</p>
+                </div>
+            </div>
+            <div class="payment-history-price">
+                <h4 class="cart-item-h4">Price</h4>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<script>
+    function toggleActive(radio) {
+        // Remove active class from all items
+        document.querySelectorAll('.payment-item-object').forEach(item => {
+            item.classList.remove('active');
+        });
+
+        // Add active class to the current radio's parent `.payment-item-object`
+        radio.closest('.payment-item-object').classList.add('active');
+    }
+
+</script>
+
+
+

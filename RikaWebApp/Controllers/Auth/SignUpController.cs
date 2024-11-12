@@ -8,13 +8,6 @@ namespace RikaWebApp.Controllers.Auth
 {
     public class SignUpController : Controller
     {
-        private readonly HttpClient _httpClient;
-
-        public SignUpController(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
         [HttpGet]
         public IActionResult SignUpView()
         {
@@ -46,7 +39,7 @@ namespace RikaWebApp.Controllers.Auth
 
                     case System.Net.HttpStatusCode.Created:
                         SetEmailCookie(model.Email);
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("VerificationView", "Verification");
                 }
 
                 return View("SignUpView", model);

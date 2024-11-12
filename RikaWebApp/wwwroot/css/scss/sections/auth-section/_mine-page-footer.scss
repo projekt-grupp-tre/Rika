@@ -1,0 +1,98 @@
+﻿footer {
+/*    background-color: aqua;*/
+    background-color: $secondary-color;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+    position: fixed;
+    z-index: 3;
+    bottom: 0;
+    color: $secondary-color;
+    width: 100%;
+    border-top-left-radius: 35px;
+    border-top-right-radius: 35px;
+    box-shadow: 0 -6px 10px rgba(0, 0, 0, 0.2);
+
+    .container {
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+    }
+
+    #nav-menu {
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        display: flex;
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+
+            .nav-link {
+                text-decoration: none !important;
+            }
+
+            .home {
+                border-radius: 20px;
+                margin-left: 1rem;
+                display: flex;
+                align-items: center;
+                background-color: #c0c1c2;
+
+
+
+                i {
+                    padding: 0.8rem;
+                    border-radius: 50%;
+                    color: $secondary-color;
+                    background-color: $primary-color;
+
+
+                    &:hover {
+                        background-color: #4e4f4f;
+                        transition: 0.2s ease-in;
+                    }
+                }
+
+                span {
+                    background-color: transparent !important;
+                    margin-left: 0.4rem;
+                    padding-right: 1rem;
+                }
+
+                .nav-link {
+                    text-decoration: none !important;
+                }
+            }
+
+            .nav-icons {
+                display: flex;
+                padding-left: 2rem;
+                margin-right: 1rem;
+                color: black;
+
+
+
+                .nav-link {
+                    text-decoration: none !important;
+                    color: $primary-color;
+                    display: flex;
+                    align-items: center;
+                    padding-right: 2rem;
+
+
+
+                    &:hover {
+                        color: #AEAEAE;
+                        transition: 0.2s ease-in;
+                    }
+
+                    i {
+                        margin-right: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+}

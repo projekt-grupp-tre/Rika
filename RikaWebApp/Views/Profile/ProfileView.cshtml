@@ -1,0 +1,71 @@
+﻿<section id="profile">
+    <div class="container">
+        <div class="user-section">
+            <img class="profile-image" src="/iamges/grey.png" alt="">
+            <div class="name-and-email">
+                <h3>Username</h3>
+                <p>rikafashionshop@gmail.com</p>
+            </div>
+        </div>
+        <div class="nav-section">
+            <a asp-action="ProfileView" asp-controller="Profile" class="nav-item">
+                <div class="icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <p class="nav-title">Personal Details</p>
+                <p class="arrow">></p>
+            </a>
+            <a asp-action="Index" asp-controller="ShoppingCart" class="nav-item">
+                <div class="icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <p class="nav-title">My Orders</p>
+                <p class="arrow">></p>
+            </a>
+            <a asp-action="ProfileView" asp-controller="Profile" class="nav-item">
+                <div class="icon">
+                    <i class="fa-solid fa-heart"></i>
+                </div>
+                <p class="nav-title">My Favourites</p>
+                <p class="arrow">></p>
+            </a>
+            <a asp-action="ProfileView" asp-controller="Profile" class="nav-item">
+                <div class="icon">
+                    <i class="fa-solid fa-truck"></i>
+                </div>
+                <p class="nav-title">Shipping Address</p>
+                <p class="arrow">></p>
+            </a>
+            <a asp-action="ProfileView" asp-controller="Profile" class="nav-item">
+                <div class="icon">
+                    <i class="fa-solid fa-credit-card"></i>
+                </div>
+                <p class="nav-title">My Card</p>
+                <p class="arrow">></p>
+            </a>
+            <a asp-action="ProfileView" asp-controller="Profile" class="nav-item">
+                <div class="icon">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+                <p class="nav-title">Settings</p>
+                <p class="arrow">></p>
+            </a>
+        </div>
+        <div class="nav-section">
+            <a asp-action="Index" asp-controller="Contact" class="nav-item">
+                <div class="icon">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                <p class="nav-title">FAQs</p>
+                <p class="arrow">></p>
+            </a>
+            <a asp-action="ProfileView" asp-controller="Profile" class="nav-item">
+                <div class="icon">
+                    <i class="fa-sharp fa-solid fa-shield-check"></i>
+                </div>
+                <p class="nav-title">Privacy Policy</p>
+                <p class="arrow">></p>
+            </a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,37 @@
+﻿@using RikaWebApp.Models.Communication
+@{
+    var messages = new List<MessageModel>();
+}
+<div id="chat-wrapper">
+    <div id="chat-topbar">
+        <h3>Agent chat</h3>
+    </div>
+    @*Logik för att visa Support agentens namn/id i kundtjäsnt chatt och användares namn i community-chatt*@
+    <ul id="chatlist">
+        @* @foreach (var message in messages)
+        {
+            <li class="@(message.IsSentFromThisClient ? "outgoing-message" : "incoming-message")">
+                <div class="message-text">
+                    @message.Content
+                </div>
+                <div class="message-timestamp">
+                    @message.MessageSentAt.ToString("HH:mm")
+                </div>
+            </li>
+        } *@
+
+        <li class="writing-indicator d-none">
+            <div class="dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </li>
+    </ul>
+    <form id="chat-form">
+        <input id="chat-input" />
+        <button id="chat-submit-btn" class="btn-primary"><i class="fa-solid fa-paper-plane-top"></i></button>
+    </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+<script src="/js/communication/shared-signalR.js"></script>

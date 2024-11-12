@@ -1,7 +1,12 @@
-﻿using Business.Interfaces.OrderInterfaces;
+﻿using Business.Dto.OrderDtos;
+using Business.Interfaces.OrderInterfaces;
+using Business.Services.OrderServices;
 using Microsoft.AspNetCore.Mvc;
+using RikaWebApp.Helpers;
 using RikaWebApp.Models.OrderModels;
 using RikaWebApp.ViewModels;
+using System.Diagnostics;
+
 
 namespace RikaWebApp.Controllers.Order
 {
@@ -14,16 +19,36 @@ namespace RikaWebApp.Controllers.Order
             _shoppingCartService = shoppingCartService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ShoppingCartViewModel viewModel = new ShoppingCartViewModel();
-            PromoCodeFormModel form = new PromoCodeFormModel();
-            var productsList = _shoppingCartService.GetProctsFromApi();
+            var currentUser = GetCookieInfoHelper.JwtTokenToBasicLoggedInUserModel(HttpContext);
+            var shoppingcart = await _shoppingCartService.GetFullShoppingCart(currentUser.Email);
+            List<CartItemDto> cartItems = shoppingcart.CartItems!;
+            List<string> ids = shoppingcart.CartItems!.Select(item => item.ProductId.ToString()).ToList();   
 
-            viewModel.Products = productsList;
-            viewModel.PromoCodeForm = form;
+            var listOfProducts = await _shoppingCartService.GetAllCartItemsFromCart(ids);
 
-            return View(nameof(Index), viewModel);
+            var viewModel = new ShoppingCartViewModel
+            {
+                ProductResponse = listOfProducts,
+                CartItemDtos = cartItems,
+                Email = currentUser.Email
+            };
+
+            return View(viewModel);
+        }
+
+
+        [Route("/shoppingcart/paymentmethod")]
+        public async Task<IActionResult> PaymentMethod()
+        {
+            return View();
+        }
+
+        [Route("/shoppingcart/paymentdetails")]
+        public async Task<IActionResult> PaymentDetails()
+        {
+            return View();
         }
 
         public IActionResult ValidatePromoCode(ShoppingCartViewModel viewModel)
