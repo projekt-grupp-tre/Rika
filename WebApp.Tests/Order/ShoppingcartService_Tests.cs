@@ -97,7 +97,7 @@ public class ShoppingcartService_Tests
             Quantity = 2,
             Created = DateTime.UtcNow,
             Totalprice = 2,
-            PromoCode = 3456,
+            PromoCode = 3456.ToString(),
             CartItems = new List<CartItemDto> {
                 new CartItemDto { ProductId = "blabla", Email ="yo@hej.se", Quantity=2 },
                 new CartItemDto { ProductId = "blabla", Email ="yo@hej.se", Quantity=2 }
