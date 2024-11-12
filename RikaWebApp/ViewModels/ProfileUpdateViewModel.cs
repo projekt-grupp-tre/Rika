@@ -49,11 +49,11 @@ public class ProfileUpdateViewModel
     public string Country { get; set; } = null!;
 
 
-    [DataType(DataType.Text)]
-    [Display(Name = "Age", Prompt = "Age", Order = 7)]
-    [Required(ErrorMessage = "Invalid Age")]
-    [MinLength(3, ErrorMessage = "Invalid Age")]
-    public string Age { get; set; } = null!;
+    //[DataType(DataType.Text)]
+    //[Display(Name = "Age", Prompt = "Age", Order = 7)]
+    //[Required(ErrorMessage = "Invalid Age")]
+    //[MinLength(3, ErrorMessage = "Invalid Age")]
+    //public string Age { get; set; } = null!;
 
 
 

@@ -47,11 +47,11 @@
                     <span asp-validation-for="Country" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-6">
+                @* <div class="col-md-6">
                     <label asp-for="Age" class="form-label"></label>
-                    <input asp-for="Age" type="number" class="form-control" />
+                    <input asp-for="Age" type="text" class="form-control" />
                     <span asp-validation-for="Age" class="text-danger"></span>
-                </div>
+                </div> *@
 
                 <div class="col-md-6">
                     <label asp-for="ImageUrl" class="form-label"></label>
@@ -64,7 +64,7 @@
                 </div>
             </form>
 
-            <form asp-action="DeleteAccount" asp-controller="ProfileMinePage" method="post">
+            <form asp-action="DeleteAccount" asp-controller="ProfileMinePage" method="post" style="margin-bottom:5rem">
                 <button type="submit" class="btn btn-danger mb-5">Delete Account</button>
             </form>
         </div>
