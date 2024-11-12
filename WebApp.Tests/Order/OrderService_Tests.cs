@@ -114,41 +114,41 @@ public class OrderService_Tests
         Assert.Equal(500, result.StatusCode);
     }
 
-    // [Fact]
-    // public void CreateOrder_Should_Return_FailureResult_WhenSaveFails_IfPriceIsInvalid()
-    // {
-    //     // Arrange
-    //     var order = new OrderDto
-    //     {
-    //         Name = "John Doe",
-    //         Email = "john@example.com",
-    //         Phone = "1234567890",
-    //         DeliveryAddress = "123 Example St",
-    //         Products = new List<ProductDto>
-    //         {
-    //             new ProductDto { Name = "Product 1", Description = "Description 1", Price = -10 }
-    //         },
-    //         ShippingMethod = "Standard",
-    //         PaymentMethod = "Credit Card",
-    //         TotalPrice = 120
-    //     };
+    [Fact]
+    public void CreateOrder_Should_Return_FailureResult_WhenSaveFails_IfPriceIsInvalid()
+    {
+        // Arrange
+        var order = new OrderDto
+        {
+            Name = "John Doe",
+            Email = "john@example.com",
+            Phone = "1234567890",
+            DeliveryAddress = "123 Example St",
+            Products = new List<ProductDto>
+             {
+                 new ProductDto { Name = "Product 1", Description = "Description 1", Price = -10 }
+             },
+            ShippingMethod = "Standard",
+            PaymentMethod = "Credit Card",
+            TotalPrice = 120
+        };
 
-    //     ValidatorResult expectedFailureResult = new ValidatorResult
-    //     {
-    //         StatusCode = 400,
-    //         Message = "Price must be a positive number."
-    //     };
+        ValidatorResult expectedFailureResult = new ValidatorResult
+        {
+            StatusCode = 400,
+            Message = "Price must be a positive number."
+        };
 
-    //     _mockOrderValidator.Setup(x => x.Validate(order)).Returns(expectedFailureResult);
+        _mockOrderValidator.Setup(x => x.Validate(order)).Returns(expectedFailureResult);
 
-    //     // Act
-    //     ValidatorResult result = _mockOrderValidator.Object.Validate(order);
+        // Act
+        ValidatorResult result = _mockOrderValidator.Object.Validate(order);
 
-    //     // Assert
-    //     Assert.Equal(expectedFailureResult, result);
-    //     Assert.Equal(expectedFailureResult.Message, result.Message);
-    //     Assert.Equal(400, result.StatusCode);
-    // }
+        // Assert
+        Assert.Equal(expectedFailureResult, result);
+        Assert.Equal(expectedFailureResult.Message, result.Message);
+        Assert.Equal(400, result.StatusCode);
+    }
 
     [Fact]
     public void ValidatePaymentMethod_Should_ReturnSuccess_WhenPaymentMethodIsValid()
