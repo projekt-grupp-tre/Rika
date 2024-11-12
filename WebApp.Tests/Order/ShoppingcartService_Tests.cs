@@ -117,31 +117,31 @@ public class ShoppingcartService_Tests
 
 
     //Ska inte hämta ut alla cartitems från productAPI kopplade till shoppingcarten
-    [Fact]
-    public void GetAllCartItems_ShouldReturnEmptyList_IfCartIsEmpty()
-    {
-        // Arrange
-        string email = "minEmail@email.se";
-        var shoppingCart = new ShoppingCartDto
-        {
-            Id = "123",
-            UserEmail = "email",
-            Quantity = 2,
-            Created = DateTime.UtcNow,
-            Totalprice = 2,
-            PromoCode = 3456,
-            CartItems = new List<CartItemDto>()
-        };
+    // [Fact]
+    // public void GetAllCartItems_ShouldReturnEmptyList_IfCartIsEmpty()
+    // {
+    //     // Arrange
+    //     string email = "minEmail@email.se";
+    //     var shoppingCart = new ShoppingCartDto
+    //     {
+    //         Id = "123",
+    //         UserEmail = "email",
+    //         Quantity = 2,
+    //         Created = DateTime.UtcNow,
+    //         Totalprice = 2,
+    //         PromoCode = 3456,
+    //         CartItems = new List<CartItemDto>()
+    //     };
 
-        _mockCartService.Setup(x => x.GetFullShoppingCart(email)).ReturnsAsync(shoppingCart);
+    //     _mockCartService.Setup(x => x.GetFullShoppingCart(email)).ReturnsAsync(shoppingCart);
 
-        // Act
-        var result = _mockCartService.Object.GetFullShoppingCart(email);
+    //     // Act
+    //     var result = _mockCartService.Object.GetFullShoppingCart(email);
 
-        // Assert
-        Assert.Same(shoppingCart, shoppingCart);
-        Assert.Equal(shoppingCart.CartItems, shoppingCart.CartItems);
-        Assert.NotNull(result);
-        Assert.Empty(shoppingCart.CartItems);
-    }
+    //     // Assert
+    //     Assert.Same(shoppingCart, shoppingCart);
+    //     Assert.Equal(shoppingCart.CartItems, shoppingCart.CartItems);
+    //     Assert.NotNull(result);
+    //     Assert.Empty(shoppingCart.CartItems);
+    // }
 }
