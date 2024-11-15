@@ -2,31 +2,31 @@
 {
     public class JwtSlidingExpirationMiddleware
     {
-        private readonly RequestDelegate _next;
+        //private readonly RequestDelegate _next;
 
-        public JwtSlidingExpirationMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
+        //public JwtSlidingExpirationMiddleware(RequestDelegate next)
+        //{
+        //    _next = next;
+        //}
 
-        public async Task InvokeAsync(HttpContext context)
-        {
-            if (context.Request.Cookies.TryGetValue("JwtToken", out var token))
-            {
-                if (!string.IsNullOrEmpty(token))
-                {       
-                    DateTimeOffset newExpiration = DateTimeOffset.UtcNow.AddMinutes(60);
+        //public async Task InvokeAsync(HttpContext context)
+        //{
+        //    if (context.Request.Cookies.TryGetValue("AccessToken", out var token))
+        //    {
+        //        if (!string.IsNullOrEmpty(token))
+        //        {       
+        //            DateTimeOffset newExpiration = DateTimeOffset.UtcNow.AddMinutes(20);
 
-                    context.Response.Cookies.Append("JwtToken", token, new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        SameSite = SameSiteMode.Strict,
-                        Expires = newExpiration
-                    });
-                }
-            }
-            await _next(context);
-        }
+        //            context.Response.Cookies.Append("AccessToken", token, new CookieOptions
+        //            {
+        //                HttpOnly = true,
+        //                Secure = true,
+        //                SameSite = SameSiteMode.Strict,
+        //                Expires = newExpiration
+        //            });
+        //        }
+        //    }
+        //    await _next(context);
+        //}
     }
 }

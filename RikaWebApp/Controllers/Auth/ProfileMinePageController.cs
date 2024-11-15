@@ -1,7 +1,9 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RikaWebApp.Helpers;
+using RikaWebApp.Helpers.AuthHelpers;
 using RikaWebApp.ViewModels;
 using System.Diagnostics;
 using System.Net.Http;
@@ -9,10 +11,12 @@ using System.Text;
 
 namespace RikaWebApp.Controllers.Auth;
 
+[TokenAuthorization]
 public class ProfileMinePageController(HttpClient http, IConfiguration configuration) : Controller
 {
     private readonly HttpClient _http = http;
     private readonly IConfiguration _configuration = configuration;
+
 
     [HttpGet]
     [Route("profile/details")]

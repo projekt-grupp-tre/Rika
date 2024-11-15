@@ -8,9 +8,9 @@
 
   <ItemGroup>
 
-    <Folder Include="Factories\Product\" />
+    <Folder Include="Factories\AuthFactory\" />
 
-    <Folder Include="Factories\" />
+    <Folder Include="Factories\Product\" />
 
     <Folder Include="Helpers\" />
   </ItemGroup>

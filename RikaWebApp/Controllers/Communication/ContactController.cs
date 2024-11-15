@@ -1,8 +1,10 @@
 using System.Diagnostics;
 using System.Text;
 using Azure.Messaging.ServiceBus;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using RikaWebApp.Helpers.AuthHelpers;
 using RikaWebApp.Models.Communication;
 
 
@@ -21,7 +23,8 @@ namespace RikaWebApp.Controllers
     		    {
     		        return View();
     		    }
-		
+
+				[TokenAuthorizationOnAction]
 				[HttpPost]
 				[Route("/contact/submit")]
 				public async Task<IActionResult> ContactSubmit([Bind(Prefix = "ContactForm")] ContactFormModel contactForm)

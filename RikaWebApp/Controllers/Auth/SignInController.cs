@@ -5,11 +5,22 @@ using RikaWebApp.Models.AuthModels;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Reflection;
+using Business.Services.AuthServices;
+using RikaWebApp.Helpers.AuthHelpers;
 
 namespace RikaWebApp.Controllers.Auth
 {
     public class SignInController : Controller
     {
+        private readonly TokenManagerService _tokenManagerService;
+        private readonly IConfiguration _configuration;
+
+        public SignInController(TokenManagerService tokenManagerService, IConfiguration configuration)
+        {
+            _tokenManagerService = tokenManagerService;
+            _configuration = configuration;
+        }
+
         [HttpGet]
         public IActionResult SignInView()
         {
@@ -28,22 +39,19 @@ namespace RikaWebApp.Controllers.Auth
             {
                 using HttpClient client = new HttpClient();
 
-                var result = await client.PostAsJsonAsync("https://rikaregistrationapi-ewdqdmb7ayhwhkaw.westeurope-01.azurewebsites.net/api/SignIn", signInModel);
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(_configuration["Values:ApiKey"]! ?? "");
+
+                var result = await client.PostAsJsonAsync("https://localhost:7286/api/SignIn", signInModel);
 
                 switch (result.StatusCode)
                 {
                     case System.Net.HttpStatusCode.OK:
                         var userInfo = await result.Content.ReadAsStringAsync();
-                        var jwtTokenString = JsonConvert.DeserializeObject<JwtTokenStringModel>(userInfo);
+                        var tokenModel = JsonConvert.DeserializeObject<TokenModel>(userInfo);
+                        _tokenManagerService.SetTokens(TokenConvertionFactory.TokenModelConvert(tokenModel!));
+                        
                         //HttpContext.Session.SetString("JwtToken", jwtTokenString!);
 
-                        Response.Cookies.Append("JwtToken", jwtTokenString!.jwttoken, new CookieOptions
-                        {
-                            HttpOnly = true,
-                            Secure = true,
-                            SameSite = SameSiteMode.Strict,
-                            Expires = DateTimeOffset.UtcNow.AddMinutes(60)
-                        });
                         return RedirectToAction("Index", "Home");
 
                     case System.Net.HttpStatusCode.Unauthorized:

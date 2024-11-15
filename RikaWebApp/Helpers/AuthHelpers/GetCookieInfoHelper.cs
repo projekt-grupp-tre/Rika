@@ -6,9 +6,9 @@ public static class GetCookieInfoHelper
 {
     public static BasicLoggedInUser JwtTokenToBasicLoggedInUserModel(HttpContext context)
     {
-        if (context.Request.Cookies["JwtToken"] != null)
+        if (context.Request.Cookies["AccessTOken"] != null)
         {
-            string token = context.Request.Cookies["JwtToken"]!;
+            string token = context.Request.Cookies["AccessToken"]!;
             var claims = JwtHelper.ParseJwt(token);
 
             return new BasicLoggedInUser

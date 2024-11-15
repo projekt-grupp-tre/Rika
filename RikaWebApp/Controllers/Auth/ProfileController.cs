@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNet.SignalR;
+using Microsoft.AspNetCore.Mvc;
+using RikaWebApp.Helpers.AuthHelpers;
 
 namespace RikaWebApp.Controllers.Auth;
 
